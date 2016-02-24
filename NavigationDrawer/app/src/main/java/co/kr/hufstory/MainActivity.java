@@ -1,12 +1,18 @@
 package co.kr.hufstory;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -25,6 +31,22 @@ public class   MainActivity extends AppCompatActivity {
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
+    // 2016.02.25 노형욱
+    private FragmentManager mFragmentManager;
+
+    private MenuFragment mMenuFragment;
+    // private bbangFragment mBBangFragment;
+    // private hubigoFragment mHubigoFragment;
+    // private momoFragment mMOMOFragment;
+
+    private Toolbar mToolbar;
+
+    private List<View> mMainButtonList;
+    private ImageView mEatMenuButton;
+    private ImageView mHubigoButton;
+    private ImageView mBbangButton;
+    private ImageView mMomoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +79,31 @@ public class   MainActivity extends AppCompatActivity {
         prepareData();
         mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
         mExpListView.setAdapter(mExpListAdapter);
+
+        /* 2016.02.25 노형욱 */
+        mFragmentManager = getFragmentManager();
+
+        mMenuFragment = new MenuFragment();
+
+        mToolbar = (Toolbar)findViewById(R.id.toolBar);
+
+        mMainButtonList = new ArrayList<>();
+
+        mEatMenuButton = (ImageView)findViewById(R.id.eatmenu);
+        mEatMenuButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mEatMenuButton);
+
+        mHubigoButton = (ImageView)findViewById(R.id.hubigo);
+        mHubigoButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mHubigoButton);
+
+        mBbangButton = (ImageView)findViewById(R.id.bbang);
+        mBbangButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mBbangButton);
+
+        mMomoButton = (ImageView)findViewById(R.id.momo);
+        mMomoButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mMomoButton);
     }
 
     private void prepareData(){
@@ -78,7 +125,7 @@ public class   MainActivity extends AppCompatActivity {
         board.add("외대 갤러리");
         board.add("동아리 게시판");
         board.add("분실물 게시판");
-        board.add("공모전 밒 대외활동");
+        board.add("공모전 및 대외활동");
 
         List<String> reporter = new ArrayList<String>();
         reporter.add("동아리 정보");
@@ -117,5 +164,41 @@ public class   MainActivity extends AppCompatActivity {
         mExpListChild.put( mExpListGroup.get(4), alliance);
         mExpListChild.put( mExpListGroup.get(5), hotLink);
 
+    }
+
+    // 2016.02.25 노형욱
+    public class MainButtonClickedListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            if(v.isSelected())
+                return;
+
+            for(int i = 0; i < mMainButtonList.size(); i++)
+                mMainButtonList.get(i).setSelected(false);
+
+            v.setSelected(true);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+            switch(v.getId()){
+                case R.id.eatmenu:
+                    fragmentTransaction.replace(R.id.content_frame, mMenuFragment);
+                    mToolbar.setTitle("식단표");
+                    break;
+                case R.id.hubigo:
+                    //fragmentTransaction.replace(R.id.content_frame, mHubigoFragment);
+                    mToolbar.setTitle("후비고");
+                    break;
+                case R.id.bbang:
+                    //fragmentTransaction.replace(R.id.content_frame, mBbangFragment);
+                    mToolbar.setTitle("빵차");
+                    break;
+                case R.id.momo:
+                    //fragmentTransaction.replace(R.id.content_frame, mMomoFragment);
+                    mToolbar.setTitle("모현의모든것");
+                    break;
+            }
+
+            fragmentTransaction.commit();
+        }
     }
 }
