@@ -1,0 +1,364 @@
+ Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ git
+usage: git [--version] [--help] [-C <path>] [-c name=value]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           <command> [<args>]
+
+The most commonly used git commands are:
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty Git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and integrate with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+'git help -a' and 'git help -g' lists available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+ ? Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ bit --version
+zsh: command not found: bit
+ ? Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ git --version
+git version 2.1.4
+ Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ git clone https://github.com/AevOh/HufstoryApp.git
+Cloning into 'HufstoryApp'...
+warning: You appear to have cloned an empty repository.
+Checking connectivity... done.
+ Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ ls
+agnoster.zsh-theme  bin  HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ D:
+zsh: command not found: D:
+ ? Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ ls
+agnoster.zsh-theme  bin  HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ ~ ώσ cd D:
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d ώσ ls
+$RECYCLE.BIN  Desktop  Game  Neowiz  Program Files  Program Files (x86)  System Volume Information
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d ώσ cd Desktop
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ ls
+Adobe Master Collection CS6  desktop.ini  Google Drive          Icon   Photo    ShadowPlay
+AWS NodeJS                   Game         Hufstory Film folder  Music  Private
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ mkdir git_project
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ cd git_project
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ git init
+Initialized empty Git repository in /cygdrive/d/Desktop/git_project/.git/
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ git add NavigationDrawer/
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git commit -m "2016.02.24, Jun Young Oh"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'Aev Oh@DESKTOP-IDUA50B.(none)')
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git remote add origin https://github.com/AevOh/HufstoryApp.git
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git push
+Username for 'https://github.com':
+Password for 'https://AevOh@github.com':
+No refs in common and none specified; doing nothing.
+Perhaps you should specify a branch such as 'master'.
+Everything up-to-date
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git remote -v
+origin  https://github.com/AevOh/HufstoryApp.git (fetch)
+origin  https://github.com/AevOh/HufstoryApp.git (push)
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git push origin master
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://github.com/AevOh/HufstoryApp.git'
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git push master
+fatal: 'master' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git push -u origin master
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://github.com/AevOh/HufstoryApp.git'
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git push -u origin master
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://github.com/AevOh/HufstoryApp.git'
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ cd ..
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ l
+total 29K
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb 24 17:47 .
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb 24 16:12 ..
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 19:30 Adobe Master Collection CS6
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb  7 20:42 AWS NodeJS
+-r--r--r-- 1 Aev Oh Ύψΐ½ 202 Dec 20 09:53 desktop.ini
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb  3 19:18 Game
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb 24 17:45 git_project
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb 24 14:53 Google Drive
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 10:05 Hufstory Film folder
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Feb  3 12:19 Icon
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 10:07 Music
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 10:15 Photo
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 10:19 Private
+drwxr-xr-x 1 Aev Oh Ύψΐ½   0 Dec 20 10:19 ShadowPlay
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ mkdir test
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ ls test
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ cd test
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ git clone https://github.com/AevOh/HufstoryApp.git
+Cloning into 'HufstoryApp'...
+warning: You appear to have cloned an empty repository.
+Checking connectivity... done.
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ ls
+HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ cd HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ ls
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ git remote -v
+origin  https://github.com/AevOh/HufstoryApp.git (fetch)
+origin  https://github.com/AevOh/HufstoryApp.git (push)
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ cd ..
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ ls
+HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ cd ..
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ ls
+Adobe Master Collection CS6  desktop.ini  git_project   Hufstory Film folder  Music  Private     test
+AWS NodeJS                   Game         Google Drive  Icon                  Photo  ShadowPlay
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ cd git_project
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ ls
+NavigationDrawer
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   NavigationDrawer/.gitignore
+        new file:   NavigationDrawer/.idea/.name
+        new file:   NavigationDrawer/.idea/compiler.xml
+        new file:   NavigationDrawer/.idea/copyright/profiles_settings.xml
+        new file:   NavigationDrawer/.idea/encodings.xml
+        new file:   NavigationDrawer/.idea/gradle.xml
+        new file:   NavigationDrawer/.idea/misc.xml
+        new file:   NavigationDrawer/.idea/modules.xml
+        new file:   NavigationDrawer/.idea/runConfigurations.xml
+        new file:   NavigationDrawer/.idea/vcs.xml
+        new file:   NavigationDrawer/app/.gitignore
+        new file:   NavigationDrawer/app/build.gradle
+        new file:   NavigationDrawer/app/proguard-rules.pro
+        new file:   NavigationDrawer/app/src/androidTest/java/test/yuri/com/navigationdrawer/ApplicationTest.java
+        new file:   NavigationDrawer/app/src/main/AndroidManifest.xml
+        new file:   NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/ExpandableListAdapter.java
+        new file:   NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/MainActivity.java
+        new file:   NavigationDrawer/app/src/main/res/drawable/bbang.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/eatmenu.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/hubigo.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/logout.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/momo.png
+        new file:   NavigationDrawer/app/src/main/res/layout/activity_main.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/bottom_image_menu.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_group.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_item.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_listview.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/manager_bar.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/toolbar.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/top_image_menu.xml
+        new file:   NavigationDrawer/app/src/main/res/mipmap-hdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-mdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/values-w820dp/dimens.xml
+        new file:   NavigationDrawer/app/src/main/res/values/colors.xml
+        new file:   NavigationDrawer/app/src/main/res/values/dimens.xml
+        new file:   NavigationDrawer/app/src/main/res/values/strings.xml
+        new file:   NavigationDrawer/app/src/main/res/values/styles.xml
+        new file:   NavigationDrawer/app/src/test/java/test/yuri/com/navigationdrawer/ExampleUnitTest.java
+        new file:   NavigationDrawer/build.gradle
+        new file:   NavigationDrawer/gradle.properties
+        new file:   NavigationDrawer/gradle/wrapper/gradle-wrapper.jar
+        new file:   NavigationDrawer/gradle/wrapper/gradle-wrapper.properties
+        new file:   NavigationDrawer/gradlew
+        new file:   NavigationDrawer/gradlew.bat
+        new file:   NavigationDrawer/settings.gradle
+
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git add *
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   NavigationDrawer/.gitignore
+        new file:   NavigationDrawer/.idea/.name
+        new file:   NavigationDrawer/.idea/compiler.xml
+        new file:   NavigationDrawer/.idea/copyright/profiles_settings.xml
+        new file:   NavigationDrawer/.idea/encodings.xml
+        new file:   NavigationDrawer/.idea/gradle.xml
+        new file:   NavigationDrawer/.idea/misc.xml
+        new file:   NavigationDrawer/.idea/modules.xml
+        new file:   NavigationDrawer/.idea/runConfigurations.xml
+        new file:   NavigationDrawer/.idea/vcs.xml
+        new file:   NavigationDrawer/app/.gitignore
+        new file:   NavigationDrawer/app/build.gradle
+        new file:   NavigationDrawer/app/proguard-rules.pro
+        new file:   NavigationDrawer/app/src/androidTest/java/test/yuri/com/navigationdrawer/ApplicationTest.java
+        new file:   NavigationDrawer/app/src/main/AndroidManifest.xml
+        new file:   NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/ExpandableListAdapter.java
+        new file:   NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/MainActivity.java
+        new file:   NavigationDrawer/app/src/main/res/drawable/bbang.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/eatmenu.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/hubigo.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/logout.png
+        new file:   NavigationDrawer/app/src/main/res/drawable/momo.png
+        new file:   NavigationDrawer/app/src/main/res/layout/activity_main.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/bottom_image_menu.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_group.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_item.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/expand_listview.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/manager_bar.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/toolbar.xml
+        new file:   NavigationDrawer/app/src/main/res/layout/top_image_menu.xml
+        new file:   NavigationDrawer/app/src/main/res/mipmap-hdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-mdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+        new file:   NavigationDrawer/app/src/main/res/values-w820dp/dimens.xml
+        new file:   NavigationDrawer/app/src/main/res/values/colors.xml
+        new file:   NavigationDrawer/app/src/main/res/values/dimens.xml
+        new file:   NavigationDrawer/app/src/main/res/values/strings.xml
+        new file:   NavigationDrawer/app/src/main/res/values/styles.xml
+        new file:   NavigationDrawer/app/src/test/java/test/yuri/com/navigationdrawer/ExampleUnitTest.java
+        new file:   NavigationDrawer/build.gradle
+        new file:   NavigationDrawer/gradle.properties
+        new file:   NavigationDrawer/gradle/wrapper/gradle-wrapper.jar
+        new file:   NavigationDrawer/gradle/wrapper/gradle-wrapper.properties
+        new file:   NavigationDrawer/gradlew
+        new file:   NavigationDrawer/gradlew.bat
+        new file:   NavigationDrawer/settings.gradle
+
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git commit -m "test commit"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'Aev Oh@DESKTOP-IDUA50B.(none)')
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ  git config --global user.email "lomio24@naver.com"
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ
+ ? Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ  git config --global user.name "AevOh"
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ? ώσ git commit -m "test commit"
+[master (root-commit) 7f4277b] test commit
+ 48 files changed, 1139 insertions(+)
+ create mode 100644 NavigationDrawer/.gitignore
+ create mode 100644 NavigationDrawer/.idea/.name
+ create mode 100644 NavigationDrawer/.idea/compiler.xml
+ create mode 100644 NavigationDrawer/.idea/copyright/profiles_settings.xml
+ create mode 100644 NavigationDrawer/.idea/encodings.xml
+ create mode 100644 NavigationDrawer/.idea/gradle.xml
+ create mode 100644 NavigationDrawer/.idea/misc.xml
+ create mode 100644 NavigationDrawer/.idea/modules.xml
+ create mode 100644 NavigationDrawer/.idea/runConfigurations.xml
+ create mode 100644 NavigationDrawer/.idea/vcs.xml
+ create mode 100644 NavigationDrawer/app/.gitignore
+ create mode 100644 NavigationDrawer/app/build.gradle
+ create mode 100644 NavigationDrawer/app/proguard-rules.pro
+ create mode 100644 NavigationDrawer/app/src/androidTest/java/test/yuri/com/navigationdrawer/ApplicationTest.java
+ create mode 100644 NavigationDrawer/app/src/main/AndroidManifest.xml
+ create mode 100644 NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/ExpandableListAdapter.java
+ create mode 100644 NavigationDrawer/app/src/main/java/test/yuri/com/navigationdrawer/MainActivity.java
+ create mode 100644 NavigationDrawer/app/src/main/res/drawable/bbang.png
+ create mode 100644 NavigationDrawer/app/src/main/res/drawable/eatmenu.png
+ create mode 100644 NavigationDrawer/app/src/main/res/drawable/hubigo.png
+ create mode 100644 NavigationDrawer/app/src/main/res/drawable/logout.png
+ create mode 100644 NavigationDrawer/app/src/main/res/drawable/momo.png
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/activity_main.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/bottom_image_menu.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/expand_group.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/expand_item.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/expand_listview.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/manager_bar.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/toolbar.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/layout/top_image_menu.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/mipmap-hdpi/ic_launcher.png
+ create mode 100644 NavigationDrawer/app/src/main/res/mipmap-mdpi/ic_launcher.png
+ create mode 100644 NavigationDrawer/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+ create mode 100644 NavigationDrawer/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+ create mode 100644 NavigationDrawer/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+ create mode 100644 NavigationDrawer/app/src/main/res/values-w820dp/dimens.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/values/colors.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/values/dimens.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/values/strings.xml
+ create mode 100644 NavigationDrawer/app/src/main/res/values/styles.xml
+ create mode 100644 NavigationDrawer/app/src/test/java/test/yuri/com/navigationdrawer/ExampleUnitTest.java
+ create mode 100644 NavigationDrawer/build.gradle
+ create mode 100644 NavigationDrawer/gradle.properties
+ create mode 100644 NavigationDrawer/gradle/wrapper/gradle-wrapper.jar
+ create mode 100644 NavigationDrawer/gradle/wrapper/gradle-wrapper.properties
+ create mode 100644 NavigationDrawer/gradlew
+ create mode 100644 NavigationDrawer/gradlew.bat
+ create mode 100644 NavigationDrawer/settings.gradle
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ git status
+On branch master
+nothing to commit, working directory clean
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ git push
+No refs in common and none specified; doing nothing.
+Perhaps you should specify a branch such as 'master'.
+Everything up-to-date
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ git push origin master
+Counting objects: 85, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (57/57), done.
+Writing objects: 100% (85/85), 120.35 KiB | 0 bytes/s, done.
+Total 85 (delta 4), reused 0 (delta 0)
+To https://github.com/AevOh/HufstoryApp.git
+ * [new branch]      master -> master
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/git_project ώσ ώγ master ώσ cd ..
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ ls
+Adobe Master Collection CS6  desktop.ini  git_project   Hufstory Film folder  Music  Private     test
+AWS NodeJS                   Game         Google Drive  Icon                  Photo  ShadowPlay
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop ώσ cd test
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ ls
+HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test ώσ cd HufstoryApp
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ ls
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ git pull origin master
+remote: Counting objects: 85, done.
+remote: Compressing objects: 100% (53/53), done.
+remote: Total 85 (delta 4), reused 85 (delta 4), pack-reused 0
+Unpacking objects: 100% (85/85), done.
+From https://github.com/AevOh/HufstoryApp
+ * branch            master     -> FETCH_HEAD
+ * [new branch]      master     -> origin/master
+ Aev Oh@DESKTOP-IDUA50B ώσ /cygdrive/d/Desktop/test/HufstoryApp ώσ ώγ master ώσ
