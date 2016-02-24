@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topImageMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_below="@+id/managerBar"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:id="@+id/hubigo"
+            android:src="@drawable/hubigo"/>
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/h"
+            android:layout_below="@id/hubigo"
+            android:text="후비고"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:id="@+id/bbang"
+            android:src="@drawable/bbang" />
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/b"
+            android:src="@drawable/bbang"
+            android:layout_below="@id/bbang"
+            android:text="빵차"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:id="@+id/eatmenu"
+            android:src="@drawable/eatmenu"
+            />
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/e"
+            android:layout_below="@id/eatmenu"
+            android:text="식단표"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:id="@+id/momo"
+            android:src="@drawable/momo"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/m"
+            android:layout_below="@id/momo"
+            android:text="모·모"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

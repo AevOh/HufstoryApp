@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="tab_background_selected">#ededed</color>
+    <color name="tab_background_unselected">#fafafa</color>
+    <color name="text_color_unselected">#686868</color>
+    <color name="text_color_selected">#353535</color>
+    <color name="hufstory_color">#61baf7</color>
+</resources>
