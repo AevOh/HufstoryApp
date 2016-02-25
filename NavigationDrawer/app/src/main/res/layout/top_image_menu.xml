@@ -19,7 +19,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/hubigo"
-            android:src="@drawable/hubigo"/>
+            android:src="@drawable/hubigoicon"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/bbang"
-            android:src="@drawable/bbang" />
+            android:src="@drawable/busicon" />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/eatmenu"
-            android:src="@drawable/eatmenu"
+            android:src="@drawable/foodicon"
             />
         <TextView
             android:layout_width="45dp"
@@ -77,7 +77,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/momo"
-            android:src="@drawable/momo"
+            android:src="@drawable/momoicon"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="50dp"
