@@ -2,8 +2,10 @@ package co.kr.hufstory;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_communication.Menus;
 import co.kr.hufstory.menu_communication.MenusAPI;
 import retrofit.Callback;
@@ -15,7 +17,11 @@ import retrofit.client.Response;
  * Created by Hyeong Wook on 2016-02-18.
  */
 public class HCANetworkModule {
-    private List<List<List<MenuFragment.CardInfo>>> dataSet;
+    private List<MenuInfo> mDataList;
+
+    public HCANetworkModule(){
+        mDataList = new ArrayList<>();
+    }
 
     //2016.02.25, Aev Oh, Temp List for testing
     private List<Menus> menuList;
@@ -47,16 +53,39 @@ public class HCANetworkModule {
 
     }
 
+    /*private List<MenuInfo> getDataSet(String cafeteria, int day){
+        List<MenuInfo> dataSet = new ArrayList<>();
+
+        for(MenuInfo menuInfo : mDataList){
+            if(menuInfo.getCaf() == cafeteria && menuInfo.getDay() == day)
+                dataSet.add(menuInfo);
+        }
+
+        return dataSet;
+    }*/
 
     public void getData(MenuFragment.PlaceholderFragment fragment, int selectedCafeteria, int sectionNumber){ // 테스트용 임시 코드
-        Log.i("selectedCafeteria", String.valueOf(selectedCafeteria));
+        /*switch (selectedCafeteria){
+            case 0:
+                for(MenuInfo menuInfo : getDataSet("foo", sectionNumber))
+                    fragment.addCard(menuInfo.getTitle(), menuInfo.getTime(), menuInfo.getBody());
+                break;
+            case 1:
+                for(MenuInfo menuInfo : getDataSet("uh", sectionNumber))
+                    fragment.addCard(menuInfo.getTitle(), menuInfo.getTime(), menuInfo.getBody());
+                break;
+            case 2:
+                for(MenuInfo menuInfo : getDataSet("dorm", sectionNumber))
+                    fragment.addCard(menuInfo.getTitle(), menuInfo.getTime(), menuInfo.getBody());
+        }*/
+
         switch (selectedCafeteria) {
             case 0:
                 switch (sectionNumber) {
                     case 0:
                         if(menuList != null){
                             for(Menus menu: menuList){
-                                //ragment.addCard("Retrogit", menu.getUserId(), menu.getEmail());
+                                //fragment.addCard("Retrogit", menu.getUserId(), menu.getEmail());
                             }
                         }
 
@@ -66,7 +95,7 @@ public class HCANetworkModule {
                     fragment.addCard("한식", "오전 10:00 ~ 오후 18:00", "콩밥\n콩나물김치찌개\n콩나물무침\n콩자반");
                     fragment.addCard("한식", "오전 10:00 ~ 오후 18:00", "콩밥\n콩나물김치찌개\n콩나물무침\n콩자반");
                     fragment.addCard("한식", "오전 10:00 ~ 오후 18:00", "콩밥\n콩나물김치찌개\n콩나물무침\n콩자반");
-                     */
+                    */
 
                         break;
                     case 1:
