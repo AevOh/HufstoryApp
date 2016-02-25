@@ -36,7 +36,7 @@ public class HCANetworkModule {
             public void success(List<Menus> users, Response response) {
                 System.out.println("Success!!");
                 menuList = users;
-                getData(fragment, selectedCafeteria, sectionNumber - 1);
+                getData(fragment, selectedCafeteria, sectionNumber);
             }
 
             @Override

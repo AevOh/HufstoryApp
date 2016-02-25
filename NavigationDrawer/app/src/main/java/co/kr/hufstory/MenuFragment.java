@@ -75,15 +75,6 @@ public class MenuFragment extends android.app.Fragment {
         TabLayout tabLayout = (TabLayout)coordinatorLayout.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         mWelfareButton = (Button)coordinatorLayout.findViewById(R.id.wellfare);
         mLiteraryButton = (Button)coordinatorLayout.findViewById(R.id.literary);
         mDormButton = (Button)coordinatorLayout.findViewById(R.id.dorm);
@@ -96,53 +87,6 @@ public class MenuFragment extends android.app.Fragment {
 
         return coordinatorLayout;
     }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        s_HCANetworkModule = new HCANetworkModule();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        mWelfareButton = (Button)findViewById(R.id.wellfare);
-        mLiteraryButton = (Button)findViewById(R.id.literary);
-        mDormButton = (Button)findViewById(R.id.dorm);
-
-        mWelfareButton.setSelected(true);
-
-        mWelfareButton.setOnClickListener(new buttonClickListener());
-        mLiteraryButton.setOnClickListener(new buttonClickListener());
-        mDormButton.setOnClickListener(new buttonClickListener());
-    }*/
-
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
