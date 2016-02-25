@@ -3,21 +3,28 @@ package co.kr.hufstory;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.webkit.WebViewFragment;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class   MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
@@ -35,6 +42,11 @@ public class   MainActivity extends AppCompatActivity {
     private CharSequence mTitle;
 
     /* 2016.02.25 노형욱*/
+    private FrameLayout mFrameLayout;
+    private LayoutInflater mInflater;
+    private View mWebView_view;
+    private WebView mWebView;
+
     private FragmentManager mFragmentManager;
 
     private MenuFragment mMenuFragment;
@@ -97,11 +109,21 @@ public class   MainActivity extends AppCompatActivity {
         });
 
         /* 2016.02.25 노형욱 */
+        mInflater = LayoutInflater.from(this.getBaseContext());
+        mWebView_view = mInflater.inflate(R.layout.webview, null, false);
+
+        mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
+
+        mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
+
+        initialWebView("http://www.hufstory.co.kr");
+
         mFragmentManager = getFragmentManager();
 
         mMenuFragment = new MenuFragment();
 
         mToolbar = (Toolbar)findViewById(R.id.toolBar);
+        mToolbar.setTitle("HUFSTORY");
 
         mMainButtonList = new ArrayList<>();
 
@@ -182,6 +204,16 @@ public class   MainActivity extends AppCompatActivity {
 
     }
 
+    private void initialWebView(String url){
+        mFrameLayout.removeView(mWebView);
+
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadUrl(url);
+
+        mFrameLayout.addView(mWebView);
+    }
+
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -192,6 +224,8 @@ public class   MainActivity extends AppCompatActivity {
             for(int i = 0; i < mMainButtonList.size(); i++)
                 mMainButtonList.get(i).setSelected(false);
 
+            mFrameLayout.removeView(mWebView);
+
             v.setSelected(true);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -199,25 +233,21 @@ public class   MainActivity extends AppCompatActivity {
                 case R.id.eatmenu:
                     fragmentTransaction.replace(R.id.content_frame, mMenuFragment);
                     mToolbar.setTitle("식단표");
-                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.hubigo:
                     //fragmentTransaction.replace(R.id.content_frame, mHubigoFragment);
                     mToolbar.setTitle("후비고");
-                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.bbang:
                     //fragmentTransaction.replace(R.id.content_frame, mBbangFragment);
                     mToolbar.setTitle("빵차");
-                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.momo:
                     //fragmentTransaction.replace(R.id.content_frame, mMomoFragment);
                     mToolbar.setTitle("모현의모든것");
-                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
             }
-
+            mDrawerLayout.closeDrawers();
             fragmentTransaction.commit();
         }
     }

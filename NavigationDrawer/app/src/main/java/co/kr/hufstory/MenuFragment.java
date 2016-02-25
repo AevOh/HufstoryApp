@@ -132,9 +132,8 @@ public class MenuFragment extends android.app.Fragment {
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             //2016.02.25, Aev Oh, getMenus: 서버로 부터 데이터를 받아옴.
-            s_HCANetworkModule.getMenus(fragment, s_selected_cafeteria, sectionNumber - 1);
+            //s_HCANetworkModule.getMenus(fragment, s_selected_cafeteria, sectionNumber - 1);
             //s_HCANetworkModule.getData(fragment, s_selected_cafeteria, sectionNumber - 1);
-
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -145,7 +144,9 @@ public class MenuFragment extends android.app.Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            Log.i("placeholderFragment", "initial");
             View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+            s_HCANetworkModule.getMenus(this, s_selected_cafeteria, getArguments().getInt(ARG_SECTION_NUMBER) - 1);
 
             mDateTextView = (TextView)rootView.findViewById(R.id.date);
             mDateTextView.setText("11/" + String.valueOf(getArguments().getInt(ARG_SECTION_NUMBER)));
