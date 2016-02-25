@@ -34,7 +34,7 @@ public class   MainActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
-    // 2016.02.25 노형욱
+    /* 2016.02.25 노형욱*/
     private FragmentManager mFragmentManager;
 
     private MenuFragment mMenuFragment;
@@ -49,6 +49,11 @@ public class   MainActivity extends AppCompatActivity {
     private ImageView mHubigoButton;
     private ImageView mBbangButton;
     private ImageView mMomoButton;
+    /*2016.02.25 00:10 yuri*/
+    private ImageView mExitButton;
+    private ImageView mSettingButton;
+    private ImageView mLogoutButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,15 @@ public class   MainActivity extends AppCompatActivity {
         prepareData();
         mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
         mExpListView.setAdapter(mExpListAdapter);
+
+        /*2016.02.25 00:10 yuri*/
+        mExitButton = (ImageView) findViewById(R.id.exit);
+        mExitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawers();
+            }
+        });
 
         /* 2016.02.25 노형욱 */
         mFragmentManager = getFragmentManager();
@@ -185,18 +199,22 @@ public class   MainActivity extends AppCompatActivity {
                 case R.id.eatmenu:
                     fragmentTransaction.replace(R.id.content_frame, mMenuFragment);
                     mToolbar.setTitle("식단표");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.hubigo:
                     //fragmentTransaction.replace(R.id.content_frame, mHubigoFragment);
                     mToolbar.setTitle("후비고");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.bbang:
                     //fragmentTransaction.replace(R.id.content_frame, mBbangFragment);
                     mToolbar.setTitle("빵차");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.momo:
                     //fragmentTransaction.replace(R.id.content_frame, mMomoFragment);
                     mToolbar.setTitle("모현의모든것");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
             }
 

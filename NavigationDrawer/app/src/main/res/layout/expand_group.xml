@@ -3,7 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/hufstory_color"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:elevation="3dp">
+    <!--modified by yuri, 2016-02-25 23:10-->
 
     <TextView
         android:id="@+id/groupTitle"
