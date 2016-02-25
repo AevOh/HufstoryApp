@@ -202,14 +202,17 @@ public class   MainActivity extends AppCompatActivity {
                 case R.id.hubigo:
                     //fragmentTransaction.replace(R.id.content_frame, mHubigoFragment);
                     mToolbar.setTitle("후비고");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.bbang:
                     //fragmentTransaction.replace(R.id.content_frame, mBbangFragment);
                     mToolbar.setTitle("빵차");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
                 case R.id.momo:
                     //fragmentTransaction.replace(R.id.content_frame, mMomoFragment);
                     mToolbar.setTitle("모현의모든것");
+                    mDrawerLayout.closeDrawers(); /* 2016.02.26 00:07 yuri */
                     break;
             }
 
