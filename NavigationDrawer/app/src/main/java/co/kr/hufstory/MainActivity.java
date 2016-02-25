@@ -204,6 +204,7 @@ public class   MainActivity extends AppCompatActivity {
 
     }
 
+    // 2016.02.26 wook - start webView with url
     private void initialWebView(String url){
         mFrameLayout.removeView(mWebView);
 
