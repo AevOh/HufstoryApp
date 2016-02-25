@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.List;
 
+import co.kr.hufstory.menu_communication.Menus;
+import co.kr.hufstory.menu_communication.MenusAPI;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -25,9 +27,6 @@ public class HCANetworkModule {
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(URL).build();
         MenusAPI api = adapter.create(MenusAPI.class);
-
-        //동기적 방법
-        //menuList = api.getMenus();
 
         // 비동기적 방법
         api.getMenus(new Callback<List<Menus>>() {

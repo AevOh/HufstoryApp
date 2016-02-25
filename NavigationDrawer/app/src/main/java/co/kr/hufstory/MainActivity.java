@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class   MainActivity extends AppCompatActivity {
+    public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
+
     private DrawerLayout mDrawerLayout;
     private View mView;
     private ActionBarDrawerToggle mDrawerToggle;
