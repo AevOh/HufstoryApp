@@ -8,8 +8,10 @@ android {
         applicationId "co.kr.hufstory"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+
+        //2016.02.25, Jun Young Oh, versionCode & versionName upgrade
+        versionCode 2
+        versionName "1.1"
     }
     buildTypes {
         release {
