@@ -56,7 +56,7 @@ public class HCANetworkModule {
                     case 0:
                         if(menuList != null){
                             for(Menus menu: menuList){
-                                fragment.addCard("Retrogit", menu.getUserId(), menu.getEmail());
+                                //ragment.addCard("Retrogit", menu.getUserId(), menu.getEmail());
                             }
                         }
 
