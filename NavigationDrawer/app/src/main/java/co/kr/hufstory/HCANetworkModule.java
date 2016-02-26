@@ -8,6 +8,8 @@ import java.util.List;
 import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_communication.Menus;
 import co.kr.hufstory.menu_communication.MenusAPI;
+import co.kr.hufstory.menu_communication.MenusNetwork;
+import co.kr.hufstory.menu_communication.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -17,40 +19,14 @@ import retrofit.client.Response;
  * Created by Hyeong Wook on 2016-02-18.
  */
 public class HCANetworkModule {
-    private List<MenuInfo> mDataList;
+    //private List<MenuInfo> mDataList;
+    private List<User> mDataList;
+    MenusNetwork menusNetwork;
 
     public HCANetworkModule(){
-        mDataList = new ArrayList<>();
-    }
-
-    //2016.02.25, Aev Oh, Temp List for testing
-    private List<Menus> menuList;
-    private static final String URL = "http://52.79.39.104:3000";
-
-    //2016.02.25, Aev Oh, 비동기적 방식
-    public void getMenus(final MenuFragment.PlaceholderFragment fragment,final int selectedCafeteria,final int sectionNumber){
-        System.out.println("getUsers!!");
-
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(URL).build();
-        MenusAPI api = adapter.create(MenusAPI.class);
-
-        // 비동기적 방법
-        api.getMenus(new Callback<List<Menus>>() {
-
-            @Override
-            public void success(List<Menus> users, Response response) {
-                System.out.println("Success!!");
-                menuList = users;
-                getData(fragment, selectedCafeteria, sectionNumber);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                System.out.println("Failure!!");
-                System.out.println("error :" + error);
-            }
-        });
-
+        //mDataList = new ArrayList<r>();
+        menusNetwork = new MenusNetwork();
+        mDataList = menusNetwork.getMenus();
     }
 
     /*private List<MenuInfo> getDataSet(String cafeteria, int day){
@@ -83,9 +59,11 @@ public class HCANetworkModule {
             case 0:
                 switch (sectionNumber) {
                     case 0:
-                        if(menuList != null){
-                            for(Menus menu: menuList){
-                                //fragment.addCard("Retrogit", menu.getUserId(), menu.getEmail());
+                        System.out.println("case = 0");
+                        if(mDataList != null){
+                            System.out.println("mDataList != null");
+                            for(User user: mDataList){
+                                fragment.addCard("Retrogit", user.getUserId(), user.getEmail());
                             }
                         }
 

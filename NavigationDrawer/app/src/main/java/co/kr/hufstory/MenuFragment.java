@@ -59,9 +59,15 @@ public class MenuFragment extends android.app.Fragment {
     private Button mLiteraryButton;
     private Button mDormButton;
 
+
+    /*
+    2016.02.26, Aev Oh, 메뉴 프레그먼트 생성자 호출 시, 식단표 정보를 모두 HTTP 통신으로 받아온 뒤 CoordinatorLayout 생성.
+    - CoordinatorLayout 선언 이후 ~ mDormButton.setClickListener 부분까지 함수화함.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         FragmentActivity fragmentActivity = (FragmentActivity) super.getActivity();
+
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) inflater.inflate(R.layout.activity_menu, container, false);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(fragmentActivity.getSupportFragmentManager());
@@ -146,7 +152,7 @@ public class MenuFragment extends android.app.Fragment {
                                  Bundle savedInstanceState) {
             Log.i("placeholderFragment", "initial");
             View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
-            s_HCANetworkModule.getMenus(this, s_selected_cafeteria, getArguments().getInt(ARG_SECTION_NUMBER) - 1);
+            s_HCANetworkModule.getData(this, s_selected_cafeteria, getArguments().getInt(ARG_SECTION_NUMBER) - 1);
 
             mDateTextView = (TextView)rootView.findViewById(R.id.date);
             mDateTextView.setText("11/" + String.valueOf(getArguments().getInt(ARG_SECTION_NUMBER)));
