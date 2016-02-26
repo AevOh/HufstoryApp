@@ -139,9 +139,6 @@ public class MenuFragment extends android.app.Fragment {
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
-            //2016.02.25, Aev Oh, getMenus: 서버로 부터 데이터를 받아옴.
-            //s_HCANetworkModule.getMenus(fragment, s_selected_cafeteria, sectionNumber - 1);
-            //s_HCANetworkModule.getData(fragment, s_selected_cafeteria, sectionNumber - 1);
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);

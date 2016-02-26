@@ -204,11 +204,11 @@ public class   MainActivity extends AppCompatActivity {
 
 
         mExpListChild.put(mExpListGroup.get(0), board); // Header, Child data
-        mExpListChild.put( mExpListGroup.get(1), reporter);
-        mExpListChild.put( mExpListGroup.get(2), life_info);
+        mExpListChild.put(mExpListGroup.get(1), reporter);
+        mExpListChild.put(mExpListGroup.get(2), life_info);
         mExpListChild.put( mExpListGroup.get(3), school);
-        mExpListChild.put( mExpListGroup.get(4), alliance);
-        mExpListChild.put( mExpListGroup.get(5), hotLink);
+        mExpListChild.put(mExpListGroup.get(4), alliance);
+        mExpListChild.put(mExpListGroup.get(5), hotLink);
 
     }
 
@@ -223,8 +223,21 @@ public class   MainActivity extends AppCompatActivity {
         mFrameLayout.addView(mWebView);
     }
 
-    //2016.02.26 오준영
-    private FragmentTransaction fragmentTransaction;
+    // 2016.02.26 wook - refactoring
+    public void sleep(int timeMs){
+        try {
+            Thread.sleep(timeMs);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void contentFragmentTransaction(int layoutID, Fragment fragment){
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(layoutID, fragment);
+        fragmentTransaction.commit();
+    }
+
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -238,36 +251,30 @@ public class   MainActivity extends AppCompatActivity {
             mFrameLayout.removeView(mWebView);
 
             v.setSelected(true);
-            //FragmentTransaction
-            fragmentTransaction = mFragmentManager.beginTransaction();
 
             switch(v.getId()){
                 case R.id.eatmenu:
                     //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
                     MenusNetwork.pullMenus();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    fragmentTransaction.replace(R.id.content_frame, mMenuFragment);
+                    sleep(500);
+
+                    contentFragmentTransaction(R.id.content_frame, mMenuFragment);
                     mToolbar.setTitle("식단표");
                     break;
                 case R.id.hubigo:
-                    //fragmentTransaction.replace(R.id.content_frame, mHubigoFragment);
+                    //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
                     mToolbar.setTitle("후비고");
                     break;
                 case R.id.bbang:
-                    //fragmentTransaction.replace(R.id.content_frame, mBbangFragment);
+                    //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
                     mToolbar.setTitle("빵차");
                     break;
                 case R.id.momo:
-                    //fragmentTransaction.replace(R.id.content_frame, mMomoFragment);
+                    //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
                     mToolbar.setTitle("모현의모든것");
                     break;
             }
             mDrawerLayout.closeDrawers();
-            fragmentTransaction.commit();
         }
     }
 }
