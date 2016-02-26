@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebViewFragment;
@@ -99,6 +102,7 @@ public class   MainActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         };
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
@@ -150,6 +154,14 @@ public class   MainActivity extends AppCompatActivity {
         mMomoButton = (ImageView)findViewById(R.id.momo);
         mMomoButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mMomoButton);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            Window w = getWindow();
+            //w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     private void prepareData(){
@@ -209,7 +221,6 @@ public class   MainActivity extends AppCompatActivity {
         mExpListChild.put( mExpListGroup.get(3), school);
         mExpListChild.put(mExpListGroup.get(4), alliance);
         mExpListChild.put(mExpListGroup.get(5), hotLink);
-
     }
 
     // 2016.02.26 wook - start webView with url
@@ -242,6 +253,8 @@ public class   MainActivity extends AppCompatActivity {
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
+            mDrawerLayout.closeDrawers();
+
             if(v.isSelected())
                 return;
 
@@ -252,7 +265,7 @@ public class   MainActivity extends AppCompatActivity {
 
             v.setSelected(true);
 
-            switch(v.getId()){
+            switch(v.getId()) {
                 case R.id.eatmenu:
                     //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
                     MenusNetwork.pullMenus();
@@ -274,7 +287,6 @@ public class   MainActivity extends AppCompatActivity {
                     mToolbar.setTitle("모현의모든것");
                     break;
             }
-            mDrawerLayout.closeDrawers();
         }
     }
 }
