@@ -16,5 +16,5 @@ public interface MenusAPI {
 
     //동기적 방식
     @GET("/findAll/a")
-    List<Menus> getMenus();
+    List<User> getMenus();
 }

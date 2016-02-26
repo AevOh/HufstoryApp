@@ -29,6 +29,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.kr.hufstory.menu_communication.MenusNetwork;
+
 public class MenuFragment extends android.app.Fragment {
     /**
      * 노형욱, 2016.02.20

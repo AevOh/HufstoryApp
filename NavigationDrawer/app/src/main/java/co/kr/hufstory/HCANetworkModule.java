@@ -1,5 +1,6 @@
 package co.kr.hufstory;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,15 +19,16 @@ import retrofit.client.Response;
 /**
  * Created by Hyeong Wook on 2016-02-18.
  */
-public class HCANetworkModule {
+public class HCANetworkModule{
+
+
+    /* 2016.02.26, Aev Oh, 테스트 용으로 수정함. */
     //private List<MenuInfo> mDataList;
     private List<User> mDataList;
-    MenusNetwork menusNetwork;
 
     public HCANetworkModule(){
-        //mDataList = new ArrayList<r>();
-        menusNetwork = new MenusNetwork();
-        mDataList = menusNetwork.getMenus();
+        mDataList = new ArrayList<>();
+        mDataList = MenusNetwork.getMenu();
     }
 
     /*private List<MenuInfo> getDataSet(String cafeteria, int day){
@@ -60,9 +62,10 @@ public class HCANetworkModule {
                 switch (sectionNumber) {
                     case 0:
                         System.out.println("case = 0");
-                        if(mDataList != null){
-                            System.out.println("mDataList != null");
+                        if(mDataList != null && !mDataList.isEmpty()){
+                            System.out.println("mDataList is not Empty");
                             for(User user: mDataList){
+                                System.out.println("Retrogit" + user.getUserId() + user.getEmail());
                                 fragment.addCard("Retrogit", user.getUserId(), user.getEmail());
                             }
                         }

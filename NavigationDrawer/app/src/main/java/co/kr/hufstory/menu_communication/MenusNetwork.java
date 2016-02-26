@@ -14,25 +14,24 @@ import retrofit.client.Response;
 
 public class MenusNetwork {
     //2016.02.25, Aev Oh, Temp List for testing
-    public List<User> menuList;
+    private static List<User> menuList;
     //private List<Menus> menuList;
     private static final String URL = "http://52.79.39.104:3000";
 
     //2016.02.25, Aev Oh, 비동기적 방식
-    public List<User> getMenus(){
+    public static void pullMenus(){
         System.out.println("getUsers!!");
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(URL).build();
         MenusAPI api = adapter.create(MenusAPI.class);
 
         // 비동기적 방법
-        api.getMenus(new Callback<List<User>>() {
+         api.getMenus(new Callback<List<User>>() {
 
             @Override
             public void success(List<User> users, Response response) {
                 System.out.println("Success!!");
                 menuList = users;
-                temoOut();
             }
 
             @Override
@@ -41,13 +40,9 @@ public class MenusNetwork {
                 System.out.println("error :" + error);
             }
         });
-
-        return menuList;
     }
 
-    private void temoOut(){
-        for(User user: menuList){
-            System.out.println(user.getId() + user.getEmail() + user.getUserId());
-        }
+    public static List<User> getMenu(){
+        return menuList;
     }
 }

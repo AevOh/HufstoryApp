@@ -26,6 +26,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import co.kr.hufstory.menu_communication.MenusAPI;
+import co.kr.hufstory.menu_communication.MenusNetwork;
+import co.kr.hufstory.menu_communication.User;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class   MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
 
@@ -215,6 +223,8 @@ public class   MainActivity extends AppCompatActivity {
         mFrameLayout.addView(mWebView);
     }
 
+    //2016.02.26 오준영
+    private FragmentTransaction fragmentTransaction;
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -228,10 +238,18 @@ public class   MainActivity extends AppCompatActivity {
             mFrameLayout.removeView(mWebView);
 
             v.setSelected(true);
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            //FragmentTransaction
+            fragmentTransaction = mFragmentManager.beginTransaction();
 
             switch(v.getId()){
                 case R.id.eatmenu:
+                    //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
+                    MenusNetwork.pullMenus();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     fragmentTransaction.replace(R.id.content_frame, mMenuFragment);
                     mToolbar.setTitle("식단표");
                     break;
