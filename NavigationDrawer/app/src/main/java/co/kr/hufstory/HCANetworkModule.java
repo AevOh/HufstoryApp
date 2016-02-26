@@ -31,6 +31,19 @@ public class HCANetworkModule{
         mDataList = MenusNetwork.getMenu();
     }
 
+    /*public void parseDataList(){
+        String body;
+        for(MenuInfo menuInfo : mDataList){
+            body = menuInfo.getFood();
+            String[] bodys = body.split(",");
+
+            for(String food : bodys)
+                body += food + "\n";
+
+            menuInfo.setFood(body);
+        }
+    }*/
+
     /*private List<MenuInfo> getDataSet(String cafeteria, int day){
         List<MenuInfo> dataSet = new ArrayList<>();
 
