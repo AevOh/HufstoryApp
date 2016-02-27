@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -152,9 +153,10 @@ public class   MainActivity extends AppCompatActivity {
         mMainButtonList.add(mMomoButton);
 
         /* 2016.02.27, Aev Oh, 어플 자동 업데이트 함수 호출 부분. */
+        onTakeDeviceVersion();
         mMarketVersionChecker = new MarketVersionChecker();
         mVersioniCheckThread = new VersionCheckTread();
-        mVersioniCheckThread.run();
+        mVersioniCheckThread.execute();
         mMarketVersionChecker.doMarketVersionTask();
     }
 
@@ -320,7 +322,7 @@ public class   MainActivity extends AppCompatActivity {
     */
     private void doUpdate(){
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
         startActivity(intent);
     }
 
@@ -349,23 +351,26 @@ public class   MainActivity extends AppCompatActivity {
     public static void setUpdateCheckTrue(){
         update_check = true;
     }
-    class VersionCheckTread extends Thread{
+    class VersionCheckTread extends AsyncTask<Void, Void, Void> {
         public VersionCheckTread(){
             update_check = false;
         }
 
         @Override
-        public void run(){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        protected Void doInBackground(Void... params) {
+            while(!update_check) {
+                System.out.println("while 안이다!!");
             }
-
             if(update_check){
-                showUpdateDialog();
-                return;
+                System.out.println("while 나옴!!");
+                return null;
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params){
+            showUpdateDialog();
         }
     }
 }
