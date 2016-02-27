@@ -105,7 +105,9 @@ public class   MainActivity extends AppCompatActivity {
 
         //**2016.02.28 YURI
         mExpListView = (ExpandableListView) findViewById(R.id.expandListview);
+        View header = getLayoutInflater().inflate(R.layout.top_image_menu,null,false);
         View footer = getLayoutInflater().inflate(R.layout.bottom_image_menu,null,false);
+        mExpListView.addHeaderView(header);
         mExpListView.addFooterView(footer);
         prepareData();
         mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
