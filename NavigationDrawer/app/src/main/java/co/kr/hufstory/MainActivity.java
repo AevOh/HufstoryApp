@@ -267,6 +267,7 @@ public class   MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
+                    setUpdateCheckTrue();
                     mToolbar.setTitle("후비고");
                     break;
                 case R.id.bbang:
