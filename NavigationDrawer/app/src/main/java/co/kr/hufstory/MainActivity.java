@@ -3,13 +3,13 @@ package co.kr.hufstory;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.media.Image;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                     initialWebView("http://webs.hufs.ac.kr:8989/jsp/HUFS/stu1/stu1_i0_a0_a0.jsp");
                     break;
                 case "외대 도서관":
-                    initialWebView("http://library.hufs.ac.kr/");
+                    initialWebView("http://mlibrary.hufs.ac.kr/");
                     break;
                 case "Office 365(hufs)":
                     initialWebView("http://builder.hufs.ac.kr/user/indexSub.action?codyMenuSeq=61743429&siteId=hufs&menuType=T&uId=4&sortChar=AE&linkUrl=office365.html&mainFrame=right");
