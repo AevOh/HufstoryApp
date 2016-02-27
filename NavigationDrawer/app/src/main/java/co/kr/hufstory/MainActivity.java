@@ -3,38 +3,41 @@ package co.kr.hufstory;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+<<<<<<< HEAD
 import android.content.Context;
 import android.media.Image;
+=======
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+>>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Toast;
+=======
+>>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
-import co.kr.hufstory.menu_communication.MenusAPI;
 import co.kr.hufstory.menu_communication.MenusNetwork;
-import co.kr.hufstory.menu_communication.User;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mLoginButton;
     private ImageView mFacebookButton;
 
+    /* 2016.02.27, Aev Oh, 자동 업데이트 부분. */
+    private MarketVersionChecker mMarketVersionChecker;
+    private VersionCheckTread mVersioniCheckThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
-               // getActionBar().setTitle(mDrawerTitle);
+                // getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
         };
@@ -164,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         mMomoButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mMomoButton);
 
+<<<<<<< HEAD
         mLoginButton = (ImageView)findViewById(R.id.login);
         mLoginButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mLoginButton);
@@ -179,6 +186,14 @@ public class MainActivity extends AppCompatActivity {
         mSettingButton=(ImageView)findViewById(R.id.setting);
         mSettingButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mSettingButton);
+=======
+        /* 2016.02.27, Aev Oh, 어플 자동 업데이트 함수 호출 부분. */
+        onTakeDeviceVersion();
+        mMarketVersionChecker = new MarketVersionChecker();
+        mVersioniCheckThread = new VersionCheckTread();
+        mMarketVersionChecker.doMarketVersionTask();
+        mVersioniCheckThread.execute();
+>>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
     }
 
     private void mExpListPrepareData(){
@@ -414,6 +429,108 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawers();
 
             return false;
+        }
+    }
+
+
+
+    /*
+     * 2016.02.27, Aev Oh, 앱 자동 업데이트 알림 부분.
+     * 참고 링크: http://ccdev.tistory.com/12
+    */
+    private void showUpdateDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
+
+        // 여기서 부터는 알림창의 속성 설정
+        builder.setTitle("Hufstory 업데이트 알림")        // 제목 설정
+                .setMessage("Hufstory App이 업데이트 되었습니다. \n\n" +
+                        "새로운 기능과 더욱 원활한 서비스를 이용하기 위해 업데이트를 진행해 주시길 부탁드립니다.")        // 메세지 설정
+                .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                .setPositiveButton("업데이트", new DialogInterface.OnClickListener(){
+                    // 확인 버튼 클릭시 설정
+                    public void onClick(DialogInterface dialog, int whichButton){
+                        doUpdate();
+                        finish();
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    // 취소 버튼 클릭시 설정
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /*
+     * 2016.02.27, Aev Oh, PlayStore로 이동하는 부분.
+     * 참고 링크: http://developer.android.com/intl/ko/distribute/tools/promote/linking.html
+    */
+    private void doUpdate(){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+        startActivity(intent);
+    }
+
+    /*
+     * 2016.02.27, Aev Oh
+     * 사용자 디바이스의 Hufstory App 버젼 정보를 넘기는 부분.
+    */
+    private static String sDeviceVersion = "";
+    public void onTakeDeviceVersion(){
+        try {
+            sDeviceVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public static String getDeviceVersion(){
+        return sDeviceVersion;
+    }
+
+
+    /*
+     * 2016.02.27, Aev Oh
+     * 업데이트를 할지 안 할 지 체크하는 부분.
+    */
+    private static boolean update_check;
+    public static void setUpdateCheckTrue(){
+        update_check = true;
+    }
+    class VersionCheckTread extends AsyncTask<Void, Void, Void> {
+        private long  start_time;
+        public VersionCheckTread(){
+            update_check = false;
+            start_time = System.currentTimeMillis();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            long current_time;
+            while(!update_check) {
+                current_time = System.currentTimeMillis();
+                long gap_time = (current_time - start_time) / 1000; //gap_time 단위: 1초
+                if(gap_time > 30) {   //어플 시작후 30초 뒤 업데이트 체크 종료.
+                    break;
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params){
+            if(update_check)
+                showUpdateDialog();
         }
     }
 }
