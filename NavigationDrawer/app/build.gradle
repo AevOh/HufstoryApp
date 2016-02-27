@@ -31,4 +31,7 @@ dependencies {
 
     //2016.02.25, Aev Oh, Retrofit을 사용하기 위해 추가.
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    //2016.02.27, Aev Oh, Jsoup: 웹 페이지 파싱 라이브러리.
+    compile 'org.jsoup:jsoup:1.8.3'
 }
