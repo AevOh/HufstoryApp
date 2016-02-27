@@ -103,10 +103,13 @@ public class   MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        //**2016.02.28 YURI
         mExpListView = (ExpandableListView) findViewById(R.id.expandListview);
+        View footer = getLayoutInflater().inflate(R.layout.bottom_image_menu,null,false);
+        mExpListView.addFooterView(footer);
         prepareData();
         mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
-        mExpListView.setAdapter(mExpListAdapter);
+        mExpListView.setAdapter(mExpListAdapter);//**
 
         /*2016.02.25 00:10 yuri*/
         mExitButton = (ImageView) findViewById(R.id.exit);
@@ -278,3 +281,5 @@ public class   MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
