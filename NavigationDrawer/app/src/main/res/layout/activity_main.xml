@@ -19,11 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
-    <!--ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_marginLeft="-65dp"-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,7 +35,6 @@
             <!--include
                 layout="@layout/bottom_image_menu"/-->
         </RelativeLayout>
-    <!--/ScrollView-->
  </android.support.v4.widget.DrawerLayout>
 
 

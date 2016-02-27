@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.media.Image;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +36,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class   MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
 
     private DrawerLayout mDrawerLayout;
@@ -72,7 +74,9 @@ public class   MainActivity extends AppCompatActivity {
     /*2016.02.25 00:10 yuri*/
     private ImageView mExitButton;
     private ImageView mSettingButton;
-    private ImageView mLogoutButton;
+    private ImageView mEventButton;
+    private ImageView mLoginButton;
+    private ImageView mFacebookButton;
 
 
     @Override
@@ -109,9 +113,10 @@ public class   MainActivity extends AppCompatActivity {
         View footer = getLayoutInflater().inflate(R.layout.bottom_image_menu,null,false);
         mExpListView.addHeaderView(header);
         mExpListView.addFooterView(footer);
-        prepareData();
+        mExpListPrepareData();
         mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
-        mExpListView.setAdapter(mExpListAdapter);//**
+        mExpListView.setAdapter(mExpListAdapter);
+        mExpListView.setOnChildClickListener(new ExpandableListListener());
 
         /*2016.02.25 00:10 yuri*/
         mExitButton = (ImageView) findViewById(R.id.exit);
@@ -158,9 +163,25 @@ public class   MainActivity extends AppCompatActivity {
         mMomoButton = (ImageView)findViewById(R.id.momo);
         mMomoButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mMomoButton);
+
+        mLoginButton = (ImageView)findViewById(R.id.login);
+        mLoginButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mLoginButton);
+
+        mFacebookButton = (ImageView)findViewById(R.id.facebook);
+        mFacebookButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mFacebookButton);
+
+        mEventButton = (ImageView)findViewById(R.id.event);
+        mEventButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mEventButton);
+
+        mSettingButton=(ImageView)findViewById(R.id.setting);
+        mSettingButton.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(mSettingButton);
     }
 
-    private void prepareData(){
+    private void mExpListPrepareData(){
         mExpListGroup = new ArrayList<String>();
         mExpListChild = new HashMap<String, List<String>>();
 
@@ -192,16 +213,18 @@ public class   MainActivity extends AppCompatActivity {
         life_info.add("자유홍보");
 
         List<String> school = new ArrayList<String>();
-        school.add("총학 게시판");
-        school.add("Hufs Dorm (기숙사)");
+        school.add("Hufs Dorm");
+        school.add("기숙사 게시판");
         school.add("경력개발센터");
         school.add("취업 정보 게시판");
+        school.add("교내일정");
 
         List<String> alliance = new ArrayList<String>();
         alliance.add("훕스토리 제휴 운영");
         alliance.add("밝은성모안과");
 
         List<String> hotLink = new ArrayList<String>();
+        hotLink.add("외대인 인증");
         hotLink.add("Hufs");
         hotLink.add("E-Class");
         hotLink.add("종합정보시스템");
@@ -279,7 +302,118 @@ public class   MainActivity extends AppCompatActivity {
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
                     mToolbar.setTitle("모현의모든것");
                     break;
+
+                case R.id.login:
+                    break;
+                case R.id.facebook:
+                    initialWebView("https://www.facebook.com/storyhufs/");
+                    break;
+                case R.id.event:
+                    Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.setting:
+                    Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                    break;
             }
+        }
+    }
+
+    /* 2016.02.28 yuri*/
+    public class ExpandableListListener implements ExpandableListView.OnChildClickListener {
+
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
+            switch (childName){
+                case "공지사항":
+                    initialWebView("http://hufstory.co.kr/Notice");
+                    break;
+                case "자유게시판":
+                    initialWebView("http://hufstory.co.kr/Free");
+                    break;
+                case "외대 갤러리":
+                    initialWebView("http://hufstory.co.kr/Gallery");
+                    break;
+                case "동아리 게시판":
+                    initialWebView("http://hufstory.co.kr/Club_board");
+                    break;
+                case "분실물 게시판":
+                    initialWebView("http://hufstory.co.kr/Missing");
+                    break;
+                case "공모전 및 대외활동":
+                    initialWebView("http://hufstory.co.kr/International_activity");
+                    break;
+
+                case "동아리 정보":
+                    initialWebView("http://hufstory.co.kr/Club_info");
+                    break;
+                case "맛집기행기":
+                    initialWebView("http://hufstory.co.kr/Delicousor_board");
+                    break;
+
+                case "중고시장":
+                    initialWebView("http://hufstory.co.kr/Market");
+                    break;
+                case "주거정보":
+                    initialWebView("http://hufstory.co.kr/House_info");
+                    break;
+                case "자유홍보":
+                    initialWebView("http://hufstory.co.kr/Ads_free");
+                    break;
+
+                case "Hufs Dorm":
+                    initialWebView("http://builder.hufs.ac.kr/user/mhdorm2/");
+                    break;
+                case "기숙사 게시판":
+                    initialWebView("http://hufstory.co.kr/Dorm_board");
+                    break;
+                case "경력개발센터":
+                    initialWebView("http://job.hufs.ac.kr");
+                    break;
+                case "취업 정보 게시판":
+                    initialWebView("http://hufstory.co.kr/Job_board");
+                    break;
+                case "교내일정":
+                    initialWebView("http://hufstory.co.kr/Schedule");
+                    break;
+
+
+                case "훕스토리 제휴 운영":
+                    initialWebView("http://hufstory.co.kr/Alliance_all");
+                    break;
+                case "밝은성모안과":
+                    initialWebView("http://hufstory.co.kr/Oklasik_board");
+                    break;
+
+                case "외대인 인증":
+                    initialWebView("http://hufstory.co.kr/hufs_certification_form/form.html");
+                    break;
+                case "Hufs":
+                    initialWebView("http://www.hufs.ac.kr/");
+                    break;
+                case "E-Class":
+                    initialWebView("http://eclass.hufs.ac.kr/");
+                    break;
+                case "종합정보시스템":
+                    initialWebView("http://webs.hufs.ac.kr:8989/src08/jsp/index.jsp");
+                    break;
+                case "수강신청 장바구니":
+                    initialWebView("http://www.hufs.ac.kr/user/hufs/basket_intro/basket.html");
+                    break;
+                case "성적열람":
+                    initialWebView("http://webs.hufs.ac.kr:8989/jsp/HUFS/stu1/stu1_i0_a0_a0.jsp");
+                    break;
+                case "외대 도서관":
+                    initialWebView("http://library.hufs.ac.kr/");
+                    break;
+                case "Office 365(hufs)":
+                    initialWebView("http://builder.hufs.ac.kr/user/indexSub.action?codyMenuSeq=61743429&siteId=hufs&menuType=T&uId=4&sortChar=AE&linkUrl=office365.html&mainFrame=right");
+                    break;
+
+            }
+            mDrawerLayout.closeDrawers();
+
+            return false;
         }
     }
 }
