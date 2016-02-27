@@ -3,16 +3,13 @@ package co.kr.hufstory;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-<<<<<<< HEAD
 import android.content.Context;
 import android.media.Image;
-=======
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
->>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -26,11 +23,8 @@ import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Toast;
-=======
->>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -170,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         mMomoButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mMomoButton);
 
-<<<<<<< HEAD
         mLoginButton = (ImageView)findViewById(R.id.login);
         mLoginButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mLoginButton);
@@ -186,14 +179,13 @@ public class MainActivity extends AppCompatActivity {
         mSettingButton=(ImageView)findViewById(R.id.setting);
         mSettingButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mSettingButton);
-=======
+
         /* 2016.02.27, Aev Oh, 어플 자동 업데이트 함수 호출 부분. */
         onTakeDeviceVersion();
         mMarketVersionChecker = new MarketVersionChecker();
         mVersioniCheckThread = new VersionCheckTread();
         mMarketVersionChecker.doMarketVersionTask();
         mVersioniCheckThread.execute();
->>>>>>> bdcbbd331326f8540f11eb305c05610573b5ebfe
     }
 
     private void mExpListPrepareData(){
