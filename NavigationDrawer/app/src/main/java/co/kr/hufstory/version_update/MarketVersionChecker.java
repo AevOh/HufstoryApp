@@ -35,7 +35,7 @@ public class MarketVersionChecker {
                         "https://play.google.com/store/apps/details?id="
                                 + PACKAGE_NAME).get();
                 Elements Version = doc.select(".content");
-
+                System.out.println("doMarketVersionTask!!!");
                 for (Element mElement : Version) {
                     if (mElement.attr("itemprop").equals("softwareVersion")) {
                         return mElement.text().trim();
@@ -57,7 +57,7 @@ public class MarketVersionChecker {
 
             //사용자 디바이스에 설치되어 있는 Hufstory 어플 버젼.
             String device_version = MainActivity.getDeviceVersion();
-
+            //System.out.println("store_version: " + store_version + ", device_version: " + device_version);
             if(store_version.compareTo(device_version) > 0){
                 MainActivity.setUpdateCheckTrue();
             }
