@@ -1,4 +1,4 @@
-package co.kr.hufstory;
+package co.kr.hufstory.main;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,14 +23,17 @@ import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import co.kr.hufstory.R;
+import co.kr.hufstory.main.ExpandableListAdapter;
 import co.kr.hufstory.menu_communication.MenusNetwork;
+import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ExpandableListView mExpListView;
     private List<String> mExpListGroup;
     private HashMap<String, List<String>> mExpListChild;
+    private HashMap<String, String> mExpListUrlHash;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -118,14 +122,6 @@ public class MainActivity extends AppCompatActivity {
         mExpListView.setAdapter(mExpListAdapter);
         mExpListView.setOnChildClickListener(new ExpandableListListener());
 
-        /*2016.02.25 00:10 yuri*/
-        mExitButton = (ImageView) findViewById(R.id.exit);
-        mExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawers();
-            }
-        });
 
         /* 2016.02.25 노형욱 */
         mInflater = LayoutInflater.from(this.getBaseContext());
@@ -148,37 +144,16 @@ public class MainActivity extends AppCompatActivity {
 
         mMainButtonList = new ArrayList<>();
 
-        mEatMenuButton = (ImageView)findViewById(R.id.eatmenu);
-        mEatMenuButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mEatMenuButton);
-
-        mHubigoButton = (ImageView)findViewById(R.id.hubigo);
-        mHubigoButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mHubigoButton);
-
-        mBbangButton = (ImageView)findViewById(R.id.bbang);
-        mBbangButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mBbangButton);
-
-        mMomoButton = (ImageView)findViewById(R.id.momo);
-        mMomoButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mMomoButton);
-
-        mLoginButton = (ImageView)findViewById(R.id.login);
-        mLoginButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mLoginButton);
-
-        mFacebookButton = (ImageView)findViewById(R.id.facebook);
-        mFacebookButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mFacebookButton);
-
-        mEventButton = (ImageView)findViewById(R.id.event);
-        mEventButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mEventButton);
-
-        mSettingButton=(ImageView)findViewById(R.id.setting);
-        mSettingButton.setOnClickListener(new MainButtonClickedListener());
-        mMainButtonList.add(mSettingButton);
+        // buttons initial
+        initialMainButton(mExitButton, R.id.exit);
+        initialMainButton(mEatMenuButton, R.id.eatmenu);
+        initialMainButton(mHubigoButton, R.id.hubigo);
+        initialMainButton(mBbangButton, R.id.bbang);
+        initialMainButton(mMomoButton, R.id.momo);
+        initialMainButton(mLoginButton, R.id.login);
+        initialMainButton(mFacebookButton, R.id.facebook);
+        initialMainButton(mEventButton, R.id.event);
+        initialMainButton(mSettingButton, R.id.setting);
 
         /* 2016.02.27, Aev Oh, 어플 자동 업데이트 함수 호출 부분. */
         onTakeDeviceVersion();
@@ -191,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     private void mExpListPrepareData(){
         mExpListGroup = new ArrayList<String>();
         mExpListChild = new HashMap<String, List<String>>();
+        mExpListUrlHash = new HashMap<>();
 
         // Adding child data
         mExpListGroup.add("게시판");
@@ -201,45 +177,12 @@ public class MainActivity extends AppCompatActivity {
         mExpListGroup.add("Hot Link");
 
         // Adding child data
-        List<String> board = new ArrayList<String>();
-        board.add("공지사항");
-        board.add("자유게시판");
-        board.add("외대 갤러리");
-        board.add("동아리 게시판");
-        board.add("분실물 게시판");
-        board.add("공모전 및 대외활동");
-
-        List<String> reporter = new ArrayList<String>();
-        reporter.add("동아리 정보");
-        reporter.add("맛집기행기");
-
-
-        List<String> life_info = new ArrayList<String>();
-        life_info.add("중고시장");
-        life_info.add("주거정보");
-        life_info.add("자유홍보");
-
-        List<String> school = new ArrayList<String>();
-        school.add("Hufs Dorm");
-        school.add("기숙사 게시판");
-        school.add("경력개발센터");
-        school.add("취업 정보 게시판");
-        school.add("교내일정");
-
-        List<String> alliance = new ArrayList<String>();
-        alliance.add("훕스토리 제휴 운영");
-        alliance.add("밝은성모안과");
-
-        List<String> hotLink = new ArrayList<String>();
-        hotLink.add("외대인 인증");
-        hotLink.add("Hufs");
-        hotLink.add("E-Class");
-        hotLink.add("종합정보시스템");
-        hotLink.add("수강신청 장바구니");
-        hotLink.add("성적열람");
-        hotLink.add("외대 도서관");
-        hotLink.add("Office 365(hufs)");
-
+        List<String> board = Arrays.asList(getResources().getStringArray(R.array.board));
+        List<String> reporter = Arrays.asList(getResources().getStringArray(R.array.reporter));
+        List<String> life_info = Arrays.asList(getResources().getStringArray(R.array.life_info));
+        List<String> school = Arrays.asList(getResources().getStringArray(R.array.school));
+        List<String> alliance = Arrays.asList(getResources().getStringArray(R.array.alliance));
+        List<String> hotLink = Arrays.asList(getResources().getStringArray(R.array.hotlink));
 
         mExpListChild.put(mExpListGroup.get(0), board); // Header, Child data
         mExpListChild.put(mExpListGroup.get(1), reporter);
@@ -247,6 +190,24 @@ public class MainActivity extends AppCompatActivity {
         mExpListChild.put( mExpListGroup.get(3), school);
         mExpListChild.put(mExpListGroup.get(4), alliance);
         mExpListChild.put(mExpListGroup.get(5), hotLink);
+
+        addUrlHash(board, Arrays.asList(getResources().getStringArray(R.array.board_url)));
+        addUrlHash(reporter, Arrays.asList(getResources().getStringArray(R.array.reporter_url)));
+        addUrlHash(life_info, Arrays.asList(getResources().getStringArray(R.array.life_info_url)));
+        addUrlHash(school, Arrays.asList(getResources().getStringArray(R.array.school_url)));
+        addUrlHash(alliance, Arrays.asList(getResources().getStringArray(R.array.alliance_url)));
+        addUrlHash(hotLink, Arrays.asList(getResources().getStringArray(R.array.hotlink_url)));
+    }
+
+    private void addUrlHash(List<String> keyList, List<String> valueList){
+        for(int i = 0; i < keyList.size(); i++)
+            mExpListUrlHash.put(keyList.get(i), valueList.get(i));
+    }
+
+    private void initialMainButton(View button, int id){
+        button = (ImageView)findViewById(id);
+        button.setOnClickListener(new MainButtonClickedListener());
+        mMainButtonList.add(button);
     }
 
     // 2016.02.26 wook - start webView with url
@@ -276,17 +237,7 @@ public class MainActivity extends AppCompatActivity {
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
-            mDrawerLayout.closeDrawers();
-
-            if(v.isSelected())
-                return;
-
-            for(int i = 0; i < mMainButtonList.size(); i++)
-                mMainButtonList.get(i).setSelected(false);
-
-            mFrameLayout.removeView(mWebView);
-
-            v.setSelected(true);
+            this.firstActionsOnClicked(v);
 
             switch(v.getId()) {
                 case R.id.eatmenu:
@@ -295,19 +246,15 @@ public class MainActivity extends AppCompatActivity {
                     sleep(250);
 
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);
-                    mToolbar.setTitle("식단표");
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    mToolbar.setTitle("후비고");
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
-                    mToolbar.setTitle("빵차");
                     break;
                 case R.id.momo:
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
-                    mToolbar.setTitle("모현의모든것");
                     break;
 
                 case R.id.login:
@@ -322,6 +269,24 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
                     break;
             }
+
+            this.lastActionsOnClikced(v);
+        }
+
+        private void firstActionsOnClicked(View v){
+            for(int i = 0; i < mMainButtonList.size(); i++)
+                mMainButtonList.get(i).setSelected(false);
+
+            mFrameLayout.removeView(mWebView);
+
+            v.setSelected(true);
+
+            if(v.getTag() != null)
+                mToolbar.setTitle(v.getTag().toString());
+        }
+
+        private void lastActionsOnClikced(View v){
+            mDrawerLayout.closeDrawers();
         }
     }
 
@@ -331,93 +296,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
-            switch (childName){
-                case "공지사항":
-                    initialWebView("http://hufstory.co.kr/Notice");
-                    break;
-                case "자유게시판":
-                    initialWebView("http://hufstory.co.kr/Free");
-                    break;
-                case "외대 갤러리":
-                    initialWebView("http://hufstory.co.kr/Gallery");
-                    break;
-                case "동아리 게시판":
-                    initialWebView("http://hufstory.co.kr/Club_board");
-                    break;
-                case "분실물 게시판":
-                    initialWebView("http://hufstory.co.kr/Missing");
-                    break;
-                case "공모전 및 대외활동":
-                    initialWebView("http://hufstory.co.kr/International_activity");
-                    break;
-
-                case "동아리 정보":
-                    initialWebView("http://hufstory.co.kr/Club_info");
-                    break;
-                case "맛집기행기":
-                    initialWebView("http://hufstory.co.kr/Delicousor_board");
-                    break;
-
-                case "중고시장":
-                    initialWebView("http://hufstory.co.kr/Market");
-                    break;
-                case "주거정보":
-                    initialWebView("http://hufstory.co.kr/House_info");
-                    break;
-                case "자유홍보":
-                    initialWebView("http://hufstory.co.kr/Ads_free");
-                    break;
-
-                case "Hufs Dorm":
-                    initialWebView("http://builder.hufs.ac.kr/user/mhdorm2/");
-                    break;
-                case "기숙사 게시판":
-                    initialWebView("http://hufstory.co.kr/Dorm_board");
-                    break;
-                case "경력개발센터":
-                    initialWebView("http://job.hufs.ac.kr");
-                    break;
-                case "취업 정보 게시판":
-                    initialWebView("http://hufstory.co.kr/Job_board");
-                    break;
-                case "교내일정":
-                    initialWebView("http://hufstory.co.kr/Schedule");
-                    break;
-
-
-                case "훕스토리 제휴 운영":
-                    initialWebView("http://hufstory.co.kr/Alliance_all");
-                    break;
-                case "밝은성모안과":
-                    initialWebView("http://hufstory.co.kr/Oklasik_board");
-                    break;
-
-                case "외대인 인증":
-                    initialWebView("http://hufstory.co.kr/hufs_certification_form/form.html");
-                    break;
-                case "Hufs":
-                    initialWebView("http://www.hufs.ac.kr/");
-                    break;
-                case "E-Class":
-                    initialWebView("http://eclass.hufs.ac.kr/");
-                    break;
-                case "종합정보시스템":
-                    initialWebView("http://webs.hufs.ac.kr:8989/src08/jsp/index.jsp");
-                    break;
-                case "수강신청 장바구니":
-                    initialWebView("http://www.hufs.ac.kr/user/hufs/basket_intro/basket.html");
-                    break;
-                case "성적열람":
-                    initialWebView("http://webs.hufs.ac.kr:8989/jsp/HUFS/stu1/stu1_i0_a0_a0.jsp");
-                    break;
-                case "외대 도서관":
-                    initialWebView("http://mlibrary.hufs.ac.kr/");
-                    break;
-                case "Office 365(hufs)":
-                    initialWebView("http://builder.hufs.ac.kr/user/indexSub.action?codyMenuSeq=61743429&siteId=hufs&menuType=T&uId=4&sortChar=AE&linkUrl=office365.html&mainFrame=right");
-                    break;
-
-            }
+            initialWebView(mExpListUrlHash.get(childName));
             mDrawerLayout.closeDrawers();
 
             return false;

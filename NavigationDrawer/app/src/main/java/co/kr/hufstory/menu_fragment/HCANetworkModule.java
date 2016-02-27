@@ -1,20 +1,10 @@
-package co.kr.hufstory;
-
-import android.os.AsyncTask;
-import android.util.Log;
+package co.kr.hufstory.menu_fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import co.kr.hufstory.menu_communication.MenuInfo;
-import co.kr.hufstory.menu_communication.Menus;
-import co.kr.hufstory.menu_communication.MenusAPI;
 import co.kr.hufstory.menu_communication.MenusNetwork;
 import co.kr.hufstory.menu_communication.User;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by Hyeong Wook on 2016-02-18.
