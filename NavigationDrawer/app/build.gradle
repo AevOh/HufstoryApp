@@ -10,8 +10,8 @@ android {
         targetSdkVersion 23
 
         //2016.02.25, Jun Young Oh, versionCode & versionName upgrade
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
     }
     buildTypes {
         release {
