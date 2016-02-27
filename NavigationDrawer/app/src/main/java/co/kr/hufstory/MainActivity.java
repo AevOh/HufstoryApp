@@ -156,8 +156,8 @@ public class   MainActivity extends AppCompatActivity {
         onTakeDeviceVersion();
         mMarketVersionChecker = new MarketVersionChecker();
         mVersioniCheckThread = new VersionCheckTread();
-        mVersioniCheckThread.execute();
         mMarketVersionChecker.doMarketVersionTask();
+        mVersioniCheckThread.execute();
     }
 
     private void prepareData(){
@@ -269,7 +269,6 @@ public class   MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    setUpdateCheckTrue();
                     mToolbar.setTitle("후비고");
                     break;
                 case R.id.bbang:
@@ -295,7 +294,7 @@ public class   MainActivity extends AppCompatActivity {
 
         // 여기서 부터는 알림창의 속성 설정
         builder.setTitle("Hufstory 업데이트 알림")        // 제목 설정
-                .setMessage("새로운 버젼의 Hufstory App이 업데이트 되었습니다." +
+                .setMessage("Hufstory App이 업데이트 되었습니다. \n\n" +
                         "새로운 기능과 더욱 원활한 서비스를 이용하기 위해 업데이트를 진행해 주시길 부탁드립니다.")        // 메세지 설정
                 .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
                 .setPositiveButton("업데이트", new DialogInterface.OnClickListener(){
@@ -352,25 +351,37 @@ public class   MainActivity extends AppCompatActivity {
         update_check = true;
     }
     class VersionCheckTread extends AsyncTask<Void, Void, Void> {
+        private long  start_time;
         public VersionCheckTread(){
             update_check = false;
+            start_time = System.currentTimeMillis();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
+
+            long current_time;
             while(!update_check) {
-                System.out.println("while 안이다!!");
+                current_time = System.currentTimeMillis();
+                long gap_time = (current_time - start_time) / 1000; //gap_time 단위: 1초
+                if(gap_time > 30) {   //어플 시작후 30초 뒤 업데이트 체크 종료.
+                    break;
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            if(update_check){
-                System.out.println("while 나옴!!");
-                return null;
-            }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void params){
-            showUpdateDialog();
+            if(update_check)
+                showUpdateDialog();
         }
     }
 }
