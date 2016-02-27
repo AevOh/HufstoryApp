@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebViewFragment;
@@ -125,6 +122,8 @@ public class   MainActivity extends AppCompatActivity {
         mWebView_view = mInflater.inflate(R.layout.webview, null, false);
 
         mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.getSettings().setJavaScriptEnabled(true);
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
 
@@ -154,14 +153,6 @@ public class   MainActivity extends AppCompatActivity {
         mMomoButton = (ImageView)findViewById(R.id.momo);
         mMomoButton.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(mMomoButton);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            Window w = getWindow();
-            //w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
     }
 
     private void prepareData(){
@@ -226,9 +217,6 @@ public class   MainActivity extends AppCompatActivity {
     // 2016.02.26 wook - start webView with url
     private void initialWebView(String url){
         mFrameLayout.removeView(mWebView);
-
-        mWebView.setWebViewClient(new WebViewClient());
-        mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.loadUrl(url);
 
         mFrameLayout.addView(mWebView);
@@ -269,7 +257,7 @@ public class   MainActivity extends AppCompatActivity {
                 case R.id.eatmenu:
                     //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
                     MenusNetwork.pullMenus();
-                    sleep(500);
+                    sleep(250);
 
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);
                     mToolbar.setTitle("식단표");
