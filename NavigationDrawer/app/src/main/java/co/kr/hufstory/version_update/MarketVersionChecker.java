@@ -35,7 +35,6 @@ public class MarketVersionChecker {
                         "https://play.google.com/store/apps/details?id="
                                 + PACKAGE_NAME).get();
                 Elements Version = doc.select(".content");
-                System.out.println("doMarketVersionTask!!!");
                 for (Element mElement : Version) {
                     if (mElement.attr("itemprop").equals("softwareVersion")) {
                         return mElement.text().trim();
