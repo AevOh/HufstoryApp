@@ -10,12 +10,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
@@ -73,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mHubigoButton;
     private ImageView mBbangButton;
     private ImageView mMomoButton;
+
+    private boolean onWebView;
+    private boolean onFragment;
+
     /*2016.02.25 00:10 yuri*/
     private ImageView mExitButton;
     private ImageView mSettingButton;
@@ -125,23 +132,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         /* 2016.02.25 노형욱 */
+        mToolbar = (Toolbar)findViewById(R.id.toolBar);
+
         mInflater = LayoutInflater.from(this.getBaseContext());
         mWebView_view = mInflater.inflate(R.layout.webview, null, false);
 
         mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
+        //mWebView.setOnKeyListener(new backKeyListener());
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
 
-        initialWebView("http://www.hufstory.co.kr");
+        initialWebView(getResources().getString(R.string.main_url));
 
         mFragmentManager = getFragmentManager();
 
         mMenuFragment = new MenuFragment();
-
-        mToolbar = (Toolbar)findViewById(R.id.toolBar);
-        mToolbar.setTitle("HUFSTORY");
 
         mMainButtonList = new ArrayList<>();
 
@@ -217,10 +224,27 @@ public class MainActivity extends AppCompatActivity {
 
     // 2016.02.26 wook - start webView with url
     private void initialWebView(String url){
+        onFragment = false;
+        onWebView = true;
+
+        mToolbar.setTitle("Hufstory");
         mFrameLayout.removeView(mWebView);
         mWebView.loadUrl(url);
 
         mFrameLayout.addView(mWebView);
+    }
+
+    private void goBackWebViewToHome(WebView webView, FrameLayout layout){
+        onFragment = false;
+        onWebView = true;
+
+        mToolbar.setTitle("Hufstory");
+        layout.removeView(webView);
+
+        while(webView.canGoBack())
+            webView.goBack();
+
+        layout.addView(webView);
     }
 
     // 2016.02.26 wook - refactoring
@@ -233,9 +257,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void contentFragmentTransaction(int layoutID, Fragment fragment){
+        onFragment = true;
+
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.replace(layoutID, fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction
+                .replace(layoutID, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     // 2016.02.25 노형욱
@@ -265,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.login:
                     break;
                 case R.id.facebook:
-                    initialWebView("https://www.facebook.com/storyhufs/");
+                    initialWebView(getResources().getString(R.string.facebook_url));
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
@@ -282,12 +310,12 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < mMainButtonList.size(); i++)
                 mMainButtonList.get(i).setSelected(false);
 
+            if(v.getTag() != null)
+                mToolbar.setTitle(v.getTag().toString());
+
             mFrameLayout.removeView(mWebView);
 
             v.setSelected(true);
-
-            if(v.getTag() != null)
-                mToolbar.setTitle(v.getTag().toString());
         }
 
         private void lastActionsOnClikced(View v){
@@ -302,13 +330,71 @@ public class MainActivity extends AppCompatActivity {
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
             initialWebView(mExpListUrlHash.get(childName));
+
             mDrawerLayout.closeDrawers();
 
-            return false;
+            return true;
         }
     }
 
+    /*public class backKeyListener implements View.OnKeyListener{
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            Log.i("fragment", String.valueOf(onFragment));
 
+            if(event.getAction() != KeyEvent.ACTION_DOWN)
+                return true;
+
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(mWebView.canGoBack())
+                    mWebView.goBack();
+                else
+                    MainActivity.this.onBackPressed();
+            }
+            return false;
+        }
+    }*/
+
+    private boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed(){
+        if(onWebView || onFragment || doubleBackToExitPressedOnce){
+            if(onWebView) webViewbackAction();
+            if(onFragment) popFragmentBackStack();
+            if(doubleBackToExitPressedOnce) super.onBackPressed();
+
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
+
+    private void webViewbackAction(){
+        if(mWebView.canGoBack())
+            mWebView.goBack();
+        else {
+            onWebView = false;
+            MainActivity.this.onBackPressed();
+        }
+    }
+
+    private void popFragmentBackStack(){
+        if(mFragmentManager.getBackStackEntryCount() > 0)
+            mFragmentManager.popBackStack();
+
+        if(mFragmentManager.getBackStackEntryCount() == 1) {
+            mFragmentManager.popBackStack();
+            goBackWebViewToHome(mWebView, mFrameLayout);
+        }
+    }
 
     /*
      * 2016.02.27, Aev Oh, 앱 자동 업데이트 알림 부분.
