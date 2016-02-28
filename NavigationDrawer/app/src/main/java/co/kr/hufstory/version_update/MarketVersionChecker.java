@@ -60,6 +60,7 @@ public class MarketVersionChecker {
             if(store_version.compareTo(device_version) > 0){
                 MainActivity.setUpdateCheckTrue();
             }
+            System.out.println("MarketVersionChecker End!!");
         }
     }
 }

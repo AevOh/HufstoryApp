@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.login.UserInfo;
 import co.kr.hufstory.main.ExpandableListAdapter;
 import co.kr.hufstory.menu_communication.MenusNetwork;
 import co.kr.hufstory.menu_fragment.MenuFragment;
@@ -161,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
         mVersioniCheckThread = new VersionCheckTread();
         mMarketVersionChecker.doMarketVersionTask();
         mVersioniCheckThread.execute();
+
+        /* 2016.02.28, Aev Oh, 회원 정보 갖어오는 클래스 호출 부분. */
+        UserInfo userInfo = new UserInfo();
+        userInfo.doUserInfo();
     }
 
     private void mExpListPrepareData(){
@@ -384,14 +389,8 @@ public class MainActivity extends AppCompatActivity {
             while(!update_check) {
                 current_time = System.currentTimeMillis();
                 long gap_time = (current_time - start_time) / 1000; //gap_time 단위: 1초
-                if(gap_time > 30) {   //어플 시작후 30초 뒤 업데이트 체크 종료.
+                if(gap_time > 1) {   //어플 시작후 30초 뒤 업데이트 체크 종료.
                     break;
-                }
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
 
