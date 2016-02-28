@@ -2,7 +2,6 @@ package co.kr.hufstory.menu_communication;
 
 import java.util.List;
 
-import co.kr.hufstory.MenuFragment;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

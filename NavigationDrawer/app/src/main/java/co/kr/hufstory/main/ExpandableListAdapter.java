@@ -1,4 +1,4 @@
-package co.kr.hufstory;
+package co.kr.hufstory.main;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import co.kr.hufstory.R;
 
 /**
  * Created by YURI on 2016-02-21.

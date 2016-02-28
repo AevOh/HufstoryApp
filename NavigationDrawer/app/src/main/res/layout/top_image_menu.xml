@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_below="@+id/managerBar"
+
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -19,6 +19,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/hubigo"
+            android:tag="후비고"
             android:src="@drawable/hubigoicon"/>
         <TextView
             android:layout_width="45dp"
@@ -37,6 +38,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/bbang"
+            android:tag="빵차"
             android:src="@drawable/busicon" />
         <TextView
             android:layout_width="45dp"
@@ -56,6 +58,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/eatmenu"
+            android:tag="식단표"
             android:src="@drawable/foodicon"
             />
         <TextView
@@ -77,6 +80,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/momo"
+            android:tag="모현의모든것"
             android:src="@drawable/momoicon"
             android:layout_weight="1"/>
         <TextView

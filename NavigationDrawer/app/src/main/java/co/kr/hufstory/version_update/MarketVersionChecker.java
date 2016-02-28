@@ -9,7 +9,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-import co.kr.hufstory.MainActivity;
+import co.kr.hufstory.main.MainActivity;
 
 /**
  * Created by Aev Oh on 2016-02-27.

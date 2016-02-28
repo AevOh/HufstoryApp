@@ -4,8 +4,8 @@
     android:id="@+id/bottomImageMenu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:orientation="horizontal"
-    android:layout_below="@+id/expanded_menu"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -18,13 +18,13 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/hubigo2"
+            android:id="@+id/login"
             android:src="@drawable/loginicon"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/h2"
-            android:layout_below="@id/hubigo2"
+            android:layout_below="@+id/login"
             android:text="로그아웃"
             android:textSize="11dp"
             android:layout_marginTop="3dp"
@@ -38,14 +38,13 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/bbang2"
+            android:id="@+id/facebook"
             android:src="@drawable/facebookicon" />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/b2"
-            android:src="@drawable/bbang"
-            android:layout_below="@id/bbang2"
+            android:layout_below="@+id/facebook"
             android:text="페이스북"
             android:textSize="11dp"
             android:layout_marginTop="3dp"
@@ -59,19 +58,17 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/eatmenu2"
+            android:id="@+id/event"
             android:src="@drawable/eventicon"
             />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/e2"
-            android:layout_below="@id/eatmenu2"
+            android:layout_below="@+id/event"
             android:text="이벤트"
             android:gravity="center"/>
     </RelativeLayout>
-
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,17 +77,15 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/momo2"
+            android:id="@+id/setting"
             android:src="@drawable/settingicon"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/m2"
-            android:layout_below="@id/momo2"
+            android:layout_below="@+id/setting"
             android:text="설정"
             android:gravity="center"/>
     </RelativeLayout>
-
-
 </LinearLayout>
