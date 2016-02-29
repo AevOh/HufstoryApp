@@ -282,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void contentFragmentTransaction(int layoutID, Fragment fragment){
         onFragment = true;
+        onWebView = false;
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction
@@ -367,9 +368,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed(){
+        Log.i("onWebView", String.valueOf(onWebView));
+        Log.i("onFragment", String.valueOf(onFragment));
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
-            else if(onFragment) popFragmentBackStack();
+            else if(onFragment) goBackWebViewToHome(mWebView, mFrameLayout);
             else if(doubleBackToExitPressedOnce) super.onBackPressed();
 
             return;
