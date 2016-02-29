@@ -240,6 +240,13 @@ public class MainActivity extends AppCompatActivity {
         mFrameLayout.addView(mWebView);
     }
 
+    private void returnLastWebView(){
+        onFragment = false;
+        onWebView = true;
+
+        mFrameLayout.addView(mWebView);
+    }
+
     private void goBackWebViewToHome(WebView webView, FrameLayout layout){
         onFragment = false;
         onWebView = true;
@@ -368,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
-            else if(onFragment) goBackWebViewToHome(mWebView, mFrameLayout);
+            else if(onFragment) returnLastWebView();
             else if(doubleBackToExitPressedOnce) super.onBackPressed();
 
             return;
