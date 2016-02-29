@@ -119,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        mExitButton = (ImageView)findViewById(R.id.exit);
+        mExitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawers();
+            }
+        });
+
         //**2016.02.28 YURI
         mExpListView = (ExpandableListView) findViewById(R.id.expandListview);
         View header = getLayoutInflater().inflate(R.layout.top_image_menu,null,false);
@@ -153,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
         mMainButtonList = new ArrayList<>();
 
         // buttons initial
-        initialMainButton(mExitButton, R.id.exit);
         initialMainButton(mEatMenuButton, R.id.eatmenu);
         initialMainButton(mHubigoButton, R.id.hubigo);
         initialMainButton(mBbangButton, R.id.bbang);
@@ -337,31 +344,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public class backKeyListener implements View.OnKeyListener{
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            Log.i("fragment", String.valueOf(onFragment));
-
-            if(event.getAction() != KeyEvent.ACTION_DOWN)
-                return true;
-
-            if(keyCode == KeyEvent.KEYCODE_BACK){
-                if(mWebView.canGoBack())
-                    mWebView.goBack();
-                else
-                    MainActivity.this.onBackPressed();
-            }
-            return false;
-        }
-    }*/
-
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed(){
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
-            if(onFragment) popFragmentBackStack();
-            if(doubleBackToExitPressedOnce) super.onBackPressed();
+            else if(onFragment) popFragmentBackStack();
+            else if(doubleBackToExitPressedOnce){
+                super.onBackPressed();
+            }
 
             return;
         }
