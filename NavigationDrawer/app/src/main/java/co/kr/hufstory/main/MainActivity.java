@@ -406,12 +406,14 @@ public class MainActivity extends AppCompatActivity {
                     // 확인 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton){
                         doUpdate();
+                        setUpdateCheckFalse();
                         finish();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     // 취소 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        setUpdateCheckFalse();
                         dialog.cancel();
                     }
                 });
@@ -454,6 +456,9 @@ public class MainActivity extends AppCompatActivity {
     private static boolean update_check;
     public static void setUpdateCheckTrue(){
         update_check = true;
+    }
+    public static void setUpdateCheckFalse(){
+        update_check = false;
     }
     class VersionCheckTread extends AsyncTask<Void, Void, Void> {
         private long  start_time;

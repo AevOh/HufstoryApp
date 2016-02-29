@@ -57,7 +57,7 @@ public class MarketVersionChecker {
             //사용자 디바이스에 설치되어 있는 Hufstory 어플 버젼.
             String device_version = MainActivity.getDeviceVersion();
             //System.out.println("store_version: " + store_version + ", device_version: " + device_version);
-            if(store_version.compareTo(device_version) > 0){
+            if(store_version != null && store_version.compareTo(device_version) > 0){
                 MainActivity.setUpdateCheckTrue();
             }
             System.out.println("MarketVersionChecker End!!");
