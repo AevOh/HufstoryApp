@@ -289,12 +289,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
+                    initialWebView(getResources().getString(R.string.hubigo_wiki_url));
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
+                    initialWebView(getResources().getString(R.string.bbang_url));
                     break;
                 case R.id.momo:
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
+                    initialWebView(getResources().getString(R.string.momo_url));
                     break;
 
                 case R.id.login:

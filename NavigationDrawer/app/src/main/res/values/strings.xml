@@ -6,6 +6,9 @@
     <string name="action_settings">Settings</string>
     <string name="main_url">http://hufstory.co.kr</string>
     <string name="facebook_url">https://www.facebook.com/storyhufs/</string>
+    <string name="hubigo_wiki_url">http://203.253.76.171/xe/widgets/dokuwiki/doku.php?id=%EC%8B%9C%EC%9E%91%20%ED%8E%98%EC%9D%B4%EC%A7%80</string>
+    <string name="momo_url">http://203.253.76.171/test_momo/main.php</string>
+    <string name="bbang_url">http://203.253.76.178:8080/TEST/BusMapUI.html</string>
 
     <string-array name="board">
         <item>공지사항</item>
