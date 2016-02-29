@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean onFragment;
 
     /*2016.02.25 00:10 yuri*/
+    private ImageView mHomeButton;
     private ImageView mExitButton;
     private ImageView mSettingButton;
     private ImageView mEventButton;
@@ -119,14 +120,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        mExitButton = (ImageView)findViewById(R.id.exit);
-        mExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawers();
-            }
-        });
-
         //**2016.02.28 YURI
         mExpListView = (ExpandableListView) findViewById(R.id.expandListview);
         View header = getLayoutInflater().inflate(R.layout.top_image_menu,null,false);
@@ -161,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
         mMainButtonList = new ArrayList<>();
 
         // buttons initial
+        initialManagingButton(mHomeButton, R.id.home);
+        initialManagingButton(mExitButton, R.id.exit);
+
         initialMainButton(mEatMenuButton, R.id.eatmenu);
         initialMainButton(mHubigoButton, R.id.hubigo);
         initialMainButton(mBbangButton, R.id.bbang);
@@ -229,6 +225,11 @@ public class MainActivity extends AppCompatActivity {
         mMainButtonList.add(button);
     }
 
+    private void initialManagingButton(View button, int id){
+        button = (ImageView)findViewById(id);
+        button. setOnClickListener(new ManagingButtonClickedListener());
+    }
+
     // 2016.02.26 wook - start webView with url
     private void initialWebView(String url){
         onFragment = false;
@@ -260,6 +261,22 @@ public class MainActivity extends AppCompatActivity {
             Thread.sleep(timeMs);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public class ManagingButtonClickedListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.home:
+                    goBackWebViewToHome(mWebView, mFrameLayout);
+                    break;
+
+                case R.id.exit:
+                    break;
+            }
+
+            mDrawerLayout.closeDrawers();
         }
     }
 
@@ -320,9 +337,6 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < mMainButtonList.size(); i++)
                 mMainButtonList.get(i).setSelected(false);
 
-            if(v.getTag() != null)
-                mToolbar.setTitle(v.getTag().toString());
-
             mFrameLayout.removeView(mWebView);
 
             v.setSelected(true);
@@ -330,6 +344,9 @@ public class MainActivity extends AppCompatActivity {
 
         private void lastActionsOnClikced(View v){
             mDrawerLayout.closeDrawers();
+
+            if(v.getTag() != null)
+                mToolbar.setTitle(v.getTag().toString());
         }
     }
 
@@ -353,9 +370,7 @@ public class MainActivity extends AppCompatActivity {
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
             else if(onFragment) popFragmentBackStack();
-            else if(doubleBackToExitPressedOnce){
-                super.onBackPressed();
-            }
+            else if(doubleBackToExitPressedOnce) super.onBackPressed();
 
             return;
         }
