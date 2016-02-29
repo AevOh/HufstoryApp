@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
@@ -35,7 +34,6 @@ import java.util.List;
 
 import co.kr.hufstory.R;
 import co.kr.hufstory.login.UserInfo;
-import co.kr.hufstory.main.ExpandableListAdapter;
 import co.kr.hufstory.menu_communication.MenusNetwork;
 import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
@@ -368,8 +366,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed(){
-        Log.i("onWebView", String.valueOf(onWebView));
-        Log.i("onFragment", String.valueOf(onFragment));
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
             else if(onFragment) goBackWebViewToHome(mWebView, mFrameLayout);
@@ -395,16 +391,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             onWebView = false;
             MainActivity.this.onBackPressed();
-        }
-    }
-
-    private void popFragmentBackStack(){
-        if(mFragmentManager.getBackStackEntryCount() > 0)
-            mFragmentManager.popBackStack();
-
-        if(mFragmentManager.getBackStackEntryCount() == 1) {
-            mFragmentManager.popBackStack();
-            goBackWebViewToHome(mWebView, mFrameLayout);
         }
     }
 
