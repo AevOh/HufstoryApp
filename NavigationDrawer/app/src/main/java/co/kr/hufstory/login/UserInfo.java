@@ -17,7 +17,7 @@ import co.kr.hufstory.main.MainActivity;
  * Created by Aev Oh on 2016-02-28.
  */
 public class UserInfo {
-    public static final String USERINFO_URL = "http://hufstory.co.kr/";
+    public static final String USERINFO_URL = "http://naver.com/";
     public void doUserInfo(){
         System.out.println("UserInfo Created!!");
         new UserInfoTask().execute();

@@ -1,0 +1,21 @@
+                switch(webViewActivity.this.num) {
+                case 4:
+                    webViewActivity.this.webView.loadUrl("http://hufstory.com/?m=1");
+                    webViewActivity.this.webView.setWebViewClient(webViewActivity.this.client);
+                    break;
+                case 5:
+                    webViewActivity.this.webView.loadUrl("http://hufstory.com/xe/widgets/dokuwiki/doku.php?id=%EC%8B%9C%EC%9E%91%20%ED%8E%98%EC%9D%B4%EC%A7%80");
+                    webViewActivity.this.webView.setWebViewClient(webViewActivity.this.client);
+                    break;
+                case 6:
+                    webViewActivity.this.webView.loadUrl("http://hufstory.com/xe/index.php?mid=free&act=dispBoardWrite");
+                    webViewActivity.this.webView.setWebViewClient(webViewActivity.this.client);
+                    break;
+                case 7:
+                    webViewActivity.this.webView.loadUrl("http://203.253.76.171/test_momo/main.php");
+                    webViewActivity.this.webView.setWebViewClient(webViewActivity.this.client);
+                    break;
+                case 8:
+                    webViewActivity.this.webView.loadUrl("http://203.253.76.178:8080/TEST/BusMapUI.html");
+                    webViewActivity.this.webView.setWebViewClient(webViewActivity.this.client);
+                }
