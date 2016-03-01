@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Handler;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -280,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.exit:
                     break;
             }
-
             mDrawerLayout.closeDrawers();
         }
     }
@@ -374,6 +374,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed(){
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawers();
+            return;
+        }
+
         if(onWebView || onFragment || doubleBackToExitPressedOnce){
             if(onWebView) webViewbackAction();
             else if(onFragment) returnLastWebView();
