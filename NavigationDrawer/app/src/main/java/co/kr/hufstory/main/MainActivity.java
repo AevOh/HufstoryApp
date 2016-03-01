@@ -324,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.login:
+                    initialWebView(getResources().getString(R.string.hufstoy_login));
                     break;
                 case R.id.facebook:
                     initialWebView(getResources().getString(R.string.facebook_url));
