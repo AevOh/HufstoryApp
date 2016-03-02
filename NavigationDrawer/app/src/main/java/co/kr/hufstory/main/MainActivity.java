@@ -21,6 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
@@ -41,6 +43,7 @@ import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
+    private static final int RC_FILE_CHOOSE = 2833;
 
     private DrawerLayout mDrawerLayout;
     private View mView;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private LayoutInflater mInflater;
     private View mWebView_view;
     private WebView mWebView;
+    private ValueCallback<Uri> mUploadMsg;
 
     private FragmentManager mFragmentManager;
 
@@ -139,6 +143,27 @@ public class MainActivity extends AppCompatActivity {
 
         mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
         mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            /*public void openFileChooser(ValueCallback<Uri> uploadMsg){
+                mUploadMsg = uploadMsg;
+                startFileOpeningIntent();
+            }
+
+            public void openFileChooser(ValueCallback<Uri> uploadFile, String accecptType){
+                openFileChooser(uploadFile);
+            }*/
+
+            public void openFileChooser(ValueCallback<Uri> uploadFile, String accecptType, String capture){
+                mUploadMsg = uploadFile;
+                startFileOpeningIntent();
+            }
+
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams){
+                startFileOpeningIntent();
+                return true;
+            }
+
+        });
         mWebView.getSettings().setJavaScriptEnabled(true);
         //mWebView.setOnKeyListener(new backKeyListener());
 
@@ -239,6 +264,31 @@ public class MainActivity extends AppCompatActivity {
         mWebView.loadUrl(url);
 
         mFrameLayout.addView(mWebView);
+    }
+
+    private void startFileOpeningIntent(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(Intent.createChooser(intent, "File Chooser"), RC_FILE_CHOOSE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RC_FILE_CHOOSE && mUploadMsg != null)
+            getUploadedRCFile(resultCode, data);
+    }
+
+    // webview에서 파일 업로드시 업로드 결과를 받는 메서드
+    private void getUploadedRCFile(int resultCode, Intent data){
+        Uri result = null;
+        if(data != null || resultCode == RESULT_OK)
+            result = data.getData();
+
+        mUploadMsg.onReceiveValue(result);
+        mUploadMsg = null;
     }
 
     private void returnLastWebView(){
@@ -371,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 2016.03.01 wook back key Actions
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed(){
