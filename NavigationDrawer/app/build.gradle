@@ -9,15 +9,9 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
 
-<<<<<<< HEAD
-        //2016.02.25, Jun Young Oh, versionCode & versionName upgrade, versionCode 14
-        versionCode 14
-        versionName "1.5.8"
-=======
-        //2016.03.01, Jun Young Oh, versionCode & versionName upgrade, versionCode 15
-        versionCode 15
-        versionName "1.5.9"
->>>>>>> d3c386cfbf5cbf5534a5cc419cb00267b6be842a
+        //2016.03.01, Jun Young Oh, versionCode & versionName upgrade, versionCode 16
+        versionCode 16
+        versionName "1.6.01"
     }
     buildTypes {
         release {
@@ -37,7 +31,8 @@ dependencies {
 
     //2016.02.25, Aev Oh, Retrofit을 사용하기 위해 추가.
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-
     //2016.02.27, Aev Oh, Jsoup: 웹 페이지 파싱 라이브러리.
     compile 'org.jsoup:jsoup:1.8.3'
+    //2016.03.03, Aev Oh, jericho: HTML 파싱 라이브러리.
+    compile 'net.htmlparser.jericho:jericho-html:3.4'
 }
