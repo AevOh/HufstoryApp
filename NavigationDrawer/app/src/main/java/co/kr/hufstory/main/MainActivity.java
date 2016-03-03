@@ -143,19 +143,11 @@ public class MainActivity extends AppCompatActivity {
         /* 2016.02.25 노형욱 */
         mToolbar = (Toolbar)findViewById(R.id.toolBar);
 
-        mInflater = LayoutInflater.from(this.getBaseContext());
-        mWebView_view = mInflater.inflate(R.layout.webview, null, false);
-        mWebFileLoadChromeClient = new WebFileLoadChromeClient(this);
-
-        mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
-        mWebView.setWebViewClient(new WebViewClient());
-        mWebView.setWebChromeClient(mWebFileLoadChromeClient);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        //mWebView.setOnKeyListener(new backKeyListener());
+        mWebView = initialWebView(R.id.webView);
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
 
-        initialWebView(getResources().getString(R.string.main_url));
+        startWebView(getResources().getString(R.string.main_url));
 
         mFragmentManager = getFragmentManager();
 
@@ -240,8 +232,34 @@ public class MainActivity extends AppCompatActivity {
         button. setOnClickListener(new ManagingButtonClickedListener());
     }
 
+    private WebView initialWebView(int id){
+        mInflater = LayoutInflater.from(this.getBaseContext());
+        mWebView_view = mInflater.inflate(R.layout.webview, null, false);
+        mWebFileLoadChromeClient = new WebFileLoadChromeClient(this);
+        WebView webView;
+
+        webView = (WebView)mWebView_view.findViewById(id);
+        webView.setWebViewClient(new WebViewClient() {
+            // momo enable calling
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("tel:")) {
+                    Intent calling = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
+                    startActivity(calling);
+                    return true;
+                }
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        webView.setWebChromeClient(mWebFileLoadChromeClient);
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        return webView;
+    }
+
     // 2016.02.26 wook - start webView with url
-    private void initialWebView(String url){
+    private void startWebView(String url){
         onFragment = false;
         onWebView = true;
 
@@ -282,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
     private void returnLastWebView(){
         onFragment = false;
         onWebView = true;
+        mToolbar.setTitle("Hufstory");
 
         mFrameLayout.addView(mWebView);
     }
@@ -350,22 +369,22 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    initialWebView(getResources().getString(R.string.hubigo_wiki_url));
+                    startWebView(getResources().getString(R.string.hubigo_wiki_url));
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
-                    initialWebView(getResources().getString(R.string.bbang_url));
+                    startWebView(getResources().getString(R.string.bbang_url));
                     break;
                 case R.id.momo:
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
-                    initialWebView(getResources().getString(R.string.momo_url));
+                    startWebView(getResources().getString(R.string.momo_url));
                     break;
 
                 case R.id.login:
-                    initialWebView(getResources().getString(R.string.hufstoy_login));
+                    startWebView(getResources().getString(R.string.hufstoy_login));
                     break;
                 case R.id.facebook:
-                    initialWebView(getResources().getString(R.string.facebook_url));
+                    startWebView(getResources().getString(R.string.facebook_url));
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
@@ -401,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
-            initialWebView(mExpListUrlHash.get(childName));
+            startWebView(mExpListUrlHash.get(childName));
 
             mDrawerLayout.closeDrawers();
 
