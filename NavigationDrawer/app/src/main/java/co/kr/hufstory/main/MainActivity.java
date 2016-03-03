@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +29,7 @@ import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
     public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
-    private static final int RC_FILE_CHOOSE = 2833;
+    public static final int S_RC_FILE_CHOOSE = 2833;
 
     private DrawerLayout mDrawerLayout;
     private View mView;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private View mWebView_view;
     private WebView mWebView;
     private ValueCallback<Uri> mUploadMsg;
+    private ValueCallback<Uri[]> mFilePathCallback;
 
     private FragmentManager mFragmentManager;
 
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean onWebView;
     private boolean onFragment;
+
+    private WebFileLoadChromeClient mWebFileLoadChromeClient;
 
     /*2016.02.25 00:10 yuri*/
     private ImageView mHomeButton;
@@ -140,30 +145,11 @@ public class MainActivity extends AppCompatActivity {
 
         mInflater = LayoutInflater.from(this.getBaseContext());
         mWebView_view = mInflater.inflate(R.layout.webview, null, false);
+        mWebFileLoadChromeClient = new WebFileLoadChromeClient(this);
 
         mWebView = (WebView)mWebView_view.findViewById(R.id.webView);
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.setWebChromeClient(new WebChromeClient(){
-            /*public void openFileChooser(ValueCallback<Uri> uploadMsg){
-                mUploadMsg = uploadMsg;
-                startFileOpeningIntent();
-            }
-
-            public void openFileChooser(ValueCallback<Uri> uploadFile, String accecptType){
-                openFileChooser(uploadFile);
-            }*/
-
-            public void openFileChooser(ValueCallback<Uri> uploadFile, String accecptType, String capture){
-                mUploadMsg = uploadFile;
-                startFileOpeningIntent();
-            }
-
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams){
-                startFileOpeningIntent();
-                return true;
-            }
-
-        });
+        mWebView.setWebChromeClient(mWebFileLoadChromeClient);
         mWebView.getSettings().setJavaScriptEnabled(true);
         //mWebView.setOnKeyListener(new backKeyListener());
 
@@ -266,29 +252,31 @@ public class MainActivity extends AppCompatActivity {
         mFrameLayout.addView(mWebView);
     }
 
-    private void startFileOpeningIntent(){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        startActivityForResult(Intent.createChooser(intent, "File Chooser"), RC_FILE_CHOOSE);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_FILE_CHOOSE && mUploadMsg != null)
+        if(requestCode == S_RC_FILE_CHOOSE)
             getUploadedRCFile(resultCode, data);
     }
 
     // webview에서 파일 업로드시 업로드 결과를 받는 메서드
     private void getUploadedRCFile(int resultCode, Intent data){
         Uri result = null;
-        if(data != null || resultCode == RESULT_OK)
+        ValueCallback<Uri> uploadMsg = mWebFileLoadChromeClient.getUploadMsg();
+        ValueCallback<Uri[]> filePathCallback = mWebFileLoadChromeClient.getFilePathCallback();
+
+        if (data != null || resultCode == RESULT_OK)
             result = data.getData();
 
-        mUploadMsg.onReceiveValue(result);
-        mUploadMsg = null;
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && uploadMsg != null) {
+            uploadMsg.onReceiveValue(result);
+            uploadMsg = null;
+
+        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && filePathCallback != null){
+            filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            filePathCallback = null;
+        }
     }
 
     private void returnLastWebView(){
