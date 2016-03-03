@@ -9,9 +9,9 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
 
-        //2016.03.03, Jun Young Oh, versionCode & versionName upgrade, versionCode 17
-        versionCode 17
-        versionName "1.6.02"
+        //2016.03.04, Jun Young Oh, versionCode & versionName upgrade, versionCode 18
+        versionCode 18
+        versionName "1.6.03"
     }
     buildTypes {
         release {
