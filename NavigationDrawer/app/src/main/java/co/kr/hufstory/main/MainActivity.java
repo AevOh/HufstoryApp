@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialManagingButton(View button, int id){
         button = (ImageView)findViewById(id);
-        button. setOnClickListener(new ManagingButtonClickedListener());
+        button.setOnClickListener(new ManagingButtonClickedListener());
     }
 
     private WebView initialWebView(int id){
@@ -254,6 +254,8 @@ public class MainActivity extends AppCompatActivity {
         });
         webView.setWebChromeClient(mWebFileLoadChromeClient);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setSupportZoom(true);
 
         return webView;
     }
