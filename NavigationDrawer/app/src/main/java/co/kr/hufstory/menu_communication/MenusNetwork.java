@@ -13,7 +13,7 @@ import retrofit.client.Response;
 
 public class MenusNetwork {
     //2016.02.25, Aev Oh, Temp List for testing
-    private static List<User> menuList;
+    private static List<ServerMenu> menuList;
     //private List<Menus> menuList;
     private static final String URL = "http://52.79.39.104:3000";
 
@@ -25,12 +25,12 @@ public class MenusNetwork {
         MenusAPI api = adapter.create(MenusAPI.class);
 
         // 비동기적 방법
-         api.getMenus(new Callback<List<User>>() {
+         api.getMenus(new Callback<List<ServerMenu>>() {
 
             @Override
-            public void success(List<User> users, Response response) {
+            public void success(List<ServerMenu> menus, Response response) {
                 System.out.println("Success!!");
-                menuList = users;
+                menuList = menus;
             }
 
             @Override
@@ -41,7 +41,7 @@ public class MenusNetwork {
         });
     }
 
-    public static List<User> getMenu(){
+    public static List<ServerMenu> getMenu(){
         return menuList;
     }
 }

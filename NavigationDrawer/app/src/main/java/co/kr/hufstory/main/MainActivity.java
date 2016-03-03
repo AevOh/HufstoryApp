@@ -19,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ValueCallback;
@@ -44,7 +43,6 @@ import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
-    public static enum Week {MON, TUE, WED, THU, FRI, SAT, SUN};
     public static final int S_RC_FILE_CHOOSE = 2833;
 
     private DrawerLayout mDrawerLayout;

@@ -3,8 +3,9 @@ package co.kr.hufstory.menu_fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.kr.hufstory.menu_communication.Menu;
+import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_communication.MenusNetwork;
-import co.kr.hufstory.menu_communication.User;
 
 /**
  * Created by Hyeong Wook on 2016-02-18.
@@ -14,11 +15,13 @@ public class HCANetworkModule{
 
     /* 2016.02.26, Aev Oh, 테스트 용으로 수정함. */
     //private List<MenuInfo> mDataList;
-    private List<User> mDataList;
+    private List<Menu> mDataList;
 
     public HCANetworkModule(){
+        MenuInfo menuInfo = new MenuInfo();
+        menuInfo.pullMenu();
         mDataList = new ArrayList<>();
-        mDataList = MenusNetwork.getMenu();
+        mDataList = menuInfo.getMenuList();
     }
 
     /*public void parseDataList(){
@@ -67,10 +70,7 @@ public class HCANetworkModule{
                         System.out.println("case = 0");
                         if(mDataList != null && !mDataList.isEmpty()){
                             System.out.println("mDataList is not Empty");
-                            for(User user: mDataList){
-                                System.out.println("Retrogit" + user.getUserId() + user.getEmail());
-                                fragment.addCard("Retrogit", user.getUserId(), user.getEmail());
-                            }
+
                         }
 
                     /*

@@ -12,9 +12,9 @@ import retrofit.http.GET;
 public interface MenusAPI {
     //비동기적 방식
     @GET("/findAll/a")
-    public void getMenus(Callback<List<User>> response);
+    public void getMenus(Callback<List<ServerMenu>> response);
 
     //동기적 방식
     @GET("/findAll/a")
-    List<User> getMenus();
+    List<ServerMenu> getMenus();
 }
