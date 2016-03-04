@@ -12,12 +12,20 @@ public class MenuInfo {
     private List<ServerMenu> serverMenuList;
     private List<Menu> menuList;
 
-    public void pullMenu(){
+    public boolean pullMenu(){
         MenusNetwork.pullMenus();
 
-        while(MenusNetwork.getMenu() == null || MenusNetwork.getMenu().isEmpty()){}
+        long start_time = System.currentTimeMillis();;
+
+        while(MenusNetwork.getMenu() == null || MenusNetwork.getMenu().isEmpty()){
+            long current_time = System.currentTimeMillis();;
+            long gap_time = (current_time - start_time) / 100; //gap_time 단위: 0.1초
+            if(gap_time >= 5)   //0.5초 이상 반응이 없으면 강제 종료.
+                return false;
+        }
         serverMenuList = MenusNetwork.getMenu();
         serverToClientMenu();
+        return true;
     }
 
     private void serverToClientMenu(){
