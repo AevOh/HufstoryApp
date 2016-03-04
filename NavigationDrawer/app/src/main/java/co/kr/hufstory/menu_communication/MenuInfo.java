@@ -45,6 +45,7 @@ public class MenuInfo {
         Caf cafeteria = new Caf();
         return cafeteria.CAF_MAP.get(caf);
     }
+
     private String getCafTime(int building, int caf){
         CafTime cafTime = new CafTime();
         return cafTime.CAF_TIME_MAP.get(caf);
@@ -55,8 +56,8 @@ public class MenuInfo {
         return date;
     }
 
-    private int getWeekDay(int mon, int day){
-        int weekDay = -1;
+    private String getWeekDay(int mon, int day){
+        String weekDay = "-1";
         //여기부터 시작.
 
         return weekDay;
@@ -64,6 +65,23 @@ public class MenuInfo {
 
     public List<Menu> getMenuList(){
         return menuList;
+    }
+
+    public void test(){
+        MenuInfo menuInfo = new MenuInfo();
+        if(menuInfo.pullMenu()){
+            List<Menu> menuList = menuInfo.getMenuList();
+            for(Menu menu: menuList){
+                int building = menu.getBuilding();
+                String cafType = menu.getCaf();
+                int cost = menu.getCost();
+                String content = menu.getContent();
+                String date = menu.getDate();
+                String weekDay = menu.getWeek();
+                String time = menu.getTime();
+            }
+        }
+
     }
 }
 

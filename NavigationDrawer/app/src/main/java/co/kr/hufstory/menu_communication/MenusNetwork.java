@@ -15,13 +15,13 @@ public class MenusNetwork {
     //2016.02.25, Aev Oh, Temp List for testing
     private static List<ServerMenu> menuList;
     //private List<Menus> menuList;
-    private static final String URL = "http://52.79.39.104:3000";
+    private static final String MENU_URL = "http://hufstory.co.kr/cert/public/menu?start_date=1&end_date=4&mon=3";
 
     //2016.02.25, Aev Oh, 비동기적 방식
     public static void pullMenus(){
         System.out.println("getUsers!!");
 
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(URL).build();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL).build();
         MenusAPI api = adapter.create(MenusAPI.class);
 
         // 비동기적 방법

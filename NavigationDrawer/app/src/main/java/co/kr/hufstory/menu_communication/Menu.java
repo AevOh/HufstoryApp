@@ -5,28 +5,33 @@ package co.kr.hufstory.menu_communication;
  */
 // 2016.03.03, Aev Oh, 클라이언트에게 제공되는 메뉴(날짜 -> 요일)
 public class Menu {
+
     private int building;
     private String caf;
     private String time;
     private int cost;
     private String content;
-    private int week;       //요일
+    private String week;       //요일
     private String date;    //날짜
 
-    public int getWeek() {
+    public int getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(int building) {
+        this.building = building;
+    }
+
+    public String getWeek() {
         return week;
     }
 
-    public void setWeek(int week) {
+    public void setWeek(String week) {
         this.week = week;
     }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setBuilding(int building) {
-        this.building = building;
     }
 
     public void setCaf(String caf) {
@@ -35,10 +40,6 @@ public class Menu {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public int getBuilding() {
-        return building;
     }
 
     public String getCaf() {
