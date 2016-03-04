@@ -8,7 +8,6 @@ package co.kr.hufstory.menu_communication;
 public class ServerMenu {
     private int building;
     private int caf;
-    private String time;
     private int cost;
     private String content;
     private int mon;
@@ -20,10 +19,6 @@ public class ServerMenu {
 
     public int getCaf() {
         return caf;
-    }
-
-    public String getTime() {
-        return time;
     }
 
     public int getCost() {
