@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="10dp"
-            android:columnCount="2">
+            android:columnCount="3">
 
             <TextView
                 android:id="@+id/title"
@@ -35,14 +35,24 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textSize="14dp"
-                android:text="| 오전 10:00 ~ 오후 18:00"/>
+                android:text="오전 10:00 ~ 오후 18:00"/>
+
+            <TextView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="right"
+                android:textSize="14dp"
+                android:text="3500원"/>
 
             <TextView
                 android:id="@+id/body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textSize="16dp"

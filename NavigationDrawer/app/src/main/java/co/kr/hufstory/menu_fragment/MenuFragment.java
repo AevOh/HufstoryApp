@@ -144,12 +144,11 @@ public class MenuFragment extends android.app.Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Log.i("placeholderFragment", "initial");
             View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
             s_HCANetworkModule.getData(this, s_selected_cafeteria, getArguments().getInt(ARG_SECTION_NUMBER) - 1);
 
             mDateTextView = (TextView)rootView.findViewById(R.id.date);
-            mDateTextView.setText("11/" + String.valueOf(getArguments().getInt(ARG_SECTION_NUMBER)));
+            mDateTextView.setText(s_HCANetworkModule.getDate(getArguments().getInt(ARG_SECTION_NUMBER)));
 
             mLinearLayoutManager = new LinearLayoutManager(getActivity());
             mRCAdapter = new RCAdapter(mCardInfoList);
@@ -161,8 +160,8 @@ public class MenuFragment extends android.app.Fragment {
             return rootView;
         }
 
-        public void addCard(String title, String time, String body){
-            CardInfo cardInfo = new CardInfo(title, time, body);
+        public void addCard(String title, String time, String body, String cost){
+            CardInfo cardInfo = new CardInfo(title, time, body, cost);
             mCardInfoList.add(cardInfo);
         }
 
@@ -235,11 +234,13 @@ public class MenuFragment extends android.app.Fragment {
     public static class CardInfo{
         protected String title;
         protected String time;
+        protected String cost;
         protected String body;
 
-        public CardInfo(String title, String time, String body){
+        public CardInfo(String title, String time, String cost, String body){
             this.title = title;
             this.time = time;
+            this.cost = cost;
             this.body = body;
         }
     }
@@ -270,6 +271,7 @@ public class MenuFragment extends android.app.Fragment {
             CardInfo cardInfo = mDataList.get(position);
             holder.mTitle.setText(cardInfo.title);
             holder.mTime.setText(cardInfo.time);
+            holder.mCost.setText(cardInfo.cost + "원");
             holder.mBody.setText(cardInfo.body);
         }
 
@@ -281,12 +283,14 @@ public class MenuFragment extends android.app.Fragment {
         public class CarteCardViewHolder extends RecyclerView.ViewHolder{
             protected TextView mTitle;
             protected TextView mTime;
+            protected TextView mCost;
             protected TextView mBody;
 
             public CarteCardViewHolder(View v){
                 super(v);
                 mTitle = (TextView) v.findViewById(R.id.title);
                 mTime = (TextView) v.findViewById(R.id.time);
+                mCost = (TextView) v.findViewById(R.id.cost);
                 mBody = (TextView) v.findViewById(R.id.body);
             }
 
