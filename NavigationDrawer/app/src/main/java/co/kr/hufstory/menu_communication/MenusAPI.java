@@ -11,10 +11,10 @@ import retrofit.http.GET;
 //2015.02.25, Aev Oh, 식단표 정보를 받아오는 Retrofit API
 public interface MenusAPI {
     //비동기적 방식
-    @GET("/findAll/a")
+    @GET("")
     public void getMenus(Callback<List<ServerMenu>> response);
 
     //동기적 방식
-    @GET("/findAll/a")
+    @GET("")
     List<ServerMenu> getMenus();
 }
