@@ -11,7 +11,7 @@ public class Menu {
     private String time;
     private int cost;
     private String content;
-    private String week;       //요일
+    private int week;       //요일
     private String date;    //날짜
 
     public int getBuilding() {
@@ -22,11 +22,11 @@ public class Menu {
         this.building = building;
     }
 
-    public String getWeek() {
+    public int getWeek() {
         return week;
     }
 
-    public void setWeek(String week) {
+    public void setWeek(int week) {
         this.week = week;
     }
 

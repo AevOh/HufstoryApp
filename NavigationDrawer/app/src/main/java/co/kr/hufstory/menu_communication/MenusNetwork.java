@@ -1,5 +1,6 @@
 package co.kr.hufstory.menu_communication;
 
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit.Callback;
@@ -15,13 +16,14 @@ public class MenusNetwork {
     //2016.02.25, Aev Oh, Temp List for testing
     private static List<ServerMenu> menuList;
     //private List<Menus> menuList;
-    private static final String MENU_URL = "http://hufstory.co.kr/cert/public/menu?start_date=1&end_date=4&mon=3";
+    private static final String MENU_URL = "http://hufstory.co.kr/cert/public/menu?";
 
     //2016.02.25, Aev Oh, 비동기적 방식
     public static void pullMenus(){
         System.out.println("getUsers!!");
 
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL).build();
+        Calendar calendar = Calendar.getInstance();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+calendar.DATE+"&end_date="+calendar.DATE+4+"&mon="+calendar.MONTH).build();
         MenusAPI api = adapter.create(MenusAPI.class);
 
         // 비동기적 방법

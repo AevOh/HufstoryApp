@@ -1,5 +1,6 @@
 package co.kr.hufstory.menu_communication;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -56,9 +57,16 @@ public class MenuInfo {
         return date;
     }
 
-    private String getWeekDay(int mon, int day){
-        String weekDay = "-1";
-        //여기부터 시작.
+    private int getWeekDay(int mon, int day){
+        int weekDay = 0;
+        Calendar cal= Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, mon);
+        cal.set(Calendar.DATE, day);
+        //cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        weekDay = cal.get(Calendar.DAY_OF_WEEK);
 
         return weekDay;
     }
@@ -77,7 +85,7 @@ public class MenuInfo {
                 int cost = menu.getCost();
                 String content = menu.getContent();
                 String date = menu.getDate();
-                String weekDay = menu.getWeek();
+                int weekDay = menu.getWeek();
                 String time = menu.getTime();
             }
         }
