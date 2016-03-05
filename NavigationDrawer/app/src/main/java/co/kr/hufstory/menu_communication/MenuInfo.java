@@ -33,10 +33,10 @@ public class MenuInfo {
         for(ServerMenu serverMenu: serverMenuList){
             Menu menu = new Menu();
             menu.setBuilding(serverMenu.getBuilding());
-            menu.setCaf(getCafName(serverMenu.getCaf()));
+            menu.setCaf(getCafName(serverMenu.getType()));
             menu.setContent(serverMenu.getContent());
             menu.setCost(serverMenu.getCost());
-            menu.setTime(getCafTime(serverMenu.getBuilding(), serverMenu.getCaf()));
+            menu.setTime(getCafTime(serverMenu.getBuilding(), serverMenu.getType()));
             menu.setDate(getDate(serverMenu.getMon(), serverMenu.getDay()));
             menu.setWeek(getWeekDay(serverMenu.getMon(), serverMenu.getDay()));
         }

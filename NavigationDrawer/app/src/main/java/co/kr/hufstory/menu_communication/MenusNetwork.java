@@ -23,7 +23,8 @@ public class MenusNetwork {
         System.out.println("getUsers!!");
 
         Calendar calendar = Calendar.getInstance();
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+calendar.DATE+"&end_date="+calendar.DATE+4+"&mon="+calendar.MONTH).build();
+        calendar.set(Calendar.DAY_OF_WEEK , Calendar.MONDAY);
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+calendar.get(calendar.DATE)+"&end_date="+calendar.get(calendar.DATE)+6+"&mon="+calendar.get(calendar.MONTH)).build();
         MenusAPI api = adapter.create(MenusAPI.class);
 
         // 비동기적 방법
