@@ -7,7 +7,6 @@ import java.util.List;
 
 import co.kr.hufstory.menu_communication.Menu;
 import co.kr.hufstory.menu_communication.MenuInfo;
-import co.kr.hufstory.menu_communication.MenusNetwork;
 
 /**
  * Created by Hyeong Wook on 2016-02-18.
@@ -20,12 +19,24 @@ public class HCANetworkModule{
 
     public HCANetworkModule(){
         MenuInfo menuInfo = new MenuInfo();
+        System.out.println("menuInfo() End");
+        menuInfo.pullMenu();
+        long startTIme = System.currentTimeMillis();
+        long currentTIme = System.currentTimeMillis();
+        long gapTime = (currentTIme - startTIme)/100;   //단위: 0.1초
+        mDataList = menuInfo.getMenuList();
+        /*
         if(menuInfo.pullMenu()) {
             Log.i("success", "good");
             mDataList = menuInfo.getMenuList();
             parseDataContents();
-        } else
+        } else{
+            System.out.println("HCANetworkModule pullMenu False!!");
             mDataList = new ArrayList<>();
+        }
+         */
+
+
     }
 
     private void parseDataContents(){
