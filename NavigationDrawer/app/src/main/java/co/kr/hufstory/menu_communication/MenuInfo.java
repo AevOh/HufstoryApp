@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import co.kr.hufstory.menu_fragment.HCANetworkModule;
+import co.kr.hufstory.menu_fragment.MenuFragment;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -45,6 +47,7 @@ public class MenuInfo extends Thread{
                 serverMenuList = menus;
                 serverToClientMenu();
                 menuDownCheck = true;
+                MenuFragment.s_HCANetworkModule.networkSuccessTrigger();
             }
 
             @Override
