@@ -65,8 +65,8 @@ public class WebFileLoadChromeClient extends WebChromeClient {
             try {
                 Intent intent = fileChooserParams.createIntent();
                 activity.startActivityForResult(intent, MainActivity.S_RC_FILE_CHOOSE);
-            } catch (Exception e) {
-                Log.e("Error", "FileChooserException");
+            } catch (NullPointerException e) {
+                Log.e("Error", "intent is null");
             }
         }
     }
