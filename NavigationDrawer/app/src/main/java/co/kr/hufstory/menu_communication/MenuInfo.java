@@ -25,6 +25,11 @@ public class MenuInfo extends Thread{
     private List<Menu> menuList = new ArrayList<>();
     public static boolean menuDownCheck;
 
+    private HCANetworkModule networkModule;
+    public MenuInfo(HCANetworkModule networkModule){
+        this.networkModule = networkModule;
+    }
+
     public void pullMenu(){
         menuDownCheck = false;
         System.out.println("pullMenu Start!!");
@@ -47,7 +52,7 @@ public class MenuInfo extends Thread{
                 serverMenuList = menus;
                 serverToClientMenu();
                 menuDownCheck = true;
-                MenuFragment.s_HCANetworkModule.networkSuccessTrigger();
+                networkModule.networkSuccessTrigger();
             }
 
             @Override
