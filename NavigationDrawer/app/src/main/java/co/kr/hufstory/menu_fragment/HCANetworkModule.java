@@ -31,6 +31,8 @@ public class HCANetworkModule{
         for(String food : contents)
             parseContent += food + "\n";
 
+        parseContent = parseContent.substring(0, parseContent.length() - 1);
+
         return parseContent;
     }
 
