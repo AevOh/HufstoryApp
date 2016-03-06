@@ -17,7 +17,9 @@ public class Caf {
         CAF_MAP.put(15, "석식");
         CAF_MAP.put(21, "일품");
         CAF_MAP.put(31, "조식(한식)");
-        CAF_MAP.put(32, "중식");
-        CAF_MAP.put(33, "석식(한식)");
+        CAF_MAP.put(32, "조식(T/O)");
+        CAF_MAP.put(33, "중식");
+        CAF_MAP.put(34, "석식(한식)");
+        CAF_MAP.put(35, "석식(일품)");
     }
 }

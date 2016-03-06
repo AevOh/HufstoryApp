@@ -15,7 +15,9 @@ public class CafTime {
         CAF_TIME_MAP.put(15, "17:30 ~ 18:30");
         CAF_TIME_MAP.put(21, "10:30 ~ 16:30");
         CAF_TIME_MAP.put(31, "08:00 ~ 09:30");
-        CAF_TIME_MAP.put(32, "12:00 ~ 14:00");
-        CAF_TIME_MAP.put(33, "17:30 ~ 19:00");
+        CAF_TIME_MAP.put(32, "08:00 ~ 09:30");
+        CAF_TIME_MAP.put(33, "12:00 ~ 14:00");
+        CAF_TIME_MAP.put(34, "17:30 ~ 19:00");
+        CAF_TIME_MAP.put(35, "17:30 ~ 19:00");
     }
 }
