@@ -20,21 +20,18 @@ public class HCANetworkModule{
     public HCANetworkModule(MenuFragment.SectionsPagerAdapter sectionsPagerAdapter){
         mSectionsPagerAdapter = sectionsPagerAdapter;
         mDataList = new ArrayList<>();
-        mMenuInfo = new MenuInfo();
+        mMenuInfo = new MenuInfo(this);
         mMenuInfo.pullMenu();
     }
 
-    private void parseDataContents(){
-        String content;
-        for(Menu menu : mDataList){
-            content = menu.getContent();
-            String[] contents = content.split(",");
+    private String parseDataContent(String content){
+        String[] contents = content.split(",");
+        String parseContent = "";
 
-            for(String food : contents)
-                content += food + "\n";
+        for(String food : contents)
+            parseContent += food + "\n";
 
-            menu.setContent(content);
-        }
+        return parseContent;
     }
 
     private List<Menu> getDataSet(int building, int week){
@@ -52,7 +49,7 @@ public class HCANetworkModule{
         List<Menu> dataSet = getDataSet(selectedCafeteria + 1, sectionNumber + 1);
 
         for(Menu menu : dataSet)
-            fragment.addCard(menu.getCaf(), menu.getTime(), String.valueOf(menu.getCost()) ,menu.getContent());
+            fragment.addCard(menu.getCaf(), menu.getTime(), String.valueOf(menu.getCost()) ,parseDataContent(menu.getContent()));
     }
 
     public String getDate(int week){
@@ -66,7 +63,6 @@ public class HCANetworkModule{
 
     public void networkSuccessTrigger(){
         mDataList = mMenuInfo.getMenuList();
-        parseDataContents();
         mSectionsPagerAdapter.refresh();
     }
 }

@@ -49,7 +49,7 @@ public class MenuFragment extends android.app.Fragment {
      * show current selected button
      * value : 0 = welfare, 1 = literary, 2 = dorm
      */
-    public static int s_selected_cafeteria = 0;
+    public static int s_selected_cafeteria;
     public static HCANetworkModule s_HCANetworkModule;
 
     private Button mWelfareButton;
@@ -63,6 +63,7 @@ public class MenuFragment extends android.app.Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        s_selected_cafeteria = 0;
         FragmentActivity fragmentActivity = (FragmentActivity) super.getActivity();
 
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) inflater.inflate(R.layout.activity_menu, container, false);
@@ -137,6 +138,7 @@ public class MenuFragment extends android.app.Fragment {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+            s_HCANetworkModule.getData(fragment, s_selected_cafeteria, sectionNumber - 1);
 
             return fragment;
         }
@@ -145,7 +147,6 @@ public class MenuFragment extends android.app.Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
-            s_HCANetworkModule.getData(this, s_selected_cafeteria, getArguments().getInt(ARG_SECTION_NUMBER) - 1);
 
             mDateTextView = (TextView)rootView.findViewById(R.id.date);
             mDateTextView.setText(s_HCANetworkModule.getDate(getArguments().getInt(ARG_SECTION_NUMBER)));
