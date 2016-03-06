@@ -38,7 +38,7 @@ import java.util.List;
 
 import co.kr.hufstory.R;
 import co.kr.hufstory.login.UserInfo;
-import co.kr.hufstory.menu_communication.MenusNetwork;
+import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
+        MenuInfo menuInfo = new MenuInfo();
+        menuInfo.pullMenu();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mView=(View) findViewById(R.id.left_drawer);
@@ -364,7 +367,6 @@ public class MainActivity extends AppCompatActivity {
             switch(v.getId()) {
                 case R.id.eatmenu:
                     //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
-                    MenusNetwork.pullMenus();
                     sleep(250);
 
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);

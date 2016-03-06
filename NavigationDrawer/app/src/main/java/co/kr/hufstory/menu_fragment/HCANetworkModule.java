@@ -8,7 +8,6 @@ import java.util.List;
 
 import co.kr.hufstory.menu_communication.Menu;
 import co.kr.hufstory.menu_communication.MenuInfo;
-import co.kr.hufstory.menu_communication.MenusNetwork;
 
 /**
  * Created by Hyeong Wook on 2016-02-18.
