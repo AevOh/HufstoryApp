@@ -69,7 +69,7 @@ public class MenuFragment extends android.app.Fragment {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(fragmentActivity.getSupportFragmentManager());
 
-        s_HCANetworkModule = new HCANetworkModule();
+        s_HCANetworkModule = new HCANetworkModule(mSectionsPagerAdapter);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager)coordinatorLayout.findViewById(R.id.container);
@@ -193,7 +193,6 @@ public class MenuFragment extends android.app.Fragment {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 5;
         }
 

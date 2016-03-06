@@ -1,5 +1,6 @@
 package co.kr.hufstory.menu_fragment;
 
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -13,19 +14,15 @@ import co.kr.hufstory.menu_communication.MenusNetwork;
  * Created by Hyeong Wook on 2016-02-18.
  */
 public class HCANetworkModule{
-
-
-    /* 2016.02.26, Aev Oh, 테스트 용으로 수정함. */
     private List<Menu> mDataList;
+    private MenuInfo mMenuInfo;
+    private MenuFragment.SectionsPagerAdapter mSectionsPagerAdapter;
 
-    public HCANetworkModule(){
-        MenuInfo menuInfo = new MenuInfo();
-        if(menuInfo.pullMenu()) {
-            Log.i("success", "good");
-            mDataList = menuInfo.getMenuList();
-            parseDataContents();
-        } else
-            mDataList = new ArrayList<>();
+    public HCANetworkModule(MenuFragment.SectionsPagerAdapter sectionsPagerAdapter){
+        mSectionsPagerAdapter = sectionsPagerAdapter;
+        mDataList = new ArrayList<>();
+        mMenuInfo = new MenuInfo();
+        mMenuInfo.pullMenu();
     }
 
     private void parseDataContents(){
@@ -66,5 +63,11 @@ public class HCANetworkModule{
         }
 
         return "";
+    }
+
+    public void networkSuccessTrigger(){
+        mDataList = mMenuInfo.getMenuList();
+        parseDataContents();
+        mSectionsPagerAdapter.refresh();
     }
 }
