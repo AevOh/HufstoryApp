@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import co.kr.hufstory.menu_fragment.HCANetworkModule;
-import co.kr.hufstory.menu_fragment.MenuFragment;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

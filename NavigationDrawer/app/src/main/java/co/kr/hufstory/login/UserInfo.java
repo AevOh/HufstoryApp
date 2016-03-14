@@ -18,7 +18,8 @@ import java.util.List;
  * Created by Aev Oh on 2016-02-28.
  */
 public class UserInfo {
-    public String USERINFO_URL = "http://hufstory.co.kr/Free/47596";
+    //http://hufstory.co.kr
+    public String USERINFO_URL = "http://hufstory.co.kr/login_check.php";
     public void doUserInfo(){
         System.out.println("UserInfo Created!!");
         new UserInfoTask().execute();
@@ -29,7 +30,6 @@ public class UserInfo {
 
         @Override
         protected String doInBackground(Void... params) {
-            /*
             System.out.println("UserInfoTask doInBackground!!");
             Source source = null;
             String get_data = "";
@@ -43,8 +43,11 @@ public class UserInfo {
             }
 
             try {
+                System.out.println("URL Try: " + url.toString());
                 source = new Source(url);  // 쓰레드를 사용 안하면 여기에서 예외 발생함 그 이유는 아래에서 설명
+                System.out.println("source new!!");
             } catch (IOException e) {
+                System.out.println("e!!!!!!!!!!!");
                 e.printStackTrace();
             }
 
@@ -66,7 +69,6 @@ public class UserInfo {
             for(Object one: array){
                 System.out.println("Test: "+ one);
             }
-             */
 
 
             return null;

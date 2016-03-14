@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.login.LoginInfo;
 import co.kr.hufstory.login.UserInfo;
 import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_fragment.MenuFragment;
@@ -176,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
         /* 2016.02.28, Aev Oh, 회원 정보 갖어오는 클래스 호출 부분. */
         UserInfo userInfo = new UserInfo();
         userInfo.doUserInfo();
+        //LoginInfo loginInfo = new LoginInfo();
+        //loginInfo.pullLogin();
     }
 
     private void mExpListPrepareData(){
