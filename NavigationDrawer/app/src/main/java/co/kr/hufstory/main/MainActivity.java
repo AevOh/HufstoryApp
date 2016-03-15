@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -32,12 +33,20 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.HttpCookie;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.login.LoginInfo;
 import co.kr.hufstory.login.UserInfo;
 import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_fragment.MenuFragment;
@@ -98,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
     /* 2016.02.27, Aev Oh, 자동 업데이트 부분. */
     private MarketVersionChecker mMarketVersionChecker;
     private VersionCheckTread mVersioniCheckThread;
+
+    /* 2016.03.15, Aev Oh, 로그인 정보 부분. */
+    private LoginInfo loginInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
         mVersioniCheckThread.execute();
 
         /* 2016.02.28, Aev Oh, 회원 정보 갖어오는 클래스 호출 부분. */
-        UserInfo userInfo = new UserInfo();
-        userInfo.doUserInfo();
+        loginInfo = new LoginInfo();
+        loginInfo.pullLogin();
     }
 
     private void mExpListPrepareData(){
@@ -389,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                    loginInfo.pullLogin();
                     break;
                 case R.id.setting:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
