@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class UserInfo {
     //http://hufstory.co.kr
-    public String USERINFO_URL = "http://hufstory.co.kr/login_check.php";
+    public String USERINFO_URL = "http://hufstory.co.kr/test.php";
     public void doUserInfo(){
         System.out.println("UserInfo Created!!");
         new UserInfoTask().execute();
