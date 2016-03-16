@@ -117,17 +117,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new CountDownTimer(3000, 1000){
-
-            @Override
-            public void onTick(long millisUntilFinished) {}
-
-            @Override
-            public void onFinish() {
-                MainActivity.this.setContentView(R.layout.activity_main);
-            }
-        }.start();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
