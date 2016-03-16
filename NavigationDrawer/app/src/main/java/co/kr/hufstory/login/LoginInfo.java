@@ -4,7 +4,16 @@ package co.kr.hufstory.login;
  * Created by Aev Oh on 2016-03-12.
  */
 
+import android.webkit.CookieManager;
+
+import java.io.IOException;
+import java.net.HttpCookie;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -17,6 +26,8 @@ public class LoginInfo {
     private List<Login> loginList;
 
     public void pullLogin(){
+        //String strUrl = "http://hufstory.co.kr";
+        //setSession(strUrl);
         System.out.println("Login Info URL: " + LOGIN_INFO_URL);
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(LOGIN_INFO_URL).build();
@@ -38,7 +49,7 @@ public class LoginInfo {
         });
     }
 
-    public void showLoginInfo(){
+    private void showLoginInfo(){
         if(loginList == null)
             System.out.println("로그인 정보가 들어오질 못하였습니다.");
         else if(loginList.get(0).getId() == null || loginList.get(0).getId() == "" ){
@@ -47,6 +58,36 @@ public class LoginInfo {
         else{
             System.out.println("ID: " + loginList.get(0).getId());
             System.out.println("NickName: " + loginList.get(0).getNickname());
+        }
+    }
+
+    public void setSession(String strUrl) {
+        URL url;
+
+        HttpsURLConnection con = null;
+        try {
+            url = new URL(strUrl);
+            con = (HttpsURLConnection) url.openConnection();
+            con.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String COOKIES_HEADER = "Set-Cookie";
+
+
+        Map<String, List<String>> headerFields = con.getHeaderFields();
+        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
+
+        if(cookiesHeader != null) {
+            for (String cookie : cookiesHeader) {
+                String cookieName = HttpCookie.parse(cookie).get(0).getName();
+                String cookieValue = HttpCookie.parse(cookie).get(0).getValue();
+
+                String cookieString = cookieName + "=" + cookieValue;
+
+                CookieManager.getInstance().setCookie(strUrl, cookieString);
+            }
         }
     }
 }

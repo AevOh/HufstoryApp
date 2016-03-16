@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -201,6 +202,26 @@ public class MainActivity extends AppCompatActivity {
         /* 2016.02.28, Aev Oh, 회원 정보 갖어오는 클래스 호출 부분. */
         loginInfo = new LoginInfo();
         loginInfo.pullLogin();
+
+        /* 2016.03.15, Aev Oh, WebView 세션 가져오기. */
+        CookieSyncManager.createInstance(this);
+        CookieSyncManager.getInstance().sync();
+    }
+
+    /* 2016.03.15, Aev Oh, WebView 세션 유지를 위해 추가. */
+    @Override
+    public void onResume(){
+        super.onResume();
+        CookieSyncManager.getInstance().startSync();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (CookieSyncManager.getInstance() != null) {
+            CookieSyncManager.getInstance().stopSync();
+        }
     }
 
     private void mExpListPrepareData(){
