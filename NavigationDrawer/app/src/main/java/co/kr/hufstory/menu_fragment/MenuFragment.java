@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import co.kr.hufstory.R;
@@ -111,6 +112,26 @@ public class MenuFragment extends android.app.Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private int getDayOfWeek(){
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch (day){
+            case Calendar.MONDAY:
+                return 0;
+            case Calendar.TUESDAY:
+                return 1;
+            case Calendar.WEDNESDAY:
+                return 2;
+            case Calendar.THURSDAY:
+                return 3;
+            case Calendar.FRIDAY:
+                return 4;
+            default:
+                return 0;
+        }
     }
 
     /**

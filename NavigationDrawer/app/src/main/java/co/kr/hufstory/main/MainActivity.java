@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mTitle;
 
     /* 2016.02.25 노형욱*/
+    private WebViewManager mWebViewManager;
     private FrameLayout mFrameLayout;
     private LayoutInflater mInflater;
     private View mWebView_view;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mBbangButton;
     private ImageView mMomoButton;
 
-    private boolean onWebView;
+    //private boolean onWebView;
     private boolean onFragment;
 
     private WebFileLoadChromeClient mWebFileLoadChromeClient;
@@ -156,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
         /* 2016.02.25 노형욱 */
         mToolbar = (Toolbar)findViewById(R.id.toolBar);
 
-        mWebView = initialWebView(R.id.webView);
+        //mWebView = initialWebView(R.id.webView);
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
-
-        startWebView(getResources().getString(R.string.main_url));
+        mWebViewManager = new WebViewManager(R.id.webView, this, mFrameLayout);
+        mWebViewManager.startWebView(getResources().getString(R.string.main_url));
 
         mFragmentManager = getFragmentManager();
 
@@ -211,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
         if (CookieSyncManager.getInstance() != null) {
             CookieSyncManager.getInstance().stopSync();
         }
+    }
+
+    public void onWebViewTrigger(){
+        mToolbar.setTitle("Hufstory");
     }
 
     private void mExpListPrepareData(){
@@ -265,48 +270,6 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new ManagingButtonClickedListener());
     }
 
-    private WebView initialWebView(int id){
-        mInflater = LayoutInflater.from(this.getBaseContext());
-        mWebView_view = mInflater.inflate(R.layout.webview, null, false);
-        mWebFileLoadChromeClient = new WebFileLoadChromeClient(this);
-        WebView webView;
-
-        webView = (WebView)mWebView_view.findViewById(id);
-        webView.setWebViewClient(new WebViewClient() {
-            // momo enable calling
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("tel:")) {
-                    Intent calling = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
-                    startActivity(calling);
-                    return true;
-                }
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        webView.setWebChromeClient(mWebFileLoadChromeClient);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-
-        return webView;
-    }
-
-    // 2016.02.26 wook - start webView with url
-    private void startWebView(String url){
-        onFragment = false;
-        onWebView = true;
-
-        mToolbar.setTitle("Hufstory");
-        mFrameLayout.removeView(mWebView);
-        mWebView.loadUrl(url);
-
-        mFrameLayout.addView(mWebView);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -334,42 +297,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void returnLastWebView(){
-        onFragment = false;
-        onWebView = true;
-        mToolbar.setTitle("Hufstory");
-
-        mFrameLayout.addView(mWebView);
-    }
-
-    private void goBackWebViewToHome(WebView webView, FrameLayout layout){
-        onFragment = false;
-        onWebView = true;
-
-        mToolbar.setTitle("Hufstory");
-        layout.removeView(webView);
-
-        while(webView.canGoBack())
-            webView.goBack();
-
-        layout.addView(webView);
-    }
-
-    // 2016.02.26 wook - refactoring
-    public void sleep(int timeMs){
-        try {
-            Thread.sleep(timeMs);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public class ManagingButtonClickedListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.home:
-                    goBackWebViewToHome(mWebView, mFrameLayout);
+                    mWebViewManager.goBackWebViewToHome();
                     break;
 
                 case R.id.exit:
@@ -380,8 +313,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void contentFragmentTransaction(int layoutID, Fragment fragment){
-        onFragment = true;
-        onWebView = false;
+        mWebViewManager.endWebView();
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction
@@ -403,22 +335,22 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    startWebView(getResources().getString(R.string.hubigo_wiki_url));
+                    mWebViewManager.startWebView(getResources().getString(R.string.hubigo_wiki_url));
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
-                    startWebView(getResources().getString(R.string.bbang_url));
+                    mWebViewManager.startWebView(getResources().getString(R.string.bbang_url));
                     break;
                 case R.id.momo:
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
-                    startWebView(getResources().getString(R.string.momo_url));
+                    mWebViewManager.startWebView(getResources().getString(R.string.momo_url));
                     break;
 
                 case R.id.login:
-                    startWebView(getResources().getString(R.string.hufstoy_login));
+                    mWebViewManager.startWebView(getResources().getString(R.string.hufstoy_login));
                     break;
                 case R.id.facebook:
-                    startWebView(getResources().getString(R.string.facebook_url));
+                    mWebViewManager.startWebView(getResources().getString(R.string.facebook_url));
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
@@ -455,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
-            startWebView(mExpListUrlHash.get(childName));
+            mWebViewManager.startWebView(mExpListUrlHash.get(childName));
 
             mDrawerLayout.closeDrawers();
 
@@ -472,9 +404,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if(onWebView || onFragment || doubleBackToExitPressedOnce){
-            if(onWebView) webViewbackAction();
-            else if(onFragment) returnLastWebView();
+        if(mWebViewManager.onWebView() || mWebViewManager.onFragment() || doubleBackToExitPressedOnce){
+            if(mWebViewManager.onWebView()) mWebViewManager.webViewbackAction();
+            else if(mWebViewManager.onFragment()) mWebViewManager.returnLastWebView();
             else if(doubleBackToExitPressedOnce) super.onBackPressed();
 
             return;
@@ -489,15 +421,6 @@ public class MainActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
-    }
-
-    private void webViewbackAction(){
-        if(mWebView.canGoBack())
-            mWebView.goBack();
-        else {
-            onWebView = false;
-            MainActivity.this.onBackPressed();
-        }
     }
 
     /*

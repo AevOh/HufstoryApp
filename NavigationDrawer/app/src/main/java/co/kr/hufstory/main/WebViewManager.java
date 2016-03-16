@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
@@ -18,35 +19,28 @@ import co.kr.hufstory.R;
  * Created by Hyeong Wook on 2016-03-08.
  */
 public class WebViewManager {
-    private AppCompatActivity mActivity;
-    private FrameLayout mFrameLayout;
-    private WebView mWebview;
+    private MainActivity mActivity;
+    private FrameLayout mContainer;
+    private WebView mWebView;
     private LayoutInflater mInflater;
     private View mView;
     private WebFileLoadChromeClient mWebFileLoadChromeClient;
     private boolean mOnWebView;
+    private boolean mOnFragment;
 
-    public WebViewManager(WebView webView, AppCompatActivity mainActivity){
-        mWebview = webView;
+    public WebViewManager(int webViewId, MainActivity mainActivity, FrameLayout webViewContainer){
         mActivity = mainActivity;
-    }
+        mContainer = webViewContainer;
 
-    public boolean launchWebView(){
-        mOnWebView = true;
-        return false; // webView가 띄워짐으로써 꺼지는 것.
-    }
-
-    public boolean onWebView(){
-        return mOnWebView;
+        mWebView = initialWebView(webViewId);
     }
 
     private WebView initialWebView(int id){
         mInflater = LayoutInflater.from(mActivity.getBaseContext());
         mView = mInflater.inflate(R.layout.webview, null, false);
         mWebFileLoadChromeClient = new WebFileLoadChromeClient(mActivity);
-        WebView webView;
 
-        webView = (WebView)mView.findViewById(id);
+        WebView webView = (WebView)mView.findViewById(id);
         webView.setWebViewClient(new WebViewClient() {
             // momo enable calling
             @Override
@@ -68,5 +62,63 @@ public class WebViewManager {
         webView.getSettings().setUseWideViewPort(true);
 
         return webView;
+    }
+
+    public void startWebView(String url){
+        mActivity.onWebViewTrigger();
+        mOnWebView = true;
+        mOnFragment = false;
+
+        mContainer.removeView(mWebView);
+        mWebView.loadUrl(url);
+
+        mContainer.addView(mWebView);
+
+    }
+
+    public void endWebView(){
+        mOnWebView = false;
+        mOnFragment = true;
+
+        mContainer.removeView(mWebView);
+    }
+
+    public void returnLastWebView(){
+        mOnWebView = true;
+        mOnFragment = false;
+
+        mActivity.onWebViewTrigger();
+        mContainer.removeView(mWebView);
+        mContainer.addView(mWebView);
+    }
+
+    public void goBackWebViewToHome(){
+        mOnWebView = true;
+        mOnFragment = false;
+
+        mActivity.onWebViewTrigger();
+        mContainer.removeView(mWebView);
+
+        while(mWebView.canGoBack())
+            mWebView.goBack();
+
+        mContainer.addView(mWebView);
+    }
+
+    public void webViewbackAction(){
+        if(mWebView.canGoBack())
+            mWebView.goBack();
+        else {
+            mOnWebView = false;
+            mActivity.onBackPressed();
+        }
+    }
+
+    public boolean onWebView(){
+        return mOnWebView;
+    }
+
+    public boolean onFragment(){
+        return mOnFragment;
     }
 }
