@@ -14,17 +14,15 @@
     <string-array name="board">
         <item>공지사항</item>
         <item>자유게시판</item>
+        <item>익명게시판</item>
         <item>외대 갤러리</item>
-        <item>동아리 게시판</item>
-        <item>분실물 게시판</item>
         <item>공모전 및 대외활동</item>
     </string-array>
     <string-array name="board_url">
         <item>http://hufstory.co.kr/Notice</item>
         <item>http://hufstory.co.kr/Free</item>
+        <item>http://hufstory.co.kr/Anonymous_board</item>
         <item>http://hufstory.co.kr/Gallery</item>
-        <item>http://hufstory.co.kr/Club_board</item>
-        <item>http://hufstory.co.kr/Missing</item>
         <item>http://hufstory.co.kr/International_activity</item>
     </string-array>
 
@@ -50,14 +48,12 @@
 
     <string-array name="school">
         <item>Hufs Dorm</item>
-        <item>기숙사 게시판</item>
         <item>경력개발센터</item>
         <item>취업 정보 게시판</item>
         <item>교내일정</item>
     </string-array>
     <string-array name="school_url">
         <item>http://builder.hufs.ac.kr/user/mhdorm2/</item>
-        <item>http://hufstory.co.kr/Dorm_board</item>
         <item>http://job.hufs.ac.kr</item>
         <item>http://hufstory.co.kr/Job_board</item>
         <item>http://hufstory.co.kr/Schedule</item>

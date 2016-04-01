@@ -17,7 +17,7 @@ import retrofit.client.Response;
 // 2016.03.03, Aev Oh, 수신 받는 값 예시: [{"building":"2","caf": "0", "time": "11:30 ~ 14:30", "cost":"2000","content":"db,c,s,a","mon":"3","day":"1"}]
 public class MenuInfo extends Thread{
 
-    //http://hufstory.co.kr/cert/public/menu?start_date=7&end_date=12&mon=3
+    //http://hufstory.co.kr/cert/public/menu?start_date=7&end_date=12&mon=3&year=16
     private static final String MENU_URL = "http://hufstory.co.kr/cert/public/menu?";
 
     private List<ServerMenu> serverMenuList;
@@ -29,18 +29,22 @@ public class MenuInfo extends Thread{
         this.networkModule = networkModule;
     }
 
+    private int start_date;
+    private int end_date;
+    private int start_month;
+    private int year;
     public void pullMenu(){
         menuDownCheck = false;
         System.out.println("pullMenu Start!!");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        int start_date = calendar.get(Calendar.DATE);
-        int end_date = calendar.get(Calendar.DATE) + 6;
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR)%100;
+        start_date = calendar.get(Calendar.DATE);
+        end_date = calendar.get(Calendar.DATE) + 4;
+        start_month = calendar.get(Calendar.MONTH) + 1;
+        year = calendar.get(Calendar.YEAR)%100;
 
-        System.out.println("URL: "+MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+ month+"&year="+year);
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+month+"&year="+year).build();
+        System.out.println("URL: "+MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+ start_month+"&year="+year);
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+start_month+"&year="+year).build();
         MenusAPI api = adapter.create(MenusAPI.class);
 
         api.getMenus(new Callback<List<ServerMenu>>() {
@@ -51,7 +55,10 @@ public class MenuInfo extends Thread{
                 serverMenuList = menus;
                 serverToClientMenu();
                 menuDownCheck = true;
-                networkModule.networkSuccessTrigger();
+
+                /* 2016.04.01, Jun Young Oh, 다음 달 정보 갖어오는 함수 호출. */
+                getNextMonthData(start_month, start_date, end_date, year);
+                //networkModule.networkSuccessTrigger();
             }
 
             @Override
@@ -61,6 +68,8 @@ public class MenuInfo extends Thread{
                 menuDownCheck = false;
             }
         });
+
+
 
         System.out.println("pullMenu End!!");
     }
@@ -127,6 +136,40 @@ public class MenuInfo extends Thread{
 
     public List<Menu> getMenuList(){
         return menuList;
+    }
+
+    /* 2016.04.01, Jun Young Oh, 다음 달 식단 정보 */
+    private void getNextMonthData(int start_month, int start_date, int end_date, int year){
+        int last_day_of_month = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        System.out.println("last_day_of_month: " + last_day_of_month);
+        if(end_date >= last_day_of_month){
+            start_month = start_month + 1;
+            start_date = 1;
+            end_date = end_date - last_day_of_month + 1;
+
+            System.out.println("URL: "+MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+ start_month+"&year="+year);
+            RestAdapter next_adapter = new RestAdapter.Builder().setEndpoint(MENU_URL+"start_date="+start_date+"&end_date="+ end_date+"&mon="+start_month+"&year="+year).build();
+            MenusAPI next_api = next_adapter.create(MenusAPI.class);
+
+            next_api.getMenus(new Callback<List<ServerMenu>>() {
+
+                @Override
+                public void success(List<ServerMenu> menus, Response response) {
+                    System.out.println("next_api.getMenus Success!!");
+                    serverMenuList = menus;
+                    serverToClientMenu();
+                    menuDownCheck = true;
+                    networkModule.networkSuccessTrigger();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    System.out.println("Failure!!");
+                    System.out.println("error :" + error);
+                    menuDownCheck = false;
+                }
+            });
+        }
     }
 }
 
