@@ -170,6 +170,10 @@ public class MenuInfo extends Thread{
                 }
             });
         }
+        else{
+            menuDownCheck = true;
+            networkModule.networkSuccessTrigger();
+        }
     }
 }
 
