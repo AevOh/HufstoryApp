@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity"></activity>
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
     //2016.02.11, Aev Oh, Retrofit을 사용하기 위해 추가. 인터넷 사용 권한 설정.

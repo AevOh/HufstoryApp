@@ -14,7 +14,7 @@
     <string-array name="board">
         <item>공지사항</item>
         <item>자유게시판</item>
-        <item>익명게시판</item>
+        <item>야생</item>
         <item>외대 갤러리</item>
         <item>공모전 및 대외활동</item>
     </string-array>
