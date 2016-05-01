@@ -34,7 +34,7 @@
         <item>http://hufstory.co.kr/Club_info</item>
         <item>http://hufstory.co.kr/Delicousor_board</item>
     </string-array>
-    
+
     <string-array name="life_info">
         <item>중고시장</item>
         <item>주거정보</item>
@@ -88,4 +88,7 @@
         <item>http://mlibrary.hufs.ac.kr/</item>
         <item>http://builder.hufs.ac.kr/user/indexSub.action?codyMenuSeq=61743429&amp;siteId=hufs&amp;menuType=T&amp;uId=4&amp;sortChar=AE&amp;linkUrl=office365.html&amp;mainFrame=right</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

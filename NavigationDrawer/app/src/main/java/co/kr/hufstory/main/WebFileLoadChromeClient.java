@@ -32,6 +32,7 @@ public class WebFileLoadChromeClient extends WebChromeClient {
         Log.i("fileChoose", "2.2");
         mUploadMsg = uploadMsg;
         startFileOpeningIntent(mActivity);
+        mUploadMsg = uploadMsg;
      }
 
     // VERSION 3.0+
@@ -48,6 +49,7 @@ public class WebFileLoadChromeClient extends WebChromeClient {
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams){
         mFilePathCallback = filePathCallback;
         startFileOpeningIntent(mActivity, fileChooserParams);
+        mFilePathCallback = filePathCallback;
         return true;
     }
 
