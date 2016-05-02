@@ -24,7 +24,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-
     //2016.02.25, Aev Oh, Retrofit을 사용하기 위해 추가.
     //2016.02.27, Aev Oh, Jsoup: 웹 페이지 파싱 라이브러리.
     //2016.03.03, Aev Oh, jericho: HTML 파싱 라이브러리.

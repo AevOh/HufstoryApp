@@ -9,10 +9,11 @@ public class HubigoSimpleNode {
     private String mProfessor;
     private String mMajor;
     private String mRecentEvaluation;
-    private boolean mGradeSatisfaction;
-    private boolean mContentSatisfaction;
+    private float mGradeSatisfaction;
+    private float mContentSatisfaction;
 
-    public HubigoSimpleNode(int id, String lecture, String professor, String major, String recentEvaluation, boolean gradeSatisfaction, boolean contentSatisfaction){
+    public HubigoSimpleNode(int id, String lecture, String professor, String major, String recentEvaluation,
+                            float gradeSatisfaction, float contentSatisfaction){
         mId = id;
         mLecture = lecture;
         mProfessor = professor;
@@ -34,7 +35,7 @@ public class HubigoSimpleNode {
         return mProfessor;
     }
 
-    public String getmMajor(){
+    public String getMajor(){
         return mMajor;
     }
 
@@ -42,11 +43,11 @@ public class HubigoSimpleNode {
         return mRecentEvaluation;
     }
 
-    public boolean getGradeSatisfaction(){
+    public float getGradeSatisfaction(){
         return mGradeSatisfaction;
     }
 
-    public boolean getContentSatisfaction(){
+    public float getContentSatisfaction(){
         return mContentSatisfaction;
     }
 }

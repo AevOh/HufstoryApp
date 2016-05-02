@@ -47,6 +47,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.hubigo_fragment.HubigoFragment;
 import co.kr.hufstory.login.LoginInfo;
 import co.kr.hufstory.login.UserInfo;
 import co.kr.hufstory.menu_communication.MenuInfo;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MenuFragment mMenuFragment;
     // private bbangFragment mBBangFragment;
-    // private hubigoFragment mHubigoFragment;
+    private HubigoFragment mHubigoFragment;
     // private momoFragment mMOMOFragment;
 
     private Toolbar mToolbar;
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getFragmentManager();
 
         mMenuFragment = new MenuFragment();
+        mHubigoFragment = new HubigoFragment();
 
         mMainButtonList = new ArrayList<>();
 
@@ -335,8 +337,8 @@ public class MainActivity extends AppCompatActivity {
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);
                     break;
                 case R.id.hubigo:
-                    //contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    mWebViewManager.startWebView(getResources().getString(R.string.hubigo_wiki_url));
+                    contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
+                    //mWebViewManager.startWebView(getResources().getString(R.string.hubigo_wiki_url));
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);

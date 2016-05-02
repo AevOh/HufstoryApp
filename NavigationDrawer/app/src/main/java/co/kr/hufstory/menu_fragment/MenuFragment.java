@@ -175,7 +175,7 @@ public class MenuFragment extends android.app.Fragment {
             mLinearLayoutManager = new LinearLayoutManager(getActivity());
             mRCAdapter = new RCAdapter(mCardInfoList);
 
-            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.cardList);
+            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.hubigoSimpleNodeList);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
             mRecyclerView.setAdapter(mRCAdapter);
 
