@@ -19,6 +19,7 @@
             android:layout_width="45dp"
             android:layout_height="50dp"
             android:id="@+id/hubigo"
+            android:tag="후비고"
             android:src="@drawable/hubigoicon"/>
         <TextView
             android:layout_width="45dp"

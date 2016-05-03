@@ -23,7 +23,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="34dp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"/>
             <ImageView
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"

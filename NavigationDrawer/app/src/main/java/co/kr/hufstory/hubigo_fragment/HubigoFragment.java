@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,16 @@ public class HubigoFragment extends Fragment implements  HubigoView {
         View rootView = inflater.inflate(R.layout.fragment_hubigo, container, false);
 
         mSearchBar = (EditText)rootView.findViewById(R.id.search_bar);
+        mSearchBar.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER) {
+                    mPresenter.loadSimpleNodes();
+                    return true;
+                }
+                return false;
+            }
+        });
         mSearchButton = (ImageView)rootView.findViewById(R.id.search_button);
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +88,7 @@ public class HubigoFragment extends Fragment implements  HubigoView {
             }
         });
 
-        mRHAdapter = RHAdapter.getInstance();
+        mRHAdapter = new RHAdapter(mPresenter);
 
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.hubigoSimpleNodeList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -109,18 +120,11 @@ public class HubigoFragment extends Fragment implements  HubigoView {
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{
         private List<HubigoSimpleNode> mDataList;
+        private HubigoPresenter mPresenter;
 
-        static private RHAdapter mInstance = null;
-
-        static public RHAdapter getInstance(){
-            if(mInstance == null)
-                mInstance = new RHAdapter((List)new ArrayList<>());
-
-            return mInstance;
-        }
-
-        private RHAdapter(List<HubigoSimpleNode> dataList){
-            mDataList = dataList;
+        public RHAdapter(HubigoPresenter presenter){
+            mDataList = new ArrayList<>();
+            mPresenter = presenter;
         }
 
         public void dataSetChange(List<HubigoSimpleNode> dataList){
@@ -145,13 +149,21 @@ public class HubigoFragment extends Fragment implements  HubigoView {
 
         @Override
         public void onBindViewHolder(HubigoNodeViewHolder holder, int position) {
-            HubigoSimpleNode nodeInfo = mDataList.get(position);
+            final HubigoSimpleNode nodeInfo = mDataList.get(position);
+
             holder.mLecture.setText(nodeInfo.getLecture());
             holder.mProfessor.setText(nodeInfo.getProfessor());
             holder.mMajor.setText(nodeInfo.getMajor());
             holder.mRecentEvaluation.setText(nodeInfo.getRecentEvaluation());
             holder.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction());
             holder.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction());
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.loadDetailNode(nodeInfo.getId());
+                }
+            });
         }
 
         @Override
@@ -160,6 +172,7 @@ public class HubigoFragment extends Fragment implements  HubigoView {
         }
 
         public class HubigoNodeViewHolder extends RecyclerView.ViewHolder{
+            protected View mView;
             protected TextView mLecture;
             protected TextView mProfessor;
             protected TextView mMajor;
@@ -169,6 +182,7 @@ public class HubigoFragment extends Fragment implements  HubigoView {
 
             public HubigoNodeViewHolder(View v){
                 super(v);
+                mView = v;
                 mLecture = (TextView) v.findViewById(R.id.lecture);
                 mProfessor = (TextView) v.findViewById(R.id.professor);
                 mMajor = (TextView) v.findViewById(R.id.major);
