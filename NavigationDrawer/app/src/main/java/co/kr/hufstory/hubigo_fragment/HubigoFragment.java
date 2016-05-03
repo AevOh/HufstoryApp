@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -38,6 +41,9 @@ public class HubigoFragment extends Fragment implements  HubigoView {
     private RHAdapter mRHAdapter;
     private RecyclerView mRecyclerView;
 
+    private EditText mSearchBar;
+    private ImageView mSearchButton;
+
     public HubigoFragment() {
         // Required empty public constructor
     }
@@ -62,6 +68,15 @@ public class HubigoFragment extends Fragment implements  HubigoView {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hubigo, container, false);
 
+        mSearchBar = (EditText)rootView.findViewById(R.id.search_bar);
+        mSearchButton = (ImageView)rootView.findViewById(R.id.search_button);
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.loadSimpleNodes();
+            }
+        });
+
         mRHAdapter = RHAdapter.getInstance();
 
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.hubigoSimpleNodeList);
@@ -81,6 +96,10 @@ public class HubigoFragment extends Fragment implements  HubigoView {
     @Override
     public void showSimpleNodeList(List<HubigoSimpleNode> nodeList) {
         mRHAdapter.dataSetChange(nodeList);
+        mSearchBar.clearFocus();
+
+        InputMethodManager imm= (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mSearchBar.getWindowToken(), 0);
     }
 
     @Override

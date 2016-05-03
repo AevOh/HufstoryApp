@@ -172,10 +172,10 @@ public class MenuFragment extends android.app.Fragment {
             mDateTextView = (TextView)rootView.findViewById(R.id.date);
             mDateTextView.setText(s_HCANetworkModule.getDate(getArguments().getInt(ARG_SECTION_NUMBER)));
 
-            mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            mLinearLayoutManager = new LinearLayoutManager(getContext());
             mRCAdapter = new RCAdapter(mCardInfoList);
 
-            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.hubigoSimpleNodeList);
+            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.cardList);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
             mRecyclerView.setAdapter(mRCAdapter);
 
