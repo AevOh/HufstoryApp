@@ -17,4 +17,5 @@ public interface MenusAPI {
     //동기적 방식
     @GET("/")
     List<ServerMenu> getMenus();
+
 }

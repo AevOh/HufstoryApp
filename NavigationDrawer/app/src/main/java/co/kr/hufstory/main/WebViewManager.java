@@ -1,17 +1,12 @@
 package co.kr.hufstory.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-
-import java.util.zip.Inflater;
 
 import co.kr.hufstory.R;
 
@@ -24,7 +19,7 @@ public class WebViewManager {
     private WebView mWebView;
     private LayoutInflater mInflater;
     private View mView;
-    private WebFileLoadChromeClient mWebFileLoadChromeClient;
+    private WebChromeFileLoadClient mWebChromeFileLoadClient;
     private boolean mOnWebView;
     private boolean mOnFragment;
 
@@ -38,7 +33,7 @@ public class WebViewManager {
     private WebView initialWebView(int id){
         mInflater = LayoutInflater.from(mActivity.getBaseContext());
         mView = mInflater.inflate(R.layout.webview, null, false);
-        mWebFileLoadChromeClient = new WebFileLoadChromeClient(mActivity);
+        mWebChromeFileLoadClient = new WebChromeFileLoadClient(mActivity);
 
         WebView webView = (WebView)mView.findViewById(id);
         webView.setWebViewClient(new WebViewClient() {
@@ -54,7 +49,7 @@ public class WebViewManager {
                 return true;
             }
         });
-        webView.setWebChromeClient(mWebFileLoadChromeClient);
+        webView.setWebChromeClient(mWebChromeFileLoadClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setSupportZoom(true);
@@ -120,5 +115,9 @@ public class WebViewManager {
 
     public boolean onFragment(){
         return mOnFragment;
+    }
+
+    public WebView getWebView(){
+        return mWebView;
     }
 }

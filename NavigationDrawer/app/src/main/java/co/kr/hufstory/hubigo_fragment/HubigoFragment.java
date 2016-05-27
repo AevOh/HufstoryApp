@@ -1,14 +1,11 @@
 package co.kr.hufstory.hubigo_fragment;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
 import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +50,8 @@ public class HubigoFragment extends Fragment implements  HubigoView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.i("cookie", getArguments().getString("cookie"));
+
         mPresenter = new HubigoPresenter();
         mPresenter.attachView(this);
     }
@@ -94,7 +93,8 @@ public class HubigoFragment extends Fragment implements  HubigoView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRHAdapter);
 
-        mPresenter.loadSimpleNodes();
+        //mPresenter.loadSimpleNodes();
+        mPresenter.loadRecentLectures();
 
         return rootView;
     }

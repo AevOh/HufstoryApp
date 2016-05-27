@@ -56,7 +56,7 @@ public class MenuInfo extends Thread{
                 serverToClientMenu();
                 menuDownCheck = true;
 
-                /* 2016.04.01, Jun Young Oh, 다음 달 정보 갖어오는 함수 호출. */
+                /* 2016.04.01, Jun Young Oh, 다음 달 정보 가져오는 함수 호출. */
                 getNextMonthData(start_month, start_date, end_date, year);
                 //networkModule.networkSuccessTrigger();
             }

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,32 +24,20 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.HttpCookie;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import co.kr.hufstory.R;
 import co.kr.hufstory.hubigo_fragment.HubigoFragment;
 import co.kr.hufstory.login.LoginInfo;
-import co.kr.hufstory.login.UserInfo;
-import co.kr.hufstory.menu_communication.MenuInfo;
 import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
@@ -73,11 +60,6 @@ public class MainActivity extends AppCompatActivity {
     /* 2016.02.25 노형욱*/
     private WebViewManager mWebViewManager;
     private FrameLayout mFrameLayout;
-    private LayoutInflater mInflater;
-    private View mWebView_view;
-    private WebView mWebView;
-    private ValueCallback<Uri> mUploadMsg;
-    private ValueCallback<Uri[]> mFilePathCallback;
 
     private FragmentManager mFragmentManager;
 
@@ -97,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     //private boolean onWebView;
     private boolean onFragment;
 
-    private WebFileLoadChromeClient mWebFileLoadChromeClient;
+    private WebChromeFileLoadClient mWebChromeFileLoadClient;
 
     /*2016.02.25 00:10 yuri*/
     private ImageView mHomeButton;
@@ -284,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
     // webview에서 파일 업로드시 업로드 결과를 받는 메서드
     private void getUploadedRCFile(int resultCode, Intent data){
         Uri result = null;
-        ValueCallback<Uri> uploadMsg = mWebFileLoadChromeClient.getUploadMsg();
-        ValueCallback<Uri[]> filePathCallback = mWebFileLoadChromeClient.getFilePathCallback();
+        ValueCallback<Uri> uploadMsg = mWebChromeFileLoadClient.getUploadMsg();
+        ValueCallback<Uri[]> filePathCallback = mWebChromeFileLoadClient.getFilePathCallback();
 
         if (data != null || resultCode == RESULT_OK)
             result = data.getData();
@@ -295,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
             uploadMsg = null;
 
         } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && filePathCallback != null){
-            filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            filePathCallback.onReceiveValue(android.webkit.WebChromeClient.FileChooserParams.parseResult(resultCode, data));
             filePathCallback = null;
         }
     }
@@ -324,7 +306,12 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
+    private void setFragmentArg(Fragment fragment, String key, String value){
+        if(fragment.getArguments() == null)
+            fragment.setArguments(new Bundle());
 
+        fragment.getArguments().putString(key, value);
+    }
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -337,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);
                     break;
                 case R.id.hubigo:
+                    setFragmentArg(mHubigoFragment , "cookie", CookieManager.getInstance().getCookie(mWebViewManager.getWebView().getUrl()));
                     contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
                     //mWebViewManager.startWebView(getResources().getString(R.string.hubigo_wiki_url));
                     break;
@@ -371,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < mMainButtonList.size(); i++)
                 mMainButtonList.get(i).setSelected(false);
 
-            mFrameLayout.removeView(mWebView);
+            mFrameLayout.removeView(mWebViewManager.getWebView());
 
             v.setSelected(true);
         }

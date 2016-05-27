@@ -17,13 +17,13 @@ import java.nio.channels.FileLockInterruptionException;
 /**
  * Created by Hyeong Wook on 2016-03-03.
  */
-public class WebFileLoadChromeClient extends WebChromeClient {
+public class WebChromeFileLoadClient extends android.webkit.WebChromeClient {
     private AppCompatActivity mActivity;
     private ValueCallback<Uri> mUploadMsg;
     private ValueCallback<Uri[]> mFilePathCallback;
 
     // activity require
-    public WebFileLoadChromeClient(AppCompatActivity activity){
+    public WebChromeFileLoadClient(AppCompatActivity activity){
         mActivity = activity;
     }
 
@@ -46,7 +46,7 @@ public class WebFileLoadChromeClient extends WebChromeClient {
     }
 
     // VERSION 5.0+
-    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams){
+    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, android.webkit.WebChromeClient.FileChooserParams fileChooserParams){
         mFilePathCallback = filePathCallback;
         startFileOpeningIntent(mActivity, fileChooserParams);
         mFilePathCallback = filePathCallback;
@@ -62,7 +62,7 @@ public class WebFileLoadChromeClient extends WebChromeClient {
     }
 
     // more API 21
-    private void startFileOpeningIntent(AppCompatActivity activity, WebChromeClient.FileChooserParams fileChooserParams){
+    private void startFileOpeningIntent(AppCompatActivity activity, android.webkit.WebChromeClient.FileChooserParams fileChooserParams){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             try {
                 Intent intent = fileChooserParams.createIntent();
