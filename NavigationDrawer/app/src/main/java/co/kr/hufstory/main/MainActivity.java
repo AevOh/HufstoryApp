@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private HubigoFragment mHubigoFragment;
     // private momoFragment mMOMOFragment;
 
+    private HufstoryFragment mCurrentFragment;
+
     private Toolbar mToolbar;
 
     private List<View> mMainButtonList;
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getFragmentManager();
 
         mMenuFragment = new MenuFragment();
-        mHubigoFragment = new HubigoFragment();
+        mHubigoFragment = new HubigoFragment(this);
 
         mMainButtonList = new ArrayList<>();
 
@@ -239,6 +241,14 @@ public class MainActivity extends AppCompatActivity {
         addUrlHash(hotLink, Arrays.asList(getResources().getStringArray(R.array.hotlink_url)));
     }
 
+    public WebViewManager getWebViewManager(){
+        return mWebViewManager;
+    }
+
+    public HubigoFragment getHubigoFragment(){
+        return mHubigoFragment;
+    }
+
     private void addUrlHash(List<String> keyList, List<String> valueList){
         for(int i = 0; i < keyList.size(); i++)
             mExpListUrlHash.put(keyList.get(i), valueList.get(i));
@@ -297,21 +307,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void contentFragmentTransaction(int layoutID, Fragment fragment){
+    public void contentFragmentTransaction(int layoutID, HufstoryFragment fragment){
         mWebViewManager.endWebView();
+        mCurrentFragment = fragment;
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
         fragmentTransaction
                 .replace(layoutID, fragment)
                 .addToBackStack(null)
                 .commit();
     }
-    private void setFragmentArg(Fragment fragment, String key, String value){
-        if(fragment.getArguments() == null)
-            fragment.setArguments(new Bundle());
 
-        fragment.getArguments().putString(key, value);
-    }
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -324,9 +331,9 @@ public class MainActivity extends AppCompatActivity {
                     contentFragmentTransaction(R.id.content_frame, mMenuFragment);
                     break;
                 case R.id.hubigo:
-                    setFragmentArg(mHubigoFragment , "cookie", CookieManager.getInstance().getCookie(mWebViewManager.getWebView().getUrl()));
                     contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
-                    //mWebViewManager.startWebView(getResources().getString(R.string.hubigo_wiki_url));
+                    mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(mWebViewManager.getWebView().getUrl()));
+
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
@@ -397,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mWebViewManager.onWebView() || mWebViewManager.onFragment() || doubleBackToExitPressedOnce){
             if(mWebViewManager.onWebView()) mWebViewManager.webViewbackAction();
-            else if(mWebViewManager.onFragment()) mWebViewManager.returnLastWebView();
+            else if(mWebViewManager.onFragment()) mCurrentFragment.backKeyAction(this);
             else if(doubleBackToExitPressedOnce) super.onBackPressed();
 
             return;

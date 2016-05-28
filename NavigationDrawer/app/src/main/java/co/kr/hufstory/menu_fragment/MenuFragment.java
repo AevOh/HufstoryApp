@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,8 +27,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.main.HufstoryFragment;
+import co.kr.hufstory.main.MainActivity;
+import co.kr.hufstory.main.WebViewManager;
 
-public class MenuFragment extends android.app.Fragment {
+public class MenuFragment extends HufstoryFragment {
     /**
      * 노형욱, 2016.02.20
      */

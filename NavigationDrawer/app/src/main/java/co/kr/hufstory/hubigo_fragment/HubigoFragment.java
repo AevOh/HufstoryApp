@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.main.HufstoryFragment;
+import co.kr.hufstory.main.MainActivity;
 
 
 /**
@@ -34,7 +37,8 @@ import co.kr.hufstory.R;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class HubigoFragment extends Fragment implements  HubigoView {
+public class HubigoFragment extends HufstoryFragment implements  HubigoView {
+    private MainActivity mActivity;
     private HubigoPresenter mPresenter;
     private RHAdapter mRHAdapter;
     private RecyclerView mRecyclerView;
@@ -42,18 +46,17 @@ public class HubigoFragment extends Fragment implements  HubigoView {
     private EditText mSearchBar;
     private ImageView mSearchButton;
 
-    public HubigoFragment() {
+    public HubigoFragment(MainActivity activity) {
         // Required empty public constructor
+        mActivity = activity;
+
+        mPresenter = new HubigoPresenter();
+        mPresenter.attachView(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.i("cookie", getArguments().getString("cookie"));
-
-        mPresenter = new HubigoPresenter();
-        mPresenter.attachView(this);
     }
 
     @Override
@@ -93,8 +96,7 @@ public class HubigoFragment extends Fragment implements  HubigoView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRHAdapter);
 
-        //mPresenter.loadSimpleNodes();
-        mPresenter.loadRecentLectures();
+        mPresenter.loadSimpleNodes();
 
         return rootView;
     }
@@ -116,6 +118,20 @@ public class HubigoFragment extends Fragment implements  HubigoView {
     @Override
     public void showDetailNode() {
 
+    }
+
+    @Override
+    public void showErrorToast(String message){
+        Toast.makeText(getActivity().getBaseContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void close(){
+        this.backKeyAction(mActivity);
+    }
+
+    public void cookieChange(String cookies){
+        mPresenter.userInfoChange(cookies);
     }
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{

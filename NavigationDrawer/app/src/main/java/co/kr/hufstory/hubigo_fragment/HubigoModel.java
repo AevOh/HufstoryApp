@@ -18,9 +18,7 @@ public class HubigoModel {
     static private HubigoModel hubigoInstance = null;
 
     private List<HubigoSimpleNode> mMainNodeList;
-    private String mUserId;
-    private String mUserNickName;
-    private boolean isAdmin = false;
+    private UserInfo mUserInfo;
 
     static public HubigoModel getInstance(){
         if(hubigoInstance == null)
@@ -52,4 +50,12 @@ public class HubigoModel {
     public void setMainNodeList(List<HubigoSimpleNode> mainNodeList){
         mMainNodeList = mainNodeList;
     }
+
+    public UserInfo getUserInfo(){
+        return mUserInfo;
+    }
+    public void setUserInfo(UserInfo userInfo){
+        mUserInfo = userInfo;
+    }
+
 }

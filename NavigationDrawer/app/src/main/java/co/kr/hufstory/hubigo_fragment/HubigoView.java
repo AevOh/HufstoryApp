@@ -10,4 +10,8 @@ public interface HubigoView extends MvpView {
     void showSimpleNodeList(List<HubigoSimpleNode> nodeList);
 
     void showDetailNode();
+
+    void showErrorToast(String message);
+
+    void close();
 }
