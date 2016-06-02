@@ -1,6 +1,7 @@
 package co.kr.hufstory.hubigo_fragment;
 
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,7 +33,11 @@ public class DetailNodeFragment extends HufstoryFragment {
 
     @Override
     public void backKeyAction(MainActivity activity){
-        activity.contentFragmentTransaction(R.id.content_frame, activity.getHubigoFragment());
+        activity.contentFragmentTransaction(R.id.content_frame, activity.getHubigoFragment(), R.anim.fade_in, R.anim.no_animation);
+    }
+
+    public void dataChange(){
+
     }
 
 }

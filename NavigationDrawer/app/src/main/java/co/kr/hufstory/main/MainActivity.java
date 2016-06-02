@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,6 +44,7 @@ import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
     public static final int S_RC_FILE_CHOOSE = 2833;
+    public static final int FRAGMENT_LAYOUT = R.id.content_frame;
 
     private DrawerLayout mDrawerLayout;
     private View mView;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private HufstoryFragment mCurrentFragment;
 
     private Toolbar mToolbar;
+    private CoordinatorLayout mToolbarLayout;
 
     private List<View> mMainButtonList;
     private ImageView mEatMenuButton;
@@ -114,13 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             public void onDrawerClosed(View view){
                 super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
-                // getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
         };
@@ -142,8 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* 2016.02.25 노형욱 */
         mToolbar = (Toolbar)findViewById(R.id.toolBar);
-
-        //mWebView = initialWebView(R.id.webView);
+        mToolbarLayout = (CoordinatorLayout)findViewById(R.id.toolbarLayout);
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
         mWebViewManager = new WebViewManager(R.id.webView, this, mFrameLayout);
@@ -152,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getFragmentManager();
 
         mMenuFragment = new MenuFragment();
-        mHubigoFragment = new HubigoFragment(this);
+        mHubigoFragment = new HubigoFragment();
+        mHubigoFragment.attachActivity(this);
 
         mMainButtonList = new ArrayList<>();
 
@@ -241,6 +242,10 @@ public class MainActivity extends AppCompatActivity {
         addUrlHash(hotLink, Arrays.asList(getResources().getStringArray(R.array.hotlink_url)));
     }
 
+    public Toolbar getToolbar(){
+        return mToolbar;
+    }
+
     public WebViewManager getWebViewManager(){
         return mWebViewManager;
     }
@@ -308,10 +313,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void contentFragmentTransaction(int layoutID, HufstoryFragment fragment){
+        contentFragmentTransaction(layoutID, fragment, R.anim.no_animation, R.anim.no_animation);
+    }
+
+    public void contentFragmentTransaction(int layoutID, HufstoryFragment fragment, int startAnimation, int endAnimation){
         mWebViewManager.endWebView();
         mCurrentFragment = fragment;
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(startAnimation, endAnimation);
 
         fragmentTransaction
                 .replace(layoutID, fragment)
@@ -328,12 +338,12 @@ public class MainActivity extends AppCompatActivity {
             switch(v.getId()) {
                 case R.id.eatmenu:
                     //2016.02.26, Aev Oh, 식단표 누르고 월요일에 바로 정보가 안오는 문제 해결.
-                    contentFragmentTransaction(R.id.content_frame, mMenuFragment);
+                    contentFragmentTransaction(FRAGMENT_LAYOUT, mMenuFragment);
                     break;
                 case R.id.hubigo:
-                    contentFragmentTransaction(R.id.content_frame, mHubigoFragment);
+                    contentFragmentTransaction(FRAGMENT_LAYOUT, mHubigoFragment);
                     mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(mWebViewManager.getWebView().getUrl()));
-
+                    mHubigoFragment.showToolbarButtons();
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
@@ -367,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
                 mMainButtonList.get(i).setSelected(false);
 
             mFrameLayout.removeView(mWebViewManager.getWebView());
+            mToolbarLayout.removeAllViews();
 
             v.setSelected(true);
         }

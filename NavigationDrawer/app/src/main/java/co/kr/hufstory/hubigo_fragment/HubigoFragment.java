@@ -1,18 +1,24 @@
 package co.kr.hufstory.hubigo_fragment;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,16 +45,20 @@ import co.kr.hufstory.main.MainActivity;
  */
 public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     private MainActivity mActivity;
+    private DetailNodeFragment mDetailFragment;
+
     private HubigoPresenter mPresenter;
     private RHAdapter mRHAdapter;
     private RecyclerView mRecyclerView;
 
+    private View mUserButtonView;
+    private CoordinatorLayout mToolbarLayout;
+    private ImageButton mStatusButton;
     private EditText mSearchBar;
     private ImageView mSearchButton;
 
-    public HubigoFragment(MainActivity activity) {
-        // Required empty public constructor
-        mActivity = activity;
+    public HubigoFragment() {
+        mDetailFragment = new DetailNodeFragment();
 
         mPresenter = new HubigoPresenter();
         mPresenter.attachView(this);
@@ -71,12 +81,14 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hubigo, container, false);
 
+        showToolbarButtons();
+
         mSearchBar = (EditText)rootView.findViewById(R.id.search_bar);
         mSearchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_ENTER) {
-                    mPresenter.loadSimpleNodes();
+                    mPresenter.loadMainNodes();
                     return true;
                 }
                 return false;
@@ -86,7 +98,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadSimpleNodes();
+                mPresenter.loadMainNodes();
             }
         });
 
@@ -96,7 +108,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRHAdapter);
 
-        mPresenter.loadSimpleNodes();
+        mPresenter.loadMainNodes();
 
         return rootView;
     }
@@ -117,7 +129,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     @Override
     public void showDetailNode() {
-
+        mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mDetailFragment, R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
@@ -126,12 +138,52 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     }
 
     @Override
+    public void showToolbarButtons(){
+        if(mStatusButton == null)
+            initialUserButtons();
+
+        mToolbarLayout.removeAllViews();
+        mToolbarLayout.addView(mUserButtonView);
+    }
+
+    @Override
+    public void showAdminButtons(){
+        mStatusButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideAdminButtons(){
+        mStatusButton.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void scroll(int position){
+        mRecyclerView.smoothScrollToPosition(position);
+    }
+
+    @Override
     public void close(){
         this.backKeyAction(mActivity);
     }
 
+    @Override
+    public void backKeyAction(MainActivity activity){
+        super.backKeyAction(activity);
+        mToolbarLayout.removeView(mUserButtonView);
+    }
+
+    public void attachActivity(MainActivity activity){
+        mActivity = activity;
+    }
+
     public void cookieChange(String cookies){
         mPresenter.userInfoChange(cookies);
+    }
+
+    private void initialUserButtons(){
+        mUserButtonView = mActivity.getLayoutInflater().inflate(R.layout.hubigo_user_buttons, null);
+        mToolbarLayout = (CoordinatorLayout)mActivity.getToolbar().findViewById(R.id.toolbarLayout);
+        mStatusButton = (ImageButton)mUserButtonView.findViewById(R.id.hubigoStatsButton);
     }
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{
@@ -164,20 +216,28 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         }
 
         @Override
-        public void onBindViewHolder(HubigoNodeViewHolder holder, int position) {
+        public void onBindViewHolder(HubigoNodeViewHolder holder, final int position) {
             final HubigoSimpleNode nodeInfo = mDataList.get(position);
 
             holder.mLecture.setText(nodeInfo.getLecture());
             holder.mProfessor.setText(nodeInfo.getProfessor());
             holder.mMajor.setText(nodeInfo.getMajor());
             holder.mRecentEvaluation.setText(nodeInfo.getRecentEvaluation());
-            holder.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction());
-            holder.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction());
+            HubigoPieChartManager.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction());
+            HubigoPieChartManager.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction());
+            holder.mBookmark.setSelected(nodeInfo.isBookmarked());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPresenter.loadDetailNode(nodeInfo.getId());
+                }
+            });
+
+            holder.mBookmark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.changeBookmark(v, !v.isSelected(), position);
                 }
             });
         }
@@ -195,6 +255,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             protected TextView mRecentEvaluation;
             protected PieChart mGradeChart;
             protected PieChart mContentChart;
+            protected ImageView mBookmark;
 
             public HubigoNodeViewHolder(View v){
                 super(v);
@@ -205,41 +266,10 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
                 mRecentEvaluation = (TextView) v.findViewById(R.id.recent_evaluation);
                 mGradeChart = (PieChart) v.findViewById(R.id.grade_chart);
                 mContentChart = (PieChart) v.findViewById(R.id.content_chart);
+                mBookmark = (ImageView) v.findViewById(R.id.bookmark);
 
-                initialPieChart(mGradeChart);
-                initialPieChart(mContentChart);
-            }
-
-            private void initialPieChart(PieChart pieChart){
-                pieChart.setHoleRadius(80f);
-                pieChart.setRotationAngle(-90f);
-                pieChart.setDescription("");
-                pieChart.setDrawCenterText(true);
-                pieChart.setTouchEnabled(false);
-                pieChart.setDragDecelerationEnabled(false);
-                pieChart.setHighlightPerTapEnabled(false);
-                pieChart.getLegend().setEnabled(false);
-
-                pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-            }
-
-            private void setPieChartData(PieChart pieChart, float satisfaction){
-                ArrayList<Entry> entries = new ArrayList<>();
-                entries.add(new Entry(satisfaction, 0));
-                entries.add(new Entry(1 - satisfaction, 1));
-
-                PieDataSet dataSet = new PieDataSet(entries, "");
-                int[] colors = {ColorTemplate.rgb("#61baf7"), ColorTemplate.rgb("#353535")};
-                dataSet.setColors(colors);
-                dataSet.setDrawValues(false);
-
-                ArrayList<String> labels = new ArrayList<>();
-                for(int i = 0; i < entries.size(); i++)
-                    labels.add("");
-
-                PieData data = new PieData(labels, dataSet);
-                pieChart.setData(data);
-                pieChart.setCenterText(String.valueOf((int)(satisfaction * 100)) + "%");
+                HubigoPieChartManager.initialPieChart(mGradeChart);
+                HubigoPieChartManager.initialPieChart(mContentChart);
             }
         }
     }
