@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.kr.hufstory.R;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -44,10 +45,12 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoView = null;
     }
 
-    public void loadMainNodes(){
+    public void loadMainSimpleNodes(){
         mHubigoService.getListMainNodes(new Callback<List<JsonObject>>() {
             @Override
             public void success(List<JsonObject> JsonObjects, Response response) {
+                mHubigoModel.getMainNodeList().clear();
+
                 for (JsonObject node : JsonObjects)
                     mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(node));
 
@@ -58,6 +61,60 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             @Override
             public void failure(RetrofitError error) {
                 Log.e("fail", error.toString());
+            }
+        });
+    }
+
+    public void loadWrittenSimpleNodes(){
+        JsonObject session = new JsonObject();
+        session.addProperty("session_key", mHubigoModel.getUserSession());
+
+        mHubigoService.getListWrittenNodes(session, new Callback<List<JsonObject>>() {
+            @Override
+            public void success(List<JsonObject> jsonObjects, Response response) {
+                mHubigoModel.getMainNodeList().clear();
+
+                for (JsonObject node : jsonObjects) {
+                    JsonElement nodeElement = node.get("writtenEvaluation");
+
+                    if (!nodeElement.toString().equals("null"))
+                        mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(nodeElement.getAsJsonObject()));
+                }
+
+                mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.scroll(0);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("writtenSimpleNode error", error.toString());
+            }
+        });
+    }
+
+    public void loadBookmarkSimpleNodes(){
+        JsonObject session = new JsonObject();
+        session.addProperty("session_key", mHubigoModel.getUserSession());
+
+        mHubigoService.getListBookmarkNodes(session, new Callback<List<JsonObject>>() {
+            @Override
+            public void success(List<JsonObject> jsonObjects, Response response) {
+                mHubigoModel.getMainNodeList().clear();
+
+                for(JsonObject node : jsonObjects){
+                    JsonElement nodeElement = node.get("favoriteLecture");
+
+                    if(!nodeElement.toString().equals("null"))
+                        mHubigoModel.addHubigoSimpleNode(jsonToBookmarkSimpleNode(nodeElement.getAsJsonObject()));
+                }
+
+                mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.scroll(0);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
             }
         });
     }
@@ -129,6 +186,34 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         );
     }
 
+    private HubigoSimpleNode jsonToBookmarkSimpleNode(JsonObject bookmarkNodeJson){
+        JsonElement evaluationElement = bookmarkNodeJson.get("lectureEvaluation");
+
+        JsonObject professorJson = bookmarkNodeJson.getAsJsonObject("professor");
+        JsonObject majorJson = professorJson.getAsJsonObject("major");
+
+        int lectureID = bookmarkNodeJson.get("lecture_id").getAsInt();
+        float evaluation_count = bookmarkNodeJson.get("evaluation_count").getAsFloat();
+        float score_count = bookmarkNodeJson.get("score_count").getAsFloat();
+        float content_count = bookmarkNodeJson.get("content_count").getAsFloat();
+        String comment = "";
+
+        if(!evaluationElement.toString().equals("null"))
+            comment = evaluationElement.getAsJsonObject()
+                    .get("comment").getAsString();
+
+        return new HubigoSimpleNode(
+                lectureID,
+                bookmarkNodeJson.get("name").getAsString(),
+                professorJson.get("name").getAsString(),
+                majorJson.get("name").getAsString(),
+                getLimitSizedString(comment, 100),
+                divideFloat(score_count, evaluation_count),
+                divideFloat(content_count, evaluation_count),
+                mHubigoModel.isBookmarked(lectureID)
+        );
+    }
+
     private String getSessionID(String cookies){
         String[] cookie = cookies.split(";");
         String key = "PHPSESSID";
@@ -189,7 +274,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                     }
                 }
 
-                loadMainNodes();
+                loadMainSimpleNodes();
             }
 
             @Override

@@ -16,6 +16,12 @@ public interface HubigoService {
     @GET("/recentComments")
     void getListMainNodes(Callback<List<JsonObject>> callback);
 
+    @POST("/writtenInfo")
+    void getListWrittenNodes(@Body JsonObject userSession, Callback<List<JsonObject>> callback);
+
+    @POST("/favoriteInfo")
+    void getListBookmarkNodes(@Body JsonObject userSession, Callback<List<JsonObject>> callback);
+
     @POST("/loginInfo")
     void getUserInfo(@Body JsonObject keyJSON, Callback<UserInfo> callback);
 

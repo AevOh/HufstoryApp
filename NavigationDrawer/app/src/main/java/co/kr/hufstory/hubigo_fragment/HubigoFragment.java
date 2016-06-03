@@ -54,6 +54,9 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     private View mUserButtonView;
     private CoordinatorLayout mToolbarLayout;
     private ImageButton mStatusButton;
+    private ImageButton mWrittenButton;
+    private ImageButton mBookmarkButton;
+
     private EditText mSearchBar;
     private ImageView mSearchButton;
 
@@ -88,7 +91,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_ENTER) {
-                    mPresenter.loadMainNodes();
+                    mPresenter.loadMainSimpleNodes();
                     return true;
                 }
                 return false;
@@ -98,7 +101,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadMainNodes();
+                mPresenter.loadMainSimpleNodes();
             }
         });
 
@@ -108,7 +111,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRHAdapter);
 
-        mPresenter.loadMainNodes();
+        mPresenter.loadMainSimpleNodes();
 
         return rootView;
     }
@@ -158,7 +161,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     @Override
     public void scroll(int position){
-        mRecyclerView.smoothScrollToPosition(position);
+        mRecyclerView.scrollToPosition(position);
     }
 
     @Override
@@ -184,6 +187,27 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mUserButtonView = mActivity.getLayoutInflater().inflate(R.layout.hubigo_user_buttons, null);
         mToolbarLayout = (CoordinatorLayout)mActivity.getToolbar().findViewById(R.id.toolbarLayout);
         mStatusButton = (ImageButton)mUserButtonView.findViewById(R.id.hubigoStatsButton);
+        mWrittenButton = (ImageButton)mUserButtonView.findViewById(R.id.hubigoWrittenButton);
+        mBookmarkButton = (ImageButton)mUserButtonView.findViewById(R.id.hubigoBookmarkButton);
+
+        mStatusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mWrittenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.loadWrittenSimpleNodes();
+            }
+        });
+        mBookmarkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.loadBookmarkSimpleNodes();
+            }
+        });
     }
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{

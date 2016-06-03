@@ -14,7 +14,7 @@
             android:id="@+id/hubigoStatsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bookmark_off"
+            android:src="@drawable/status_icon"
             android:background="@null"
             android:visibility="invisible"/>
 
@@ -22,7 +22,7 @@
             android:id="@+id/hubigoWrittenButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/facebookicon"
+            android:src="@drawable/written_icon"
             android:background="@null"
             android:layout_marginLeft="5dp"/>
 
@@ -30,7 +30,7 @@
             android:id="@+id/hubigoBookmarkButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/busicon"
+            android:src="@drawable/see_bookmark_icon"
             android:background="@null"
             android:layout_marginLeft="5dp"/>
 

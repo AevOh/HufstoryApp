@@ -19,6 +19,7 @@ public class HubigoModel {
     static private HubigoModel uniqueInstance = null;
 
     private List<HubigoSimpleNode> mMainNodeList;
+
     private UserInfo mUserInfo;
     private String mUserSession;
 
@@ -38,24 +39,12 @@ public class HubigoModel {
         mWrittenList = new ArrayList<>();
     }
 
-    public HubigoSimpleNode getHubigoSimpleNode(int index){
-        return mMainNodeList.get(index);
-    }
-
     public void addHubigoSimpleNode(HubigoSimpleNode newNode){
         mMainNodeList.add(newNode);
     }
 
-    public void deleteHubigoSimpleNode(int index){
-        mMainNodeList.remove(index);
-    }
-
     public List<HubigoSimpleNode> getMainNodeList(){
         return mMainNodeList;
-    }
-
-    public void setMainNodeList(List<HubigoSimpleNode> mainNodeList){
-        mMainNodeList = mainNodeList;
     }
 
     public void addBookmarkLecture(int lectureID){
