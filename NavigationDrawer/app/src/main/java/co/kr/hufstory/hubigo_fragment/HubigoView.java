@@ -10,7 +10,7 @@ import co.kr.hufstory.main.MainActivity;
 public interface HubigoView extends MvpView {
     void showSimpleNodeList(List<HubigoSimpleNode> nodeList);
 
-    void showDetailNode();
+    void showDetailNode(int lectureID);
 
     void showErrorToast(String message);
 

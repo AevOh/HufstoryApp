@@ -19,6 +19,7 @@ public final class HubigoPieChartManager {
         pieChart.setHoleRadius(80f);
         pieChart.setRotationAngle(-90f);
         pieChart.setDescription("");
+        pieChart.setHoleColor(ColorTemplate.getColorWithAlphaComponent(ColorTemplate.rgb("#000000"), 0));
         pieChart.setDrawCenterText(true);
         pieChart.setTouchEnabled(false);
         pieChart.setDragDecelerationEnabled(false);
@@ -28,13 +29,13 @@ public final class HubigoPieChartManager {
         pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
     }
 
-    static public void setPieChartData(PieChart pieChart, float satisfaction){
+    static public void setPieChartData(PieChart pieChart, float satisfaction, int centerTextColor){
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(satisfaction, 0));
         entries.add(new Entry(1 - satisfaction, 1));
 
         PieDataSet dataSet = new PieDataSet(entries, "");
-        int[] colors = {ColorTemplate.rgb("#61baf7"), ColorTemplate.rgb("#353535")};
+        int[] colors = {ColorTemplate.rgb("#61baf7"), ColorTemplate.rgb("#282828")};
         dataSet.setColors(colors);
         dataSet.setDrawValues(false);
 
@@ -45,5 +46,8 @@ public final class HubigoPieChartManager {
         PieData data = new PieData(labels, dataSet);
         pieChart.setData(data);
         pieChart.setCenterText(String.valueOf((int) (satisfaction * 100)) + "%");
+        pieChart.setCenterTextColor(centerTextColor);
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
     }
 }

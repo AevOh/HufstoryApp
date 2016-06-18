@@ -124,14 +124,12 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     @Override
     public void showSimpleNodeList(List<HubigoSimpleNode> nodeList) {
         mRHAdapter.dataSetChange(nodeList);
-        mSearchBar.clearFocus();
-
-        InputMethodManager imm= (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mSearchBar.getWindowToken(), 0);
+        FocusOutInterrupt.editText(mSearchBar, getActivity());
     }
 
     @Override
-    public void showDetailNode() {
+    public void showDetailNode(int lectureID) {
+        mDetailFragment.start(mActivity, lectureID);
         mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mDetailFragment, R.anim.fade_in, R.anim.fade_out);
     }
 
@@ -247,8 +245,8 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             holder.mProfessor.setText(nodeInfo.getProfessor());
             holder.mMajor.setText(nodeInfo.getMajor());
             holder.mRecentEvaluation.setText(nodeInfo.getRecentEvaluation());
-            HubigoPieChartManager.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction());
-            HubigoPieChartManager.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction());
+            HubigoPieChartManager.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction(), ColorTemplate.rgb("#282828"));
+            HubigoPieChartManager.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction(), ColorTemplate.rgb("#282828"));
             holder.mBookmark.setSelected(nodeInfo.isBookmarked());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {

@@ -120,8 +120,8 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     }
 
     public void loadDetailNode(int id){
-        Log.i("id", String.valueOf(id));
-        mHubigoView.showDetailNode();
+        mHubigoModel.setSelectLectureID(id);
+        mHubigoView.showDetailNode(id);
     }
 
     public void userInfoChange(String cookies){

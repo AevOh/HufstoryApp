@@ -1,13 +1,274 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.kr.hufstory.hubigo_fragment.DetailNodeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:fillViewport="true">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:columnCount="2"
+            android:id="@+id/detail_info"
+            android:background="@color/background_black">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bright_gray"
+                android:id="@+id/lecture_name"
+                android:text="신입생세미나"
+                android:textSize="20dp"
+                android:layout_columnSpan="2"/>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:columnCount="2">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="교수명   |"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:id="@+id/professor"
+                    android:text="김낙현"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="카테고리   |"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:id="@+id/major"
+                    android:text="컴퓨터전자시스템공학부"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="학점   |"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/credit"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="교수명"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="학년   |"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grade"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="2학년"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="시간   |"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:textColor="@color/bright_gray"
+                    android:text="2시간"/>
+
+            </GridLayout>
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:columnCount="2"
+                android:layout_gravity="top|right">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/grade_chart"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginRight="10dp">
+
+                </com.github.mikephil.charting.charts.PieChart>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성적 만족도"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="6dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/bright_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/content_chart"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp">
+
+                </com.github.mikephil.charting.charts.PieChart>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="수업 만족도"
+                    android:textSize="14sp"
+                    android:textColor="@color/bright_gray" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="@dimen/hubigo_detail_text_size"
+                        android:textColor="@color/bright_gray"
+                        android:text="총 "/>
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/evaluation_number"
+                        android:textSize="@dimen/hubigo_detail_text_size"
+                        android:textColor="@color/hufstory_color"
+                        android:text="1"/>
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="@dimen/hubigo_detail_text_size"
+                        android:textColor="@color/bright_gray"
+                        android:text="명이 참여했음"/>
+                </LinearLayout>
+
+            </GridLayout>
+        </GridLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/evaluation_recycler_view"
+            android:layout_weight="1">
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/line" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:columnCount="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="left|center"
+                android:text="강의 추천/비추천"/>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_gravity="right"
+                android:columnCount="2">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/grade_satis"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/hubigo_satisfaction_selector"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/content_satis"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/hubigo_satisfaction_selector"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:text="성적"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:text="수업"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="14dp" />
+            </GridLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:background="@drawable/line"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_columnSpan="2"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/hubigo_detail_text_size"
+                    android:hint="강의 평가를 작성해주세요"
+                    android:fitsSystemWindows="true"
+                    android:id="@+id/write_text"/>
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="bottom"
+                    android:id="@+id/write_button"
+                    android:background="@drawable/hubigo_write_button"
+                    android:textColor="@color/bright_gray"
+                    android:text="작성" />
+            </LinearLayout>
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -26,6 +26,8 @@ public class HubigoModel {
     private List<Integer> mBookmarkList;
     private List<Integer> mWrittenList;
 
+    private int mSelectLectureID;
+
     static public HubigoModel getInstance(){
         if(uniqueInstance == null)
             uniqueInstance = new HubigoModel();
@@ -94,6 +96,14 @@ public class HubigoModel {
 
     public void setUserSession(String userSession){
         mUserSession = userSession;
+    }
+
+    public void setSelectLectureID(int id){
+        mSelectLectureID = id;
+    }
+
+    public int getSelectLectureID(){
+        return mSelectLectureID;
     }
 
     public void clear(){
