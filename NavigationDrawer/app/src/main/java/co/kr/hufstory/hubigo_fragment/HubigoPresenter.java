@@ -55,7 +55,8 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                     mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(node));
 
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
-                mHubigoView.scroll(0);
+                mHubigoView.scroll(mHubigoModel.getLastMainRecyclerScrollPosition());
+                mHubigoModel.setLastMainRecyclerScrollPosition(0);
             }
 
             @Override
@@ -150,6 +151,10 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         bookmarkView.setSelected(isSelect);
     }
 
+    public void saveRecyclerScroll(int position){
+        mHubigoModel.setLastMainRecyclerScrollPosition(position);
+    }
+
     private float divideFloat(float num, float den){
         if(den == 0)
             return -1;
@@ -221,7 +226,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         for(String arg : cookie){
             if(arg.contains(key)){
                 String[] cookieValue = arg.split("=");
-                //mHubigoModel.setUserSession(cookieValue[1]);
+                mHubigoModel.setUserSession(cookieValue[1]);
                 return cookieValue[1];
             }
         }
@@ -230,14 +235,10 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     }
 
     private void loadUserInfo(final JsonObject session){
-        if(session.toString().equals(mHubigoModel.getUserSession()))
-            return;
-
         mHubigoService.getUserInfo(session, new Callback<UserInfo>() {
             @Override
             public void success(UserInfo userInfo, Response response) {
                 if (userInfo == null) {
-                    mHubigoModel.setUserSession(session.toString());
                     mHubigoView.showErrorToast("로그인이 필요합니다.");
                     mHubigoView.close();
                     return;

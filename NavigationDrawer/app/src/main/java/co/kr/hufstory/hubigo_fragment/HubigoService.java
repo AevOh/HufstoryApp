@@ -38,4 +38,7 @@ public interface HubigoService {
 
     @POST("/removeFavorite")
     void removeBookmark(@Body JsonObject bookmarkInfo, Callback<String> callback);
+
+    @POST("/writeEvaluation")
+    void registerEvaluation(@Body JsonObject writeInfo, Callback<String> callback);
 }

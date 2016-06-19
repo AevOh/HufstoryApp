@@ -130,7 +130,8 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     @Override
     public void showDetailNode(int lectureID) {
-        mDetailFragment.start(mActivity, lectureID);
+        mPresenter.saveRecyclerScroll(-mRecyclerView.computeVerticalScrollOffset());
+        mDetailFragment.start(mActivity);
         mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mDetailFragment, R.anim.fade_in, R.anim.fade_out);
     }
 

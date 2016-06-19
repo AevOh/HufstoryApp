@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -89,7 +90,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
         mWriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.registerWriting(
+                mPresenter.registerEvaluation(
                         mGradeToggleButton.isSelected(), mContentToggleButton.isSelected(), mWriteComment.getText().toString());
             }
         });
@@ -125,12 +126,21 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
     }
 
     @Override
-    public void backKeyAction(MainActivity activity){
-        activity.contentFragmentTransaction(R.id.content_frame, activity.getHubigoFragment(), R.anim.fade_in, R.anim.no_animation);
-        activity.getSupportActionBar().show();
+    public void showErrorToast(String message){
+        Toast.makeText(getActivity().getBaseContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public void start(MainActivity activity, int lectureID){
+    @Override
+    public void scroll(int position){
+        mRecyclerView.scrollToPosition(position);
+    }
+
+    @Override
+    public void backKeyAction(MainActivity activity){
+        mPresenter.loadMain(activity);
+    }
+
+    public void start(MainActivity activity){
         activity.getSupportActionBar().hide();
     }
 

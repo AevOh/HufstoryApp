@@ -27,6 +27,7 @@ public class HubigoModel {
     private List<Integer> mWrittenList;
 
     private int mSelectLectureID;
+    private int mLastMainRecyclerScrollPosition = 0;
 
     static public HubigoModel getInstance(){
         if(uniqueInstance == null)
@@ -104,6 +105,14 @@ public class HubigoModel {
 
     public int getSelectLectureID(){
         return mSelectLectureID;
+    }
+
+    public void setLastMainRecyclerScrollPosition(int position){
+        mLastMainRecyclerScrollPosition = position;
+    }
+
+    public int getLastMainRecyclerScrollPosition(){
+        return mLastMainRecyclerScrollPosition;
     }
 
     public void clear(){

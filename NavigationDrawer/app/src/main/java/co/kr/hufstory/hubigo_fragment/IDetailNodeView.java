@@ -5,4 +5,8 @@ package co.kr.hufstory.hubigo_fragment;
  */
 public interface IDetailNodeView extends MvpView {
     void show(HubigoDetailInfo detailInfo);
+
+    void showErrorToast(String message);
+
+    void scroll(int position);
 }

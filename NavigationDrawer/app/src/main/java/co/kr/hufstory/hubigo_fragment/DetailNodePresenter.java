@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import co.kr.hufstory.R;
+import co.kr.hufstory.main.MainActivity;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -50,6 +52,7 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
             @Override
             public void success(List<JsonObject> jsonObjects, Response response) {
                 mView.show(jsonToDetailNodeInfo(jsonObjects));
+                mView.scroll(0);
             }
 
             @Override
@@ -59,29 +62,36 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         });
     }
 
-    public void registerWriting(boolean gradeSatis, boolean contentSatis, String comment){
-        List<EvaluationInfo> list = new ArrayList<>();
-        list.add(new EvaluationInfo("훕스토리", "2015-01-01", true, false,
-                "정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠."));
-        list.add(new EvaluationInfo("훕스토리", "2015-01-01", false, false,
-                "정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠."));
-        list.add(new EvaluationInfo("훕스토리", "2015-01-01", false, true,
-                "정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠."));
-        list.add(new EvaluationInfo("훕스토리", "2015-01-01", true, true,
-                "정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠. 정말정말 머단했어요. 아주 신나고 유익한 수업이었죠."));
+    public void registerEvaluation(boolean gradeSatis, boolean contentSatis, String comment){
+        if(comment.length() < 8) {
+            mView.showErrorToast("8글자 미만으로는 작성할 수 없습니다.");
+            return;
+        }
 
-        HubigoDetailInfo info = new HubigoDetailInfo(
-                "정보처리산업기사",
-                "김찬규",
-                "컴퓨터공학과",
-                3, 2, 3,
-                (float)0.75,
-                (float)1,
-                10,
-                list
-        );
+        JsonObject writeInfo = new JsonObject();
+        writeInfo.addProperty("session_key", mModel.getUserSession());
+        writeInfo.addProperty("lecture_id", mModel.getSelectLectureID());
+        writeInfo.addProperty("score_recommend", gradeSatis? 1 : 0);
+        writeInfo.addProperty("contents_recommend", contentSatis? 1 : 0);
+        writeInfo.addProperty("comment", comment);
 
-        mView.show(info);
+        mHubigoService.registerEvaluation(writeInfo, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                if(s.equals("success"))
+                    loadDetailInfo();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("register error", error.toString());
+            }
+        });
+    }
+
+    public void loadMain(MainActivity activity){
+        activity.getSupportActionBar().show();
+        activity.contentFragmentTransaction(R.id.content_frame, activity.getHubigoFragment(), R.anim.fade_in, R.anim.no_animation);
     }
 
     private HubigoDetailInfo jsonToDetailNodeInfo(List<JsonObject> jsonObjects){
@@ -92,7 +102,7 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         JsonObject professor = lecture.getAsJsonObject("professor");
         JsonObject major = professor.getAsJsonObject("major");
 
-        if(!evaluation.toString().equals("null")){
+        if(evaluation != null){
             for(JsonObject node : jsonObjects)
                 evaluationInfos.add(
                         jsonToEvaluationInfo(node.getAsJsonObject("lectureEvaluation")));
@@ -114,7 +124,6 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
 
     private EvaluationInfo jsonToEvaluationInfo(JsonObject lectureEvaluation){
         JsonObject evaluationWriter = lectureEvaluation.getAsJsonObject("evaluationWriter");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         return new EvaluationInfo(
                 evaluationWriter.get("nick_name").getAsString(),
