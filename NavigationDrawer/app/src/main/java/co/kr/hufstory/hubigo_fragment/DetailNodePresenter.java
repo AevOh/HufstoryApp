@@ -79,7 +79,9 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
                 JsonElement element = jsonObject.get("evaluation_id");
                 if (!element.isJsonNull()) {
                     mModel.addWrittenEvaluation(element.getAsInt());
+                    increaseWriteCount();
                     loadDetailInfo();
+                    mModel.setAct(true);
                 }
             }
 
@@ -98,9 +100,10 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         mHubigoService.removeEvaluation(evaluationInfo, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
-                if(s.equals("success")) {
+                if (s.equals("success")) {
                     mModel.deleteWrittenEvaluation(evaluationID);
                     loadDetailInfo();
+                    mModel.setAct(true);
                 }
             }
 
@@ -115,6 +118,21 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
     public void loadMain(MainActivity activity){
         activity.getSupportActionBar().show();
         activity.contentFragmentTransaction(R.id.content_frame, activity.getHubigoFragment(), R.anim.fade_in, R.anim.no_animation);
+    }
+
+    private void increaseWriteCount(){
+        mHubigoService.increaseWriteCount(new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                if(s.equals("success"))
+                    Log.i("write count", "증가");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("write count error", error.toString());
+            }
+        });
     }
 
     private HubigoDetailInfo jsonToDetailNodeInfo(List<JsonObject> jsonObjects){

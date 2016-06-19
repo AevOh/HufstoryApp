@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.main.MainActivity;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -34,6 +35,11 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 .build();
 
         mHubigoService = mRestAdapter.create(HubigoService.class);
+
+        mHubigoModel.addToggle("main");
+        mHubigoModel.addToggle("bookmark");
+        mHubigoModel.addToggle("write");
+        mHubigoModel.addToggle("search");
     }
 
     @Override
@@ -55,7 +61,9 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 for (JsonObject node : JsonObjects)
                     mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(node));
 
+                mHubigoModel.setNodeOn("main");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.scroll(0);
             }
 
             @Override
@@ -81,6 +89,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                         mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
+                mHubigoModel.setNodeOn("write");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
                 mHubigoView.scroll(0);
             }
@@ -108,6 +117,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                         mHubigoModel.addHubigoSimpleNode(jsonToBookmarkSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
+                mHubigoModel.setNodeOn("bookmark");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
                 mHubigoView.scroll(0);
             }
@@ -129,8 +139,14 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     public void loadLastMainNodes(){
         if(mHubigoModel.getMainNodeList().isEmpty())
             loadMainSimpleNodes();
-        else
+        else if(!mHubigoModel.isAct())
             mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+        else{
+            if(mHubigoModel.nodeOn("main")) loadMainSimpleNodes();
+            else if(mHubigoModel.nodeOn("bookmark")) loadBookmarkSimpleNodes();
+            else if(mHubigoModel.nodeOn("write")) loadWrittenSimpleNodes();
+        }
+        mHubigoModel.setAct(false);
     }
 
     public void loadDetailNode(int id){
@@ -162,6 +178,16 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             removeBookmark(bookmarkInfo, position, lectureID);
 
         bookmarkView.setSelected(isSelect);
+    }
+
+    public boolean closeAction(MainActivity activity){
+        if(!mHubigoModel.nodeOn("main")) {
+            loadMainSimpleNodes();
+            return false;
+        }
+
+        activity.getWebViewManager().returnLastWebView();
+        return true;
     }
 
     private float divideFloat(float num, float den){
@@ -276,15 +302,16 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.getUserHubigoInfo(session, new Callback<List<UserHubigoInfo>>() {
             @Override
             public void success(List<UserHubigoInfo> userHubigoInfos, Response response) {
-                for(UserHubigoInfo hubigoInfo : userHubigoInfos){
-                    if(hubigoInfo.getWritten_evaluation() != null)
+                for (UserHubigoInfo hubigoInfo : userHubigoInfos) {
+                    if (hubigoInfo.getWritten_evaluation() != null)
                         mHubigoModel.addWrittenEvaluation(hubigoInfo.getWritten_evaluation());
 
-                    if(hubigoInfo.getFavorite_lecture() != null) {
+                    if (hubigoInfo.getFavorite_lecture() != null) {
                         mHubigoModel.addBookmarkLecture(hubigoInfo.getFavorite_lecture());
                     }
                 }
 
+                increaseUserCount();
                 loadMainSimpleNodes();
             }
 
@@ -299,7 +326,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.addBookmark(bookmarkInfo, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
-                if(s.equals("success")){
+                if (s.equals("success")) {
                     Log.i("success", "add");
                     mHubigoModel.getMainNodeList().get(nodePos).setBookmarked(true);
                     mHubigoModel.addBookmarkLecture(lectureID);
@@ -318,7 +345,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.removeBookmark(bookmarkInfo, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
-                if(s.equals("success")){
+                if (s.equals("success")) {
                     Log.i("success", "remove");
                     mHubigoModel.getMainNodeList().get(nodePos).setBookmarked(false);
                     mHubigoModel.deleteBookmarkLecture(lectureID);
@@ -329,6 +356,21 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             @Override
             public void failure(RetrofitError error) {
                 Log.e("removeBookmarkError", error.toString());
+            }
+        });
+    }
+
+    private void increaseUserCount(){
+        mHubigoService.increaseUserCount(new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                if(s.equals("success"))
+                    Log.i("user count", "방문자 수 증가");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("user count error", error.toString());
             }
         });
     }

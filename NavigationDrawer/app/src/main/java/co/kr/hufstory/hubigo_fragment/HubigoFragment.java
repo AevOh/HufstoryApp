@@ -165,13 +165,13 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     @Override
     public void close(){
-        this.backKeyAction(mActivity);
+        super.backKeyAction(mActivity);
     }
 
     @Override
     public void backKeyAction(MainActivity activity){
-        super.backKeyAction(activity);
-        mToolbarLayout.removeView(mUserButtonView);
+        if(mPresenter.closeAction(activity))
+            mToolbarLayout.removeView(mUserButtonView);
     }
 
     public void attachActivity(MainActivity activity){

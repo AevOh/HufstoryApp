@@ -26,6 +26,9 @@ public class HubigoModel {
     private List<Integer> mBookmarkList;
     private List<Integer> mWrittenList;
 
+    private ToggleManager<String> mNodes;
+    private boolean isAct;
+
     private int mSelectLectureID;
 
     static public synchronized HubigoModel getInstance(){
@@ -39,6 +42,7 @@ public class HubigoModel {
         mMainNodeList = new ArrayList<>();
         mBookmarkList = new ArrayList<>();
         mWrittenList = new ArrayList<>();
+        mNodes = new ToggleManager<>();
     }
 
     public void addHubigoSimpleNode(HubigoSimpleNode newNode){
@@ -114,6 +118,26 @@ public class HubigoModel {
 
     public int getSelectLectureID(){
         return mSelectLectureID;
+    }
+
+    public boolean isAct(){
+        return isAct;
+    }
+
+    public void setAct(boolean act){
+        isAct = act;
+    }
+
+    public void addToggle(String name){
+        mNodes.put(name);
+    }
+
+    public boolean nodeOn(String name){
+        return mNodes.isActive(name);
+    }
+
+    public void setNodeOn(String name){
+        mNodes.setActive(name);
     }
 
     public void clear(){

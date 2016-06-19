@@ -1,5 +1,7 @@
 package co.kr.hufstory.hubigo_fragment;
 
+import android.telecom.Call;
+
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -20,6 +22,12 @@ public interface HubigoService {
 
     @GET("/detailInfo")
     void getDetailNodeInfo(@Query("lecture_id") String id, Callback<List<JsonObject>> callback);
+
+    @GET("/incUserCount")
+    void increaseUserCount(Callback<String> callback);
+
+    @GET("/incWriteCount")
+    void increaseWriteCount(Callback<String> callback);
 
     @POST("/writtenInfo")
     void getListWrittenNodes(@Body JsonObject userSession, Callback<List<JsonObject>> callback);
