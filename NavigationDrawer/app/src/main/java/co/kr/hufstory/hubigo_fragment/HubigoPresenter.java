@@ -221,7 +221,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         for(String arg : cookie){
             if(arg.contains(key)){
                 String[] cookieValue = arg.split("=");
-                mHubigoModel.setUserSession(cookieValue[1]);
+                //mHubigoModel.setUserSession(cookieValue[1]);
                 return cookieValue[1];
             }
         }
@@ -230,13 +230,14 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     }
 
     private void loadUserInfo(final JsonObject session){
-        if(session.equals(mHubigoModel.getUserSession()))
+        if(session.toString().equals(mHubigoModel.getUserSession()))
             return;
 
         mHubigoService.getUserInfo(session, new Callback<UserInfo>() {
             @Override
             public void success(UserInfo userInfo, Response response) {
                 if (userInfo == null) {
+                    mHubigoModel.setUserSession(session.toString());
                     mHubigoView.showErrorToast("로그인이 필요합니다.");
                     mHubigoView.close();
                     return;

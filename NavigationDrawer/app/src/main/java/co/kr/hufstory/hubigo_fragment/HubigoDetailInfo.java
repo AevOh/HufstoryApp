@@ -48,8 +48,11 @@ public class HubigoDetailInfo {
         return mCredit;
     }
 
-    public int getGrade(){
-        return mGrade;
+    public String getGrade(){
+        if(mGrade == 0)
+            return "전";
+
+        return String.valueOf(mGrade);
     }
 
     public int getTime(){

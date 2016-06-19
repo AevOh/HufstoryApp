@@ -9,6 +9,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Created by Hyeong Wook on 2016-05-23.
@@ -17,8 +18,8 @@ public interface HubigoService {
     @GET("/recentComments")
     void getListMainNodes(Callback<List<JsonObject>> callback);
 
-    @GET("/detailInfo/?lecture_id={id}")
-    void getDetailNodeInfo(@Path("id") String id, Callback<List<JsonObject>> callback);
+    @GET("/detailInfo")
+    void getDetailNodeInfo(@Query("lecture_id") String id, Callback<List<JsonObject>> callback);
 
     @POST("/writtenInfo")
     void getListWrittenNodes(@Body JsonObject userSession, Callback<List<JsonObject>> callback);

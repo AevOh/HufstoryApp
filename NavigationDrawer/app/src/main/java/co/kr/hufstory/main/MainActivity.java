@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     contentFragmentTransaction(FRAGMENT_LAYOUT, mHubigoFragment);
-                    mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(mWebViewManager.getWebView().getUrl()));
+                    mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(getResources().getString(R.string.hufstoy_login)));
                     mHubigoFragment.showToolbarButtons();
                     break;
                 case R.id.bbang:

@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;

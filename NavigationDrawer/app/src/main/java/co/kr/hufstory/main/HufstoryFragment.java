@@ -9,8 +9,4 @@ abstract public class HufstoryFragment extends Fragment {
     public void backKeyAction(MainActivity activity){
         activity.getWebViewManager().returnLastWebView();
     }
-
-    public void startAction(MainActivity activity){
-
-    }
 }

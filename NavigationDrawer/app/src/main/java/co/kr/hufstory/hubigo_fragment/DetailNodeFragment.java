@@ -89,7 +89,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
         mWriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.registWriting(
+                mPresenter.registerWriting(
                         mGradeToggleButton.isSelected(), mContentToggleButton.isSelected(), mWriteComment.getText().toString());
             }
         });
@@ -110,7 +110,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
         mProfessor.setText(detailInfo.getProfessor());
         mMajor.setText(detailInfo.getMajor());
         mCredit.setText(String.valueOf(detailInfo.getCredit()) + "학점");
-        mGrade.setText(String.valueOf(detailInfo.getGrade()) + "학년");
+        mGrade.setText(detailInfo.getGrade() + "학년");
         mTime.setText(String.valueOf(detailInfo.getTime()) + "시간");
         HubigoPieChartManager.setPieChartData(mGradeChart, detailInfo.getGradeSatisfaction(), ColorTemplate.rgb("#e7e7e7"));
         HubigoPieChartManager.setPieChartData(mContentChart, detailInfo.getContentSatisfaction(), ColorTemplate.rgb("#e7e7e7"));

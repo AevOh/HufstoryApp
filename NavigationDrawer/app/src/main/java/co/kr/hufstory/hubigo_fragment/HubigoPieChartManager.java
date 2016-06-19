@@ -31,8 +31,10 @@ public final class HubigoPieChartManager {
 
     static public void setPieChartData(PieChart pieChart, float satisfaction, int centerTextColor){
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(satisfaction, 0));
-        entries.add(new Entry(1 - satisfaction, 1));
+        if(satisfaction >= 0) {
+            entries.add(new Entry(satisfaction, 0));
+            entries.add(new Entry(1 - satisfaction, 1));
+        }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         int[] colors = {ColorTemplate.rgb("#61baf7"), ColorTemplate.rgb("#282828")};
@@ -45,7 +47,7 @@ public final class HubigoPieChartManager {
 
         PieData data = new PieData(labels, dataSet);
         pieChart.setData(data);
-        pieChart.setCenterText(String.valueOf((int) (satisfaction * 100)) + "%");
+        pieChart.setCenterText(satisfaction < 0 ? "강의평가 미존재" : String.valueOf((int) (satisfaction * 100)) + "%");
         pieChart.setCenterTextColor(centerTextColor);
         pieChart.notifyDataSetChanged();
         pieChart.invalidate();
