@@ -27,9 +27,8 @@ public class HubigoModel {
     private List<Integer> mWrittenList;
 
     private int mSelectLectureID;
-    private int mLastMainRecyclerScrollPosition = 0;
 
-    static public HubigoModel getInstance(){
+    static public synchronized HubigoModel getInstance(){
         if(uniqueInstance == null)
             uniqueInstance = new HubigoModel();
 
@@ -56,8 +55,10 @@ public class HubigoModel {
 
     public void deleteBookmarkLecture(int lectureID){
         for(int i = 0; i < mBookmarkList.size(); i++){
-            if(mBookmarkList.get(i) == lectureID)
+            if(mBookmarkList.get(i) == lectureID) {
                 mBookmarkList.remove(i);
+                break;
+            }
         }
     }
 
@@ -78,6 +79,14 @@ public class HubigoModel {
             if(mWrittenList.get(i) == evaluationID)
                 mWrittenList.remove(i);
         }
+    }
+
+    public boolean isWrittenEvaluation(int evaluationID){
+        for(int i = 0; i < mWrittenList.size(); i++){
+            if(mWrittenList.get(i) == evaluationID)
+                return true;
+        }
+        return false;
     }
 
     public List<Integer> getWrittenEvaluationList(){
@@ -105,14 +114,6 @@ public class HubigoModel {
 
     public int getSelectLectureID(){
         return mSelectLectureID;
-    }
-
-    public void setLastMainRecyclerScrollPosition(int position){
-        mLastMainRecyclerScrollPosition = position;
-    }
-
-    public int getLastMainRecyclerScrollPosition(){
-        return mLastMainRecyclerScrollPosition;
     }
 
     public void clear(){

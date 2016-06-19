@@ -112,7 +112,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRHAdapter);
 
-        mPresenter.loadMainSimpleNodes();
+        mPresenter.loadLastMainNodes();
 
         return rootView;
     }
@@ -129,8 +129,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     }
 
     @Override
-    public void showDetailNode(int lectureID) {
-        mPresenter.saveRecyclerScroll(-mRecyclerView.computeVerticalScrollOffset());
+    public void showDetailNode() {
         mDetailFragment.start(mActivity);
         mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mDetailFragment, R.anim.fade_in, R.anim.fade_out);
     }

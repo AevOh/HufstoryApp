@@ -5,9 +5,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import co.kr.hufstory.R;
@@ -75,18 +73,43 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         writeInfo.addProperty("contents_recommend", contentSatis? 1 : 0);
         writeInfo.addProperty("comment", comment);
 
-        mHubigoService.registerEvaluation(writeInfo, new Callback<String>() {
+        mHubigoService.registerEvaluation(writeInfo, new Callback<JsonObject>() {
             @Override
-            public void success(String s, Response response) {
-                if(s.equals("success"))
+            public void success(JsonObject jsonObject, Response response) {
+                JsonElement element = jsonObject.get("evaluation_id");
+                if (!element.isJsonNull()) {
+                    mModel.addWrittenEvaluation(element.getAsInt());
                     loadDetailInfo();
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("register error", error.toString());
+                Log.e("register fail", error.toString());
             }
         });
+    }
+
+    public void deleteEvaluation(final int evaluationID){
+        JsonObject evaluationInfo = new JsonObject();
+        evaluationInfo.addProperty("session_key", mModel.getUserSession());
+        evaluationInfo.addProperty("evaluation_id", evaluationID);
+
+        mHubigoService.removeEvaluation(evaluationInfo, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                if(s.equals("success")) {
+                    mModel.deleteWrittenEvaluation(evaluationID);
+                    loadDetailInfo();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("delete evaluation error", error.toString());
+            }
+        });
+
     }
 
     public void loadMain(MainActivity activity){
@@ -102,10 +125,9 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         JsonObject professor = lecture.getAsJsonObject("professor");
         JsonObject major = professor.getAsJsonObject("major");
 
-        if(evaluation != null){
-            for(JsonObject node : jsonObjects)
-                evaluationInfos.add(
-                        jsonToEvaluationInfo(node.getAsJsonObject("lectureEvaluation")));
+        if(!evaluation.isJsonNull()) {
+            for (JsonObject node : jsonObjects)
+                evaluationInfos.add(jsonToEvaluationInfo(node.getAsJsonObject("lectureEvaluation")));
         }
 
         return new HubigoDetailInfo(
@@ -126,11 +148,13 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         JsonObject evaluationWriter = lectureEvaluation.getAsJsonObject("evaluationWriter");
 
         return new EvaluationInfo(
+                lectureEvaluation.get("evaluation_id").getAsInt(),
                 evaluationWriter.get("nick_name").getAsString(),
                 lectureEvaluation.get("updatedAt").getAsString().substring(0, 10),
                 lectureEvaluation.get("score_recommend").getAsInt() != 0,
                 lectureEvaluation.get("contents_recommend").getAsInt() != 0,
-                lectureEvaluation.get("comment").getAsString()
+                lectureEvaluation.get("comment").getAsString(),
+                mModel.isWrittenEvaluation(lectureEvaluation.get("evaluation_id").getAsInt())
         );
     }
 

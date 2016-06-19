@@ -1,13 +1,13 @@
 package co.kr.hufstory.hubigo_fragment;
 
 
-import android.content.Context;
-import android.media.Image;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,6 @@ import co.kr.hufstory.main.MainActivity;
 public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeView {
     private RDAdapter mRDAdapter;
     private DetailNodePresenter mPresenter;
-    private Bundle mBundle;
 
     private GridLayout mInfoLayout;
     private TextView mLecture;
@@ -55,9 +54,10 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
 
     public DetailNodeFragment() {
         // Required empty public constructor
-        mRDAdapter = new RDAdapter();
         mPresenter = new DetailNodePresenter();
         mPresenter.attachView(this);
+
+        mRDAdapter = new RDAdapter(this, mPresenter);
     }
 
     @Override
@@ -109,7 +109,8 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
     public void show(HubigoDetailInfo detailInfo) {
         mLecture.setText(detailInfo.getLecture());
         mProfessor.setText(detailInfo.getProfessor());
-        mMajor.setText(detailInfo.getMajor());
+        mMajor.setText(detailInfo.getMajor().length() > 8?
+                detailInfo.getMajor().substring(0,8) + ".." : detailInfo.getMajor());
         mCredit.setText(String.valueOf(detailInfo.getCredit()) + "학점");
         mGrade.setText(detailInfo.getGrade() + "학년");
         mTime.setText(String.valueOf(detailInfo.getTime()) + "시간");
@@ -146,9 +147,13 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
 
     private static class RDAdapter extends RecyclerView.Adapter<RDAdapter.EvaluationViewHolder>{
         private List<EvaluationInfo> mDataList;
+        private HufstoryFragment mFragment;
+        private DetailNodePresenter mPresenter;
 
-        public RDAdapter(){
+        public RDAdapter(HufstoryFragment fragment, DetailNodePresenter presenter){
             mDataList = new ArrayList<>();
+            mFragment = fragment;
+            mPresenter = presenter;
         }
 
         public void dataSetChange(List<EvaluationInfo> dataList){
@@ -180,6 +185,38 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
             holder.mGradeSatis.setSelected(nodeInfo.isSatisGrade());
             holder.mContentSatis.setSelected(nodeInfo.isSatisContent());
             holder.mComment.setText(nodeInfo.getComment());
+            holder.mDeleteButton.setVisibility(nodeInfo.isWritten() ? View.VISIBLE : View.INVISIBLE);
+
+            holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog deleteDialog  = getDeleteDialog(nodeInfo.getID());
+                    deleteDialog.show();
+                }
+            });
+        }
+
+        private AlertDialog getDeleteDialog(final int evaluationID){
+            AlertDialog.Builder builder = new AlertDialog.Builder(mFragment.getActivity());
+            builder.setTitle("삭제");
+            builder.setMessage("정말로 삭제하시겠습니까?");
+            builder.setCancelable(true);
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mPresenter.deleteEvaluation(evaluationID);
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.i("삭제 취소", "cancel");
+                }
+            });
+
+            return builder.create();
         }
 
         @Override
@@ -193,6 +230,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
             protected ImageView mGradeSatis;
             protected ImageView mContentSatis;
             protected TextView mComment;
+            protected TextView mDeleteButton;
 
             public EvaluationViewHolder(View v){
                 super(v);
@@ -201,6 +239,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
                 mGradeSatis = (ImageView)v.findViewById(R.id.grade_satis);
                 mContentSatis = (ImageView)v.findViewById(R.id.content_satis);
                 mComment = (TextView)v.findViewById(R.id.comment);
+                mDeleteButton = (TextView)v.findViewById(R.id.delete_button);
             }
         }
     }

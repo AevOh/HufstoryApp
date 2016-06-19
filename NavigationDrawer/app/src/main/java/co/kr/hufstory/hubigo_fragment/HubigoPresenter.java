@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -55,8 +56,6 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                     mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(node));
 
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
-                mHubigoView.scroll(mHubigoModel.getLastMainRecyclerScrollPosition());
-                mHubigoModel.setLastMainRecyclerScrollPosition(0);
             }
 
             @Override
@@ -78,7 +77,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 for (JsonObject node : jsonObjects) {
                     JsonElement nodeElement = node.get("writtenEvaluation");
 
-                    if (!nodeElement.toString().equals("null"))
+                    if (!nodeElement.isJsonNull())
                         mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
@@ -102,10 +101,10 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             public void success(List<JsonObject> jsonObjects, Response response) {
                 mHubigoModel.getMainNodeList().clear();
 
-                for(JsonObject node : jsonObjects){
+                for (JsonObject node : jsonObjects) {
                     JsonElement nodeElement = node.get("favoriteLecture");
 
-                    if(!nodeElement.toString().equals("null"))
+                    if (!nodeElement.isJsonNull())
                         mHubigoModel.addHubigoSimpleNode(jsonToBookmarkSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
@@ -115,14 +114,28 @@ public class HubigoPresenter implements Presenter<HubigoView> {
 
             @Override
             public void failure(RetrofitError error) {
-
+                Log.e("load bookmarkNode error", error.toString());
             }
         });
     }
 
+    public void loadSearchInfo(String keyword){
+        if(keyword.length() < 2)
+            mHubigoView.showErrorToast("2글자 미만으로 검색할 수 없습니다.");
+
+
+    }
+
+    public void loadLastMainNodes(){
+        if(mHubigoModel.getMainNodeList().isEmpty())
+            loadMainSimpleNodes();
+        else
+            mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+    }
+
     public void loadDetailNode(int id){
         mHubigoModel.setSelectLectureID(id);
-        mHubigoView.showDetailNode(id);
+        mHubigoView.showDetailNode();
     }
 
     public void userInfoChange(String cookies){
@@ -149,10 +162,6 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             removeBookmark(bookmarkInfo, position, lectureID);
 
         bookmarkView.setSelected(isSelect);
-    }
-
-    public void saveRecyclerScroll(int position){
-        mHubigoModel.setLastMainRecyclerScrollPosition(position);
     }
 
     private float divideFloat(float num, float den){
@@ -203,7 +212,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         float content_count = bookmarkNodeJson.get("content_count").getAsFloat();
         String comment = "";
 
-        if(!evaluationElement.toString().equals("null"))
+        if(!evaluationElement.isJsonNull())
             comment = evaluationElement.getAsJsonObject()
                     .get("comment").getAsString();
 
