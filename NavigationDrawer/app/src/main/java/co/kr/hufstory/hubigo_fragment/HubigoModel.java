@@ -29,6 +29,7 @@ public class HubigoModel {
     private ToggleManager<String> mNodes;
     private boolean isAct;
 
+    private String mCurrentKeyword = "";
     private int mSelectLectureID;
 
     static public synchronized HubigoModel getInstance(){
@@ -110,6 +111,14 @@ public class HubigoModel {
 
     public void setUserSession(String userSession){
         mUserSession = userSession;
+    }
+
+    public void setCurrentKeyword(String keyword){
+        mCurrentKeyword = keyword;
+    }
+
+    public String getCurrentKeyword(){
+        return mCurrentKeyword;
     }
 
     public void setSelectLectureID(int id){

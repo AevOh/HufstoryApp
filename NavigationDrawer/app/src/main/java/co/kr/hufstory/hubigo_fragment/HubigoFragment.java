@@ -1,34 +1,25 @@
 package co.kr.hufstory.hubigo_fragment;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +38,7 @@ import co.kr.hufstory.main.MainActivity;
 public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     private MainActivity mActivity;
     private DetailNodeFragment mDetailFragment;
+    private HubigoStatusFragment mStatusFragment;
 
     private HubigoPresenter mPresenter;
     private RHAdapter mRHAdapter;
@@ -63,6 +55,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     public HubigoFragment() {
         mDetailFragment = new DetailNodeFragment();
+        mStatusFragment = new HubigoStatusFragment();
 
         mPresenter = new HubigoPresenter();
         mPresenter.attachView(this);
@@ -92,7 +85,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_ENTER) {
-                    mPresenter.loadMainSimpleNodes();
+                    mPresenter.loadSearchSimpleNodes(mSearchBar.getText().toString());
                     return true;
                 }
                 return false;
@@ -102,7 +95,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadMainSimpleNodes();
+                mPresenter.loadSearchSimpleNodes(mSearchBar.getText().toString());
             }
         });
 
@@ -159,13 +152,19 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     }
 
     @Override
+    public void clearSearchBar(){
+        mSearchBar.setText("");
+    }
+
+    @Override
     public void scroll(int position){
         mRecyclerView.scrollToPosition(position);
     }
 
     @Override
     public void close(){
-        super.backKeyAction(mActivity);
+        mActivity.getWebViewManager().startWebView(getResources().getString(R.string.hufstoy_login));
+        mToolbarLayout.removeView(mUserButtonView);
     }
 
     @Override
@@ -192,7 +191,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
         mStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showAdminStatus();
             }
         });
         mWrittenButton.setOnClickListener(new View.OnClickListener() {
@@ -207,6 +206,10 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
                 mPresenter.loadBookmarkSimpleNodes();
             }
         });
+    }
+
+    private void showAdminStatus(){
+        mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mStatusFragment, R.anim.no_animation, R.anim.no_animation);
     }
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{
@@ -246,9 +249,10 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             holder.mProfessor.setText(nodeInfo.getProfessor());
             holder.mMajor.setText(nodeInfo.getMajor());
             holder.mRecentEvaluation.setText(nodeInfo.getRecentEvaluation());
-            HubigoPieChartManager.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction(), ColorTemplate.rgb("#282828"));
-            HubigoPieChartManager.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction(), ColorTemplate.rgb("#282828"));
+            HubigoChartManager.setPieChartData(holder.mGradeChart, nodeInfo.getGradeSatisfaction(), ColorTemplate.rgb("#282828"));
+            HubigoChartManager.setPieChartData(holder.mContentChart, nodeInfo.getContentSatisfaction(), ColorTemplate.rgb("#282828"));
             holder.mBookmark.setSelected(nodeInfo.isBookmarked());
+            holder.mFootnote.setText(nodeInfo.onWritten()? "내가 쓴 평가 ▶" : "최신 평가 ▶");
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -279,6 +283,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
             protected PieChart mGradeChart;
             protected PieChart mContentChart;
             protected ImageView mBookmark;
+            protected TextView mFootnote;
 
             public HubigoNodeViewHolder(View v){
                 super(v);
@@ -290,9 +295,10 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
                 mGradeChart = (PieChart) v.findViewById(R.id.grade_chart);
                 mContentChart = (PieChart) v.findViewById(R.id.content_chart);
                 mBookmark = (ImageView) v.findViewById(R.id.bookmark);
+                mFootnote = (TextView)v.findViewById(R.id.comment_footnote);
 
-                HubigoPieChartManager.initialPieChart(mGradeChart);
-                HubigoPieChartManager.initialPieChart(mContentChart);
+                HubigoChartManager.initialPieChart(mGradeChart);
+                HubigoChartManager.initialPieChart(mContentChart);
             }
         }
     }

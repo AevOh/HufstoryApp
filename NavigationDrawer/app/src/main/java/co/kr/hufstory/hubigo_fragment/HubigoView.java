@@ -20,6 +20,8 @@ public interface HubigoView extends MvpView {
 
     void hideAdminButtons();
 
+    void clearSearchBar();
+
     void scroll(int position);
 
     void close();

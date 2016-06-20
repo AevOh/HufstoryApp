@@ -23,6 +23,16 @@ public interface HubigoService {
     @GET("/detailInfo")
     void getDetailNodeInfo(@Query("lecture_id") String id, Callback<List<JsonObject>> callback);
 
+    @GET("/searchInfo")
+    void getListSearchNodes(@Query("context") String keyword, Callback<List<JsonObject>> callback);
+
+    @GET("/statisInfo")
+    void getAmountStatus(@Query("start_year") int year, @Query("start_month") int month, @Query("start_date") int date,
+                         @Query("period") int period, Callback<List<JsonObject>> callback);
+
+    @GET("/topActiveMajor")
+    void getCategoryRank(Callback<List<JsonObject>> callback);
+
     @GET("/incUserCount")
     void increaseUserCount(Callback<String> callback);
 

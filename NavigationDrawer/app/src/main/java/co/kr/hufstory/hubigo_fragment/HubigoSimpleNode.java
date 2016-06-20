@@ -12,9 +12,10 @@ public class HubigoSimpleNode {
     private float mGradeSatisfaction;
     private float mContentSatisfaction;
     private boolean isBookmarked;
+    private boolean onWritten;
 
     public HubigoSimpleNode(int id, String lecture, String professor, String major, String recentEvaluation,
-                            float gradeSatisfaction, float contentSatisfaction, boolean isBookmarked){
+                            float gradeSatisfaction, float contentSatisfaction, boolean isBookmarked, boolean onWritten){
         mId = id;
         mLecture = lecture;
         mProfessor = professor;
@@ -23,6 +24,7 @@ public class HubigoSimpleNode {
         mGradeSatisfaction = gradeSatisfaction;
         mContentSatisfaction = contentSatisfaction;
         this.isBookmarked = isBookmarked;
+        this.onWritten = onWritten;
     }
 
     public int getId(){
@@ -59,5 +61,9 @@ public class HubigoSimpleNode {
 
     public void setBookmarked(boolean isBookmarked){
         this.isBookmarked = isBookmarked;
+    }
+
+    public boolean onWritten(){
+        return onWritten;
     }
 }

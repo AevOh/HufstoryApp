@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
     private TextView mEvaluationCount;
     private RecyclerView mRecyclerView;
 
+    private LinearLayout mGradeButton;
+    private LinearLayout mContentButton;
     private ImageView mGradeToggleButton;
     private ImageView mContentToggleButton;
     private EditText mWriteComment;
@@ -77,13 +80,15 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
         mContentChart = (PieChart) rootView.findViewById(R.id.content_chart);
         mEvaluationCount = (TextView)rootView.findViewById(R.id.evaluation_number);
 
-        HubigoPieChartManager.initialPieChart(mGradeChart);
-        HubigoPieChartManager.initialPieChart(mContentChart);
+        HubigoChartManager.initialPieChart(mGradeChart);
+        HubigoChartManager.initialPieChart(mContentChart);
 
+        mGradeButton = (LinearLayout)rootView.findViewById(R.id.grade_button);
+        mContentButton = (LinearLayout)rootView.findViewById(R.id.content_button);
         mGradeToggleButton = (ImageView)rootView.findViewById(R.id.grade_satis);
-        mGradeToggleButton.setOnClickListener(new SatisFactionOnClickListener());
         mContentToggleButton = (ImageView)rootView.findViewById(R.id.content_satis);
-        mContentToggleButton.setOnClickListener(new SatisFactionOnClickListener());
+        mGradeButton.setOnClickListener(new SatisFactionOnClickListener(mGradeToggleButton));
+        mContentButton.setOnClickListener(new SatisFactionOnClickListener(mContentToggleButton));
 
         mWriteComment = (EditText)rootView.findViewById(R.id.write_text);
         mWriteButton = (Button)rootView.findViewById(R.id.write_button);
@@ -114,8 +119,8 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
         mCredit.setText(String.valueOf(detailInfo.getCredit()) + "학점");
         mGrade.setText(detailInfo.getGrade() + "학년");
         mTime.setText(String.valueOf(detailInfo.getTime()) + "시간");
-        HubigoPieChartManager.setPieChartData(mGradeChart, detailInfo.getGradeSatisfaction(), ColorTemplate.rgb("#e7e7e7"));
-        HubigoPieChartManager.setPieChartData(mContentChart, detailInfo.getContentSatisfaction(), ColorTemplate.rgb("#e7e7e7"));
+        HubigoChartManager.setPieChartData(mGradeChart, detailInfo.getGradeSatisfaction(), ColorTemplate.rgb("#e7e7e7"));
+        HubigoChartManager.setPieChartData(mContentChart, detailInfo.getContentSatisfaction(), ColorTemplate.rgb("#e7e7e7"));
         mEvaluationCount.setText(String.valueOf(detailInfo.getEvaluationCount()));
 
         mGradeToggleButton.setSelected(true);
@@ -245,9 +250,15 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
     }
 
     private class SatisFactionOnClickListener implements View.OnClickListener{
+        private View selectView;
+
+        public SatisFactionOnClickListener(View v){
+            selectView = v;
+        }
+
         @Override
         public void onClick(View v) {
-            v.setSelected(!v.isSelected());
+            selectView.setSelected(!selectView.isSelected());
         }
     }
 }

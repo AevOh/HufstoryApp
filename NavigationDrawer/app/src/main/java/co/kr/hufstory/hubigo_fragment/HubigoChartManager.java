@@ -1,19 +1,23 @@
 package co.kr.hufstory.hubigo_fragment;
 
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hyeong Wook on 2016-05-31.
  */
-public final class HubigoPieChartManager {
-    private HubigoPieChartManager(){}
+abstract public class HubigoChartManager {
+    private HubigoChartManager(){}
 
     static public void initialPieChart(PieChart pieChart){
         pieChart.setHoleRadius(80f);
@@ -25,8 +29,6 @@ public final class HubigoPieChartManager {
         pieChart.setDragDecelerationEnabled(false);
         pieChart.setHighlightPerTapEnabled(false);
         pieChart.getLegend().setEnabled(false);
-
-        pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
     }
 
     static public void setPieChartData(PieChart pieChart, float satisfaction, int centerTextColor){
@@ -51,5 +53,22 @@ public final class HubigoPieChartManager {
         pieChart.setCenterTextColor(centerTextColor);
         pieChart.notifyDataSetChanged();
         pieChart.invalidate();
+        pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+    }
+
+    static public void initialBarChart(BarChart barChart){
+        barChart.setDescription("");
+    }
+
+    static public BarDataSet getBarChartDateSet(String dataSetName, int color, List<Integer> values){
+        ArrayList<BarEntry> datas = new ArrayList<>();
+
+        for(int data : values)
+            datas.add(new BarEntry(data, datas.size()));
+
+        BarDataSet result = new BarDataSet(datas, dataSetName);
+        result.setColor(color);
+
+        return result;
     }
 }

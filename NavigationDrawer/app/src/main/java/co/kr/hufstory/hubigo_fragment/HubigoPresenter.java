@@ -56,13 +56,14 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.getListMainNodes(new Callback<List<JsonObject>>() {
             @Override
             public void success(List<JsonObject> JsonObjects, Response response) {
+                mHubigoModel.setNodeOn("main");
                 mHubigoModel.getMainNodeList().clear();
 
                 for (JsonObject node : JsonObjects)
                     mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(node));
 
-                mHubigoModel.setNodeOn("main");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.clearSearchBar();
                 mHubigoView.scroll(0);
             }
 
@@ -80,6 +81,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.getListWrittenNodes(session, new Callback<List<JsonObject>>() {
             @Override
             public void success(List<JsonObject> jsonObjects, Response response) {
+                mHubigoModel.setNodeOn("write");
                 mHubigoModel.getMainNodeList().clear();
 
                 for (JsonObject node : jsonObjects) {
@@ -89,8 +91,8 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                         mHubigoModel.addHubigoSimpleNode(jsonToHubigoSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
-                mHubigoModel.setNodeOn("write");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.clearSearchBar();
                 mHubigoView.scroll(0);
             }
 
@@ -108,17 +110,18 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         mHubigoService.getListBookmarkNodes(session, new Callback<List<JsonObject>>() {
             @Override
             public void success(List<JsonObject> jsonObjects, Response response) {
+                mHubigoModel.setNodeOn("bookmark");
                 mHubigoModel.getMainNodeList().clear();
 
                 for (JsonObject node : jsonObjects) {
                     JsonElement nodeElement = node.get("favoriteLecture");
 
                     if (!nodeElement.isJsonNull())
-                        mHubigoModel.addHubigoSimpleNode(jsonToBookmarkSimpleNode(nodeElement.getAsJsonObject()));
+                        mHubigoModel.addHubigoSimpleNode(specialJsonToHubigoSimpleNode(nodeElement.getAsJsonObject()));
                 }
 
-                mHubigoModel.setNodeOn("bookmark");
                 mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.clearSearchBar();
                 mHubigoView.scroll(0);
             }
 
@@ -129,22 +132,41 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         });
     }
 
-    public void loadSearchInfo(String keyword){
+    public void loadSearchSimpleNodes(final String keyword){
         if(keyword.length() < 2)
             mHubigoView.showErrorToast("2글자 미만으로 검색할 수 없습니다.");
 
+        mHubigoService.getListSearchNodes(keyword, new Callback<List<JsonObject>>() {
+            @Override
+            public void success(List<JsonObject> jsonObjects, Response response) {
+                mHubigoModel.setNodeOn("search");
+                mHubigoModel.getMainNodeList().clear();
 
+                for (JsonObject node : jsonObjects)
+                    mHubigoModel.addHubigoSimpleNode(specialJsonToHubigoSimpleNode(node));
+
+                mHubigoModel.setCurrentKeyword(keyword);
+                mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
+                mHubigoView.scroll(0);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("load searchNode error", error.toString());
+            }
+        });
     }
 
     public void loadLastMainNodes(){
         if(mHubigoModel.getMainNodeList().isEmpty())
-            loadMainSimpleNodes();
+            return;
         else if(!mHubigoModel.isAct())
             mHubigoView.showSimpleNodeList(mHubigoModel.getMainNodeList());
         else{
             if(mHubigoModel.nodeOn("main")) loadMainSimpleNodes();
             else if(mHubigoModel.nodeOn("bookmark")) loadBookmarkSimpleNodes();
             else if(mHubigoModel.nodeOn("write")) loadWrittenSimpleNodes();
+            else if(mHubigoModel.nodeOn("search")) loadSearchSimpleNodes(mHubigoModel.getCurrentKeyword());
         }
         mHubigoModel.setAct(false);
     }
@@ -222,20 +244,21 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 getLimitSizedString(simpleNodeJson.get("comment").getAsString(), 100),
                 divideFloat(score_count, evaluation_count),
                 divideFloat(content_count, evaluation_count),
-                mHubigoModel.isBookmarked(lectureID)
+                mHubigoModel.isBookmarked(lectureID),
+                mHubigoModel.nodeOn("write")
         );
     }
 
-    private HubigoSimpleNode jsonToBookmarkSimpleNode(JsonObject bookmarkNodeJson){
-        JsonElement evaluationElement = bookmarkNodeJson.get("lectureEvaluation");
+    private HubigoSimpleNode specialJsonToHubigoSimpleNode(JsonObject nodeJson){
+        JsonElement evaluationElement = nodeJson.get("lectureEvaluation");
 
-        JsonObject professorJson = bookmarkNodeJson.getAsJsonObject("professor");
+        JsonObject professorJson = nodeJson.getAsJsonObject("professor");
         JsonObject majorJson = professorJson.getAsJsonObject("major");
 
-        int lectureID = bookmarkNodeJson.get("lecture_id").getAsInt();
-        float evaluation_count = bookmarkNodeJson.get("evaluation_count").getAsFloat();
-        float score_count = bookmarkNodeJson.get("score_count").getAsFloat();
-        float content_count = bookmarkNodeJson.get("content_count").getAsFloat();
+        int lectureID = nodeJson.get("lecture_id").getAsInt();
+        float evaluation_count = nodeJson.get("evaluation_count").getAsFloat();
+        float score_count = nodeJson.get("score_count").getAsFloat();
+        float content_count = nodeJson.get("content_count").getAsFloat();
         String comment = "";
 
         if(!evaluationElement.isJsonNull())
@@ -244,13 +267,14 @@ public class HubigoPresenter implements Presenter<HubigoView> {
 
         return new HubigoSimpleNode(
                 lectureID,
-                bookmarkNodeJson.get("name").getAsString(),
+                nodeJson.get("name").getAsString(),
                 professorJson.get("name").getAsString(),
                 majorJson.get("name").getAsString(),
                 getLimitSizedString(comment, 100),
                 divideFloat(score_count, evaluation_count),
                 divideFloat(content_count, evaluation_count),
-                mHubigoModel.isBookmarked(lectureID)
+                mHubigoModel.isBookmarked(lectureID),
+                mHubigoModel.nodeOn("write")
         );
     }
 
