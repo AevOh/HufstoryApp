@@ -305,7 +305,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
 
                 mHubigoModel.clear();
                 mHubigoModel.setUserInfo(userInfo);
-                mHubigoView.showToolbarButtons();
+                //mHubigoView.showToolbarButtons();
 
                 if(userInfo.is_admin() == 'Y')
                     mHubigoView.showAdminButtons();

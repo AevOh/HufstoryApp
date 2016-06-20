@@ -210,6 +210,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     private void showAdminStatus(){
         mActivity.contentFragmentTransaction(MainActivity.FRAGMENT_LAYOUT, mStatusFragment, R.anim.no_animation, R.anim.no_animation);
+        mToolbarLayout.removeAllViews();
     }
 
     private static class RHAdapter extends RecyclerView.Adapter<RHAdapter.HubigoNodeViewHolder>{

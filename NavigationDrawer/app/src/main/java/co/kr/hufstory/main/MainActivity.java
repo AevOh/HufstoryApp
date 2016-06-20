@@ -305,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.home:
                     mWebViewManager.goBackWebViewToHome();
+                    mToolbarLayout.removeAllViews();
                     break;
 
                 case R.id.exit:
