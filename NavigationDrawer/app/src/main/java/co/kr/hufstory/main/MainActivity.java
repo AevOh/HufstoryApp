@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.home:
                     mWebViewManager.goBackWebViewToHome();
                     mToolbarLayout.removeAllViews();
+                    getSupportActionBar().show();
                     break;
 
                 case R.id.exit:
@@ -381,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
 
             mFrameLayout.removeView(mWebViewManager.getWebView());
             mToolbarLayout.removeAllViews();
+            getSupportActionBar().show();
 
             v.setSelected(true);
         }
@@ -403,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
 
             mToolbarLayout.removeAllViews();
             mDrawerLayout.closeDrawers();
+            getSupportActionBar().show();
 
             return true;
         }
