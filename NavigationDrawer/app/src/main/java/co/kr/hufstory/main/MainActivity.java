@@ -401,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
             String childName = mExpListAdapter.getChild(groupPosition, childPosition).toString();
             mWebViewManager.startWebView(mExpListUrlHash.get(childName));
 
+            mToolbarLayout.removeAllViews();
             mDrawerLayout.closeDrawers();
 
             return true;
