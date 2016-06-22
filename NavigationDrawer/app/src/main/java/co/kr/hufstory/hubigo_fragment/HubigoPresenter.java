@@ -10,6 +10,7 @@ import java.util.List;
 
 import co.kr.hufstory.Util.CookieParser;
 import co.kr.hufstory.main.MainActivity;
+import co.kr.hufstory.main.UserInfo;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

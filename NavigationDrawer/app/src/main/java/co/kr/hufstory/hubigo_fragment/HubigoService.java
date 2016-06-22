@@ -1,16 +1,14 @@
 package co.kr.hufstory.hubigo_fragment;
 
-import android.telecom.Call;
-
 import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import co.kr.hufstory.main.UserInfo;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**

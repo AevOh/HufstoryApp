@@ -162,7 +162,7 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
 
     @Override
     public void close(){
-        mActivity.getWebViewManager().startWebView(getResources().getString(R.string.hufstoy_login));
+        mActivity.getWebViewManager().startWebView(getResources().getString(R.string.hufstory_login));
         mToolbarLayout.removeView(mUserButtonView);
     }
 

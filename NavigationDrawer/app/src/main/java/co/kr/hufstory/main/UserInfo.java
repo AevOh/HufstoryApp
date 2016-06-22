@@ -1,4 +1,4 @@
-package co.kr.hufstory.hubigo_fragment;
+package co.kr.hufstory.main;
 
 /**
  * Created by Hyeong Wook on 2016-05-24.
@@ -7,6 +7,7 @@ public class UserInfo {
     private String user_id;
     private String nick_name;
     private char is_admin;
+    private boolean isLogin;
 
     public String getUser_id(){
         return user_id;
@@ -30,5 +31,13 @@ public class UserInfo {
 
     public void setIs_admin(char is_admin){
         this.is_admin = is_admin;
+    }
+
+    public void setLogin(boolean isLogin){
+        this.isLogin = isLogin;
+    }
+
+    public boolean isLogin(){
+        return isLogin;
     }
 }

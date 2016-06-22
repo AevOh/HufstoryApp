@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.Util.ToggleManager;
+import co.kr.hufstory.main.UserInfo;
 
 /**
  * Created by Hyeong Wook on 2016-05-23.

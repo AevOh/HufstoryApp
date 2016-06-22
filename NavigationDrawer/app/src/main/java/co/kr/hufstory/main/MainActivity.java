@@ -24,6 +24,7 @@ import android.webkit.CookieManager;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -76,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mBbangButton;
     private ImageView mMomoButton;
 
-    //private boolean onWebView;
+    private TextView mNickName;
+    private TextView mID;
+    private TextView mLoginText;
+
     private boolean onFragment;
 
     private WebChromeFileLoadClient mWebChromeFileLoadClient;
@@ -93,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
     private MarketVersionChecker mMarketVersionChecker;
     private VersionCheckTread mVersioniCheckThread;
 
+    private MainController mController;
+
     public MainActivity(){
         super();
+        mController = new MainController();
+        mController.attachView(this);
+
         mWebChromeFileLoadClient = new WebChromeFileLoadClient(this, S_RC_FILE_CHOOSE);
     }
 
@@ -120,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
+                mController.loadUserInfo(CookieManager.getInstance().getCookie(getResources()
+                        .getString(R.string.hufstory_login)));
                 invalidateOptionsMenu();
             }
         };
@@ -154,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         mHubigoFragment.attachActivity(this);
 
         mMainButtonList = new ArrayList<>();
+
+        mNickName = (TextView)findViewById(R.id.nick_name);
+        mID = (TextView)findViewById(R.id.id);
+        mLoginText = (TextView)findViewById(R.id.login_text);
 
         // buttons initial
         initialManagingButton(mHomeButton, R.id.home);
@@ -297,6 +312,13 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showUserInfo(UserInfo userInfo){
+        mNickName.setText(userInfo.getNick_name());
+        mID.setText("(" + userInfo.getUser_id() + ")");
+        mLoginText.setText(userInfo.isLogin()?
+                getResources().getString(R.string.logout_text) : getResources().getString(R.string.login_text));
+    }
+
     // 2016.02.25 노형욱
     public class MainButtonClickedListener implements View.OnClickListener{
         @Override
@@ -310,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.hubigo:
                     contentFragmentTransaction(FRAGMENT_LAYOUT, mHubigoFragment);
-                    mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(getResources().getString(R.string.hufstoy_login)));
+                    mHubigoFragment.cookieChange(CookieManager.getInstance().getCookie(getResources().getString(R.string.hufstory_login)));
                     mHubigoFragment.showToolbarButtons();
                     break;
                 case R.id.bbang:
@@ -323,7 +345,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.login:
-                    mWebViewManager.startWebView(getResources().getString(R.string.hufstoy_login));
+                    if(mLoginText.getText().equals(getResources().getString(R.string.login_text)))
+                        mWebViewManager.startWebView(getResources().getString(R.string.hufstory_login));
+                    else
+                        mWebViewManager.startWebView(getResources().getString(R.string.hufstory_logout));
                     break;
                 case R.id.facebook:
                     mWebViewManager.startWebView(getResources().getString(R.string.facebook_url));

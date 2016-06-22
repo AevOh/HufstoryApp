@@ -9,7 +9,10 @@
     <string name="hubigo_wiki_url">http://hufstory.co.kr</string>
     <string name="momo_url">http://hufstory.co.kr/test_momo/main.php</string>
     <string name="bbang_url">http://203.253.76.178:8080/TEST/BusMapUI.html</string>
-    <string name="hufstoy_login">http://hufstory.co.kr/index.php?mid=index&amp;act=dispMemberLoginForm</string>
+    <string name="hufstory_login">http://hufstory.co.kr/index.php?mid=index&amp;act=dispMemberLoginForm</string>
+    <string name="hufstory_logout">http://hufstory.co.kr/index.php?mid=index&amp;act=dispMemberLogout</string>
+    <string name="login_text">로그인</string>
+    <string name="logout_text">로그아웃</string>
 
     <string-array name="board">
         <item>공지사항</item>

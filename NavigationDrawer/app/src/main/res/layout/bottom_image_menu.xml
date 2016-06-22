@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:id="@+id/h2"
+            android:id="@+id/login_text"
             android:layout_below="@+id/login"
             android:text="로그인"
             android:textSize="11dp"
