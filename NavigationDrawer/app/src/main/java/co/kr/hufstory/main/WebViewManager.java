@@ -9,6 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.Util.WebChromeFileLoadClient;
 
 /**
  * Created by Hyeong Wook on 2016-03-08.

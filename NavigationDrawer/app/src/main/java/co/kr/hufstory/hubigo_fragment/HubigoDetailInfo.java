@@ -1,6 +1,5 @@
 package co.kr.hufstory.hubigo_fragment;
 
-import java.util.Date;
 import java.util.List;
 
 /**

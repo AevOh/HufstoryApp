@@ -4,13 +4,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import co.kr.hufstory.R;
+import co.kr.hufstory.Util.CookieParser;
 import co.kr.hufstory.main.MainActivity;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -177,9 +175,11 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     }
 
     public void userInfoChange(String cookies){
-        String sessionID = getSessionID(cookies);
+        String sessionID = CookieParser.parse(cookies, "PHPSESSID");
 
         if(sessionID != null){
+            mHubigoModel.setUserSession(sessionID);
+
             JsonObject session = new JsonObject();
             session.addProperty("session_key", sessionID);
 
@@ -276,21 +276,6 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 mHubigoModel.isBookmarked(lectureID),
                 mHubigoModel.nodeOn("write")
         );
-    }
-
-    private String getSessionID(String cookies){
-        String[] cookie = cookies.split(";");
-        String key = "PHPSESSID";
-
-        for(String arg : cookie){
-            if(arg.contains(key)){
-                String[] cookieValue = arg.split("=");
-                mHubigoModel.setUserSession(cookieValue[1]);
-                return cookieValue[1];
-            }
-        }
-
-        return null;
     }
 
     private void loadUserInfo(final JsonObject session){

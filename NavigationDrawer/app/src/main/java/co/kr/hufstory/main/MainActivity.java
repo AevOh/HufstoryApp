@@ -1,6 +1,5 @@
 package co.kr.hufstory.main;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
@@ -10,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.GravityCompat;
@@ -20,13 +18,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.ValueCallback;
-import android.webkit.WebView;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,8 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.Util.WebChromeFileLoadClient;
 import co.kr.hufstory.hubigo_fragment.HubigoFragment;
-import co.kr.hufstory.login.LoginInfo;
 import co.kr.hufstory.menu_fragment.MenuFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
@@ -98,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
     /* 2016.02.27, Aev Oh, 자동 업데이트 부분. */
     private MarketVersionChecker mMarketVersionChecker;
     private VersionCheckTread mVersioniCheckThread;
-
-    /* 2016.03.15, Aev Oh, 로그인 정보 부분. */
-    private LoginInfo loginInfo;
 
     public MainActivity(){
         super();
@@ -183,30 +174,17 @@ public class MainActivity extends AppCompatActivity {
         mVersioniCheckThread = new VersionCheckTread();
         mMarketVersionChecker.doMarketVersionTask();
         mVersioniCheckThread.execute();
-
-        /* 2016.02.28, Aev Oh, 회원 정보 갖어오는 클래스 호출 부분. */
-        loginInfo = new LoginInfo();
-        loginInfo.pullLogin();
-
-        /* 2016.03.15, Aev Oh, WebView 세션 가져오기. */
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().sync();
     }
 
     /* 2016.03.15, Aev Oh, WebView 세션 유지를 위해 추가. */
     @Override
     public void onResume(){
         super.onResume();
-        CookieSyncManager.getInstance().startSync();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-
-        if (CookieSyncManager.getInstance() != null) {
-            CookieSyncManager.getInstance().stopSync();
-        }
     }
 
     public void onWebViewTrigger(){
@@ -352,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
-                    loginInfo.pullLogin();
                     break;
                 case R.id.setting:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();

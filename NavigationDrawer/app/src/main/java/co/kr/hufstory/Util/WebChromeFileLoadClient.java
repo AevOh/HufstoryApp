@@ -1,4 +1,4 @@
-package co.kr.hufstory.main;
+package co.kr.hufstory.Util;
 
 import android.content.Intent;
 import android.net.Uri;
