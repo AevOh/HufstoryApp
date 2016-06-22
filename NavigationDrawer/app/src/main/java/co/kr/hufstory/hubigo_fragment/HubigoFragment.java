@@ -19,12 +19,11 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.Util.FocusOutInterrupt;
 import co.kr.hufstory.main.HufstoryFragment;
 import co.kr.hufstory.main.MainActivity;
 

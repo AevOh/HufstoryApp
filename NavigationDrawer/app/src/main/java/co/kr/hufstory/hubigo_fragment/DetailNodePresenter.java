@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.Util.DataFormat;
 import co.kr.hufstory.main.MainActivity;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -150,8 +151,8 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
 
         return new HubigoDetailInfo(
                 lecture.get("name").getAsString(),
-                professor.get("name").getAsString(),
-                major.get("name").getAsString(),
+                DataFormat.formatString(professor.get("name").getAsString(), 10, 2),
+                DataFormat.formatString(major.get("name").getAsString(), 8, 2),
                 lecture.get("credit").getAsInt(),
                 lecture.get("grade").getAsInt(),
                 lecture.get("time").getAsInt(),
@@ -172,7 +173,7 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
                 lectureEvaluation.get("score_recommend").getAsInt() != 0,
                 lectureEvaluation.get("contents_recommend").getAsInt() != 0,
                 lectureEvaluation.get("comment").getAsString(),
-                mModel.isWrittenEvaluation(lectureEvaluation.get("evaluation_id").getAsInt())
+                mModel.isAdmin() || mModel.isWrittenEvaluation(lectureEvaluation.get("evaluation_id").getAsInt())
         );
     }
 

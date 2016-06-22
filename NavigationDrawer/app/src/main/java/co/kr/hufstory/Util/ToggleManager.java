@@ -1,4 +1,4 @@
-package co.kr.hufstory.hubigo_fragment;
+package co.kr.hufstory.Util;
 
 import java.util.HashMap;
 

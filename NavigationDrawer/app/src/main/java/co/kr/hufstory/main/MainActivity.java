@@ -102,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
     /* 2016.03.15, Aev Oh, 로그인 정보 부분. */
     private LoginInfo loginInfo;
 
+    public MainActivity(){
+        super();
+        mWebChromeFileLoadClient = new WebChromeFileLoadClient(this, S_RC_FILE_CHOOSE);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbarLayout = (CoordinatorLayout)findViewById(R.id.toolbarLayout);
 
         mFrameLayout = (FrameLayout)findViewById(R.id.content_frame);
-        mWebViewManager = new WebViewManager(R.id.webView, this, mFrameLayout);
+        mWebViewManager = new WebViewManager(R.id.webView, this, mFrameLayout, mWebChromeFileLoadClient);
         mWebViewManager.startWebView(getResources().getString(R.string.main_url));
 
         mFragmentManager = getFragmentManager();
@@ -277,26 +282,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == S_RC_FILE_CHOOSE)
-            getUploadedRCFile(resultCode, data);
-    }
-
-    // webview에서 파일 업로드시 업로드 결과를 받는 메서드
-    private void getUploadedRCFile(int resultCode, Intent data){
-        Uri result = null;
-        ValueCallback<Uri> uploadMsg = mWebChromeFileLoadClient.getUploadMsg();
-        ValueCallback<Uri[]> filePathCallback = mWebChromeFileLoadClient.getFilePathCallback();
-
-        if (data != null || resultCode == RESULT_OK)
-            result = data.getData();
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && uploadMsg != null) {
-            uploadMsg.onReceiveValue(result);
-            uploadMsg = null;
-
-        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && filePathCallback != null){
-            filePathCallback.onReceiveValue(android.webkit.WebChromeClient.FileChooserParams.parseResult(resultCode, data));
-            filePathCallback = null;
-        }
+            mWebChromeFileLoadClient.getUploadedRCFile(resultCode, data);
     }
 
     public class ManagingButtonClickedListener implements View.OnClickListener{

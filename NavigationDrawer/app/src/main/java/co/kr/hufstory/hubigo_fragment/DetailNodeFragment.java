@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.kr.hufstory.R;
+import co.kr.hufstory.Util.FocusOutInterrupt;
 import co.kr.hufstory.main.HufstoryFragment;
 import co.kr.hufstory.main.MainActivity;
 
@@ -114,8 +115,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
     public void show(HubigoDetailInfo detailInfo) {
         mLecture.setText(detailInfo.getLecture());
         mProfessor.setText(detailInfo.getProfessor());
-        mMajor.setText(detailInfo.getMajor().length() > 8?
-                detailInfo.getMajor().substring(0,8) + ".." : detailInfo.getMajor());
+        mMajor.setText(detailInfo.getMajor());
         mCredit.setText(String.valueOf(detailInfo.getCredit()) + "학점");
         mGrade.setText(detailInfo.getGrade() + "학년");
         mTime.setText(String.valueOf(detailInfo.getTime()) + "시간");

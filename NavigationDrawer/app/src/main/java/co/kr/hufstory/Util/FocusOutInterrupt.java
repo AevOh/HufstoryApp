@@ -1,4 +1,4 @@
-package co.kr.hufstory.hubigo_fragment;
+package co.kr.hufstory.Util;
 
 import android.app.Activity;
 import android.content.Context;

@@ -18,19 +18,20 @@ import java.nio.channels.FileLockInterruptionException;
  * Created by Hyeong Wook on 2016-03-03.
  */
 public class WebChromeFileLoadClient extends android.webkit.WebChromeClient {
+
     private AppCompatActivity mActivity;
-    private ValueCallback<Uri> mUploadMsg;
-    private ValueCallback<Uri[]> mFilePathCallback;
+    private ValueCallback<Uri> mUploadMsg = null;
+    private ValueCallback<Uri[]> mFilePathCallback = null;
+    private int mResultSerial;
 
     // activity require
-    public WebChromeFileLoadClient(AppCompatActivity activity){
+    public WebChromeFileLoadClient(AppCompatActivity activity, int resultSerial){
         mActivity = activity;
+        mResultSerial = resultSerial;
     }
 
     // VERSION 2.2+
     public void openFileChooser(ValueCallback<Uri> uploadMsg){
-        Log.i("fileChoose", "2.2");
-        mUploadMsg = uploadMsg;
         startFileOpeningIntent(mActivity);
         mUploadMsg = uploadMsg;
      }
@@ -45,9 +46,24 @@ public class WebChromeFileLoadClient extends android.webkit.WebChromeClient {
         openFileChooser(uploadFile);
     }
 
+    public void getUploadedRCFile(int resultCode, Intent data){
+        Uri result = null;
+
+        if (data != null || resultCode == mActivity.RESULT_OK)
+            result = data.getData();
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && mUploadMsg != null) {
+            mUploadMsg.onReceiveValue(result);
+            mUploadMsg = null;
+
+        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mFilePathCallback != null){
+            mFilePathCallback.onReceiveValue(android.webkit.WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            mFilePathCallback = null;
+        }
+    }
+
     // VERSION 5.0+
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, android.webkit.WebChromeClient.FileChooserParams fileChooserParams){
-        mFilePathCallback = filePathCallback;
         startFileOpeningIntent(mActivity, fileChooserParams);
         mFilePathCallback = filePathCallback;
         return true;
@@ -58,7 +74,7 @@ public class WebChromeFileLoadClient extends android.webkit.WebChromeClient {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        activity.startActivityForResult(Intent.createChooser(intent, "File Chooser"), MainActivity.S_RC_FILE_CHOOSE);
+        activity.startActivityForResult(Intent.createChooser(intent, "File Chooser"), mResultSerial);
     }
 
     // more API 21
@@ -66,18 +82,10 @@ public class WebChromeFileLoadClient extends android.webkit.WebChromeClient {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             try {
                 Intent intent = fileChooserParams.createIntent();
-                activity.startActivityForResult(intent, MainActivity.S_RC_FILE_CHOOSE);
+                activity.startActivityForResult(intent, mResultSerial);
             } catch (NullPointerException e) {
                 Log.e("Error", "intent is null");
             }
         }
-    }
-
-    public ValueCallback<Uri> getUploadMsg(){
-        return mUploadMsg;
-    }
-
-    public ValueCallback<Uri[]> getFilePathCallback(){
-        return mFilePathCallback;
     }
 }

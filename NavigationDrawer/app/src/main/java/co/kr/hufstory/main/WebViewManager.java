@@ -19,21 +19,20 @@ public class WebViewManager {
     private WebView mWebView;
     private LayoutInflater mInflater;
     private View mView;
-    private WebChromeFileLoadClient mWebChromeFileLoadClient;
     private boolean mOnWebView;
     private boolean mOnFragment;
 
-    public WebViewManager(int webViewId, MainActivity mainActivity, FrameLayout webViewContainer){
+    public WebViewManager(int webViewId, MainActivity mainActivity, FrameLayout webViewContainer, WebChromeFileLoadClient fileLoadClient){
         mActivity = mainActivity;
         mContainer = webViewContainer;
 
         mWebView = initialWebView(webViewId);
+        mWebView.setWebChromeClient(fileLoadClient);
     }
 
-    private WebView initialWebView(int id){
+    private WebView initialWebView(int id) {
         mInflater = LayoutInflater.from(mActivity.getBaseContext());
         mView = mInflater.inflate(R.layout.webview, null, false);
-        mWebChromeFileLoadClient = new WebChromeFileLoadClient(mActivity);
 
         WebView webView = (WebView)mView.findViewById(id);
         webView.setWebViewClient(new WebViewClient() {
@@ -49,7 +48,6 @@ public class WebViewManager {
                 return true;
             }
         });
-        webView.setWebChromeClient(mWebChromeFileLoadClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setSupportZoom(true);

@@ -1,16 +1,9 @@
 package co.kr.hufstory.hubigo_fragment;
 
-import android.util.Log;
-
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import co.kr.hufstory.Util.ToggleManager;
 
 /**
  * Created by Hyeong Wook on 2016-05-23.
@@ -22,12 +15,13 @@ public class HubigoModel {
 
     private UserInfo mUserInfo;
     private String mUserSession;
+    private boolean isAdmin = false;
 
     private List<Integer> mBookmarkList;
     private List<Integer> mWrittenList;
 
     private ToggleManager<String> mNodes;
-    private boolean isAct;
+    private boolean isAct = false;
 
     private String mCurrentKeyword = "";
     private int mSelectLectureID;
@@ -111,6 +105,14 @@ public class HubigoModel {
 
     public void setUserSession(String userSession){
         mUserSession = userSession;
+    }
+
+    public boolean isAdmin(){
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin){
+        this.isAdmin = isAdmin;
     }
 
     public void setCurrentKeyword(String keyword){

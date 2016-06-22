@@ -69,7 +69,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("fail", error.toString());
+                Log.e("load main fail", error.toString());
             }
         });
     }
@@ -307,10 +307,14 @@ public class HubigoPresenter implements Presenter<HubigoView> {
                 mHubigoModel.setUserInfo(userInfo);
                 //mHubigoView.showToolbarButtons();
 
-                if(userInfo.is_admin() == 'Y')
+                if(userInfo.is_admin() == 'Y') {
+                    mHubigoModel.setAdmin(true);
                     mHubigoView.showAdminButtons();
-                else
+                }
+                else {
+                    mHubigoModel.setAdmin(false);
                     mHubigoView.hideAdminButtons();
+                }
 
                 loadUserHubigoInfo(session);
             }
@@ -318,6 +322,8 @@ public class HubigoPresenter implements Presenter<HubigoView> {
             @Override
             public void failure(RetrofitError error) {
                 Log.e("loadBaseInfoError", error.toString());
+                mHubigoView.showErrorToast("서버와의 통신이 원활하지 않습니다.");
+                mHubigoView.close();
             }
         });
     }
