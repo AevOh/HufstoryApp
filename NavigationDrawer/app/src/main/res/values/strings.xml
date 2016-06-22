@@ -20,6 +20,7 @@
         <item>야생</item>
         <item>외대 갤러리</item>
         <item>공모전 및 대외활동</item>
+        <item>쿠잉</item>
     </string-array>
     <string-array name="board_url">
         <item>http://hufstory.co.kr/Notice</item>
@@ -27,6 +28,7 @@
         <item>http://hufstory.co.kr/Anonymous_board</item>
         <item>http://hufstory.co.kr/Gallery</item>
         <item>http://hufstory.co.kr/International_activity</item>
+        <item>http://hufstory.co.kr/Cooing</item>
     </string-array>
 
     <string-array name="reporter">
@@ -65,10 +67,12 @@
     <string-array name="alliance">
         <item>훕스토리 제휴 운영</item>
         <item>밝은성모안과</item>
+        <item>명동수치과</item>
     </string-array>
     <string-array name="alliance_url">
         <item>http://hufstory.co.kr/Alliance_all</item>
         <item>http://hufstory.co.kr/Oklasik_board</item>
+        <item>http://hufstory.co.kr/Dentist_Board</item>
     </string-array>
 
     <string-array name="hotlink">
