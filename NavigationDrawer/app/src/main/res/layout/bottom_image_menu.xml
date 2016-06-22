@@ -13,18 +13,19 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/login"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/login"
+            android:id="@+id/login_image"
             android:src="@drawable/loginicon"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/login_text"
-            android:layout_below="@+id/login"
+            android:layout_below="@+id/login_image"
             android:text="로그인"
             android:textSize="11dp"
             android:layout_marginTop="3dp"
@@ -33,18 +34,19 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/facebook"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/facebook"
+            android:id="@+id/facebook_image"
             android:src="@drawable/facebookicon" />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/b2"
-            android:layout_below="@+id/facebook"
+            android:layout_below="@+id/facebook_image"
             android:text="페이스북"
             android:textSize="11dp"
             android:layout_marginTop="3dp"
@@ -53,38 +55,40 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/event"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/event"
+            android:id="@+id/event_image"
             android:src="@drawable/eventicon"
             />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/e2"
-            android:layout_below="@+id/event"
+            android:layout_below="@+id/event_image"
             android:text="이벤트"
             android:gravity="center"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/setting"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/setting"
+            android:id="@+id/setting_image"
             android:src="@drawable/settingicon"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/m2"
-            android:layout_below="@+id/setting"
+            android:layout_below="@+id/setting_image"
             android:text="설정"
             android:gravity="center"/>
     </RelativeLayout>

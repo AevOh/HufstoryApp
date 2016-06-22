@@ -24,6 +24,7 @@ import android.webkit.CookieManager;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private CoordinatorLayout mToolbarLayout;
 
     private List<View> mMainButtonList;
-    private ImageView mEatMenuButton;
-    private ImageView mHubigoButton;
-    private ImageView mBbangButton;
-    private ImageView mMomoButton;
 
     private TextView mNickName;
     private TextView mID;
@@ -84,14 +81,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean onFragment;
 
     private WebChromeFileLoadClient mWebChromeFileLoadClient;
-
-    /*2016.02.25 00:10 yuri*/
-    private ImageView mHomeButton;
-    private ImageView mExitButton;
-    private ImageView mSettingButton;
-    private ImageView mEventButton;
-    private ImageView mLoginButton;
-    private ImageView mFacebookButton;
 
     /* 2016.02.27, Aev Oh, 자동 업데이트 부분. */
     private MarketVersionChecker mMarketVersionChecker;
@@ -171,17 +160,17 @@ public class MainActivity extends AppCompatActivity {
         mLoginText = (TextView)findViewById(R.id.login_text);
 
         // buttons initial
-        initialManagingButton(mHomeButton, R.id.home);
-        initialManagingButton(mExitButton, R.id.exit);
+        initialManagingButton(R.id.home);
+        initialManagingButton(R.id.exit);
 
-        initialMainButton(mEatMenuButton, R.id.eatmenu);
-        initialMainButton(mHubigoButton, R.id.hubigo);
-        initialMainButton(mBbangButton, R.id.bbang);
-        initialMainButton(mMomoButton, R.id.momo);
-        initialMainButton(mLoginButton, R.id.login);
-        initialMainButton(mFacebookButton, R.id.facebook);
-        initialMainButton(mEventButton, R.id.event);
-        initialMainButton(mSettingButton, R.id.setting);
+        initialMainButton(R.id.eatmenu);
+        initialMainButton(R.id.hubigo);
+        initialMainButton(R.id.bbang);
+        initialMainButton(R.id.momo);
+        initialMainButton(R.id.login);
+        initialMainButton(R.id.facebook);
+        initialMainButton(R.id.event);
+        initialMainButton(R.id.setting);
 
         /* 2016.02.27, Aev Oh, 어플 자동 업데이트 함수 호출 부분. */
         onTakeDeviceVersion();
@@ -259,14 +248,14 @@ public class MainActivity extends AppCompatActivity {
             mExpListUrlHash.put(keyList.get(i), valueList.get(i));
     }
 
-    private void initialMainButton(View button, int id){
-        button = (ImageView)findViewById(id);
+    private void initialMainButton(int id){
+        View button = findViewById(id);
         button.setOnClickListener(new MainButtonClickedListener());
         mMainButtonList.add(button);
     }
 
-    private void initialManagingButton(View button, int id){
-        button = (ImageView)findViewById(id);
+    private void initialManagingButton(int id){
+        View button = findViewById(id);
         button.setOnClickListener(new ManagingButtonClickedListener());
     }
 

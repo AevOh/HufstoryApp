@@ -13,50 +13,53 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/hubigo"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/hubigo"
+            android:id="@+id/hubigo_image"
             android:tag="후비고"
             android:src="@drawable/hubigoicon"/>
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/h"
-            android:layout_below="@id/hubigo"
+            android:layout_below="@id/hubigo_image"
             android:text="후비고"
             android:gravity="center"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/bbang"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/bbang"
+            android:id="@+id/bbang_image"
             android:src="@drawable/busicon" />
         <TextView
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/b"
             android:src="@drawable/bbang"
-            android:layout_below="@id/bbang"
+            android:layout_below="@id/bbang_image"
             android:text="빵차"
             android:gravity="center"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/eatmenu"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:id="@+id/eatmenu"
+            android:id="@+id/eatmenu_image"
             android:tag="식단표"
             android:src="@drawable/foodicon"
             />
@@ -64,7 +67,7 @@
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:id="@+id/e"
-            android:layout_below="@id/eatmenu"
+            android:layout_below="@id/eatmenu_image"
             android:text="식단표"
             android:gravity="center"/>
     </RelativeLayout>
