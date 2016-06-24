@@ -157,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
         mID = (TextView)findViewById(R.id.id);
         mLoginText = (TextView)findViewById(R.id.login_text);
 
+        if(CookieManager.getInstance().getCookie(getResources().getString(R.string.main_url)) == null)
+            CookieManager.getInstance().setCookie(getResources().getString(R.string.main_url), "PHPSESSID=00");
+
         mController.loadUserInfo(CookieManager.getInstance().getCookie(
                 getResources().getString(R.string.hufstory_login)));
 
