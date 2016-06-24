@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -118,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
-                mController.loadUserInfo(CookieManager.getInstance().getCookie(getResources()
-                        .getString(R.string.hufstory_login)));
+                mController.loadUserInfo(CookieManager.getInstance().getCookie(
+                        getResources().getString(R.string.hufstory_login)));
                 invalidateOptionsMenu();
             }
         };
@@ -133,11 +134,8 @@ public class MainActivity extends AppCompatActivity {
         View footer = getLayoutInflater().inflate(R.layout.bottom_image_menu,null,false);
         mExpListView.addHeaderView(header);
         mExpListView.addFooterView(footer);
-        mExpListPrepareData();
-        mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
-        mExpListView.setAdapter(mExpListAdapter);
-        mExpListView.setOnChildClickListener(new ExpandableListListener());
 
+        mController.loadMenuCategory();
 
         /* 2016.02.25 노형욱 */
         mToolbar = (Toolbar)findViewById(R.id.toolBar);
@@ -159,10 +157,12 @@ public class MainActivity extends AppCompatActivity {
         mID = (TextView)findViewById(R.id.id);
         mLoginText = (TextView)findViewById(R.id.login_text);
 
+        mController.loadUserInfo(CookieManager.getInstance().getCookie(
+                getResources().getString(R.string.hufstory_login)));
+
         // buttons initial
         initialManagingButton(R.id.home);
         initialManagingButton(R.id.exit);
-
         initialMainButton(R.id.eatmenu);
         initialMainButton(R.id.hubigo);
         initialMainButton(R.id.bbang);
@@ -195,40 +195,15 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setTitle("Hufstory");
     }
 
-    private void mExpListPrepareData(){
-        mExpListGroup = new ArrayList<String>();
-        mExpListChild = new HashMap<String, List<String>>();
-        mExpListUrlHash = new HashMap<>();
+    public void showNavigationBar(List<String> groupName, HashMap<String,
+            List<String>> childData, HashMap<String, String> urlMap){
+        mExpListGroup = groupName;
+        mExpListChild = childData;
+        mExpListUrlHash = urlMap;
 
-        // Adding child data
-        mExpListGroup.add("게시판");
-        mExpListGroup.add("기자단");
-        mExpListGroup.add("생활정보");
-        mExpListGroup.add("학교생활");
-        mExpListGroup.add("제휴운영");
-        mExpListGroup.add("Hot Link");
-
-        // Adding child data
-        List<String> board = Arrays.asList(getResources().getStringArray(R.array.board));
-        List<String> reporter = Arrays.asList(getResources().getStringArray(R.array.reporter));
-        List<String> life_info = Arrays.asList(getResources().getStringArray(R.array.life_info));
-        List<String> school = Arrays.asList(getResources().getStringArray(R.array.school));
-        List<String> alliance = Arrays.asList(getResources().getStringArray(R.array.alliance));
-        List<String> hotLink = Arrays.asList(getResources().getStringArray(R.array.hotlink));
-
-        mExpListChild.put(mExpListGroup.get(0), board); // Header, Child data
-        mExpListChild.put(mExpListGroup.get(1), reporter);
-        mExpListChild.put(mExpListGroup.get(2), life_info);
-        mExpListChild.put( mExpListGroup.get(3), school);
-        mExpListChild.put(mExpListGroup.get(4), alliance);
-        mExpListChild.put(mExpListGroup.get(5), hotLink);
-
-        addUrlHash(board, Arrays.asList(getResources().getStringArray(R.array.board_url)));
-        addUrlHash(reporter, Arrays.asList(getResources().getStringArray(R.array.reporter_url)));
-        addUrlHash(life_info, Arrays.asList(getResources().getStringArray(R.array.life_info_url)));
-        addUrlHash(school, Arrays.asList(getResources().getStringArray(R.array.school_url)));
-        addUrlHash(alliance, Arrays.asList(getResources().getStringArray(R.array.alliance_url)));
-        addUrlHash(hotLink, Arrays.asList(getResources().getStringArray(R.array.hotlink_url)));
+        mExpListAdapter = new ExpandableListAdapter(this,mExpListGroup,mExpListChild);
+        mExpListView.setAdapter(mExpListAdapter);
+        mExpListView.setOnChildClickListener(new ExpandableListListener());
     }
 
     public Toolbar getToolbar(){
