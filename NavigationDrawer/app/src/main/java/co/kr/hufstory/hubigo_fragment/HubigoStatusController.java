@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import co.kr.hufstory.Util.DateManager;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -52,15 +53,45 @@ public class HubigoStatusController implements Presenter<HubigoStatusFragment> {
     }
 
     public void loadStatusData(){
+        int currentYear = DateManager.getCurrentDate("yyyy");
+        int currentMonth = DateManager.getCurrentDate("MM") - 1;
+        int currentDay = DateManager.getCurrentDate("dd");
+
         loadCountData();
         loadCategoryRankData();
+        loadTopUsers(currentYear, currentMonth, currentDay, currentYear, currentMonth, currentDay, 20);
+    }
+
+    public void loadTopUsers(int startYear, int startMonth, int startDay,
+                             int endYear, int endMonth, int endDay, int numOfUser){
+        mHubigoService.getTopActiveWriter(startYear, startMonth, startDay, endYear, endMonth, endDay, numOfUser,
+                new Callback<List<JsonObject>>() {
+                    @Override
+                    public void success(List<JsonObject> jsonObjects, Response response) {
+                        int rank = 0;
+                        List<UserWrittenInfo> newData = new ArrayList<>();
+                        for(JsonObject obj : jsonObjects){
+                            newData.add(new UserWrittenInfo(
+                                    ++rank,
+                                    obj.get("nick_name").getAsString(),
+                                    obj.get("count").getAsInt()));
+                        }
+
+                        mView.showTopUserChart(newData);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("load top user error", error.toString());
+                    }
+                });
     }
 
     private void loadCountData(){
         mHubigoService.getAmountStatus(
-                getLastSunDayDate("yyyy"),
-                getLastSunDayDate("MM"),
-                getLastSunDayDate("dd"),
+                DateManager.getLastSunDayDate("yyyy"),
+                DateManager.getLastSunDayDate("MM"),
+                DateManager.getLastSunDayDate("dd"),
                 DATA_PERIOD,
 
                 new Callback<List<JsonObject>>() {
@@ -91,7 +122,7 @@ public class HubigoStatusController implements Presenter<HubigoStatusFragment> {
             public void success(List<JsonObject> jsonObjects, Response response) {
                 List<String> rankList = new ArrayList<>();
 
-                for(JsonObject obj : jsonObjects) {
+                for (JsonObject obj : jsonObjects) {
                     String rank = String.valueOf(rankList.size() + 1) + ". "
                             + obj.get("major_name").getAsString() + ": "
                             + obj.get("count").getAsString() + "개";
@@ -121,17 +152,5 @@ public class HubigoStatusController implements Presenter<HubigoStatusFragment> {
         dataSets.add(thisWeek);
 
         return new BarData(day_of_week, dataSets);
-    }
-
-    private int getLastSunDayDate(String format){
-        Calendar cal = Calendar.getInstance();
-        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-        cal.add(Calendar.DATE, -(cal.get(Calendar.DAY_OF_WEEK) + 6));
-        Date weekAgo = cal.getTime();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-        String result = dateFormat.format(weekAgo);
-
-        return Integer.valueOf(result);
     }
 }

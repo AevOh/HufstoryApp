@@ -23,8 +23,6 @@ public class MainController {
     private UserAPI mUserAPI;
     private HufstoryAPI mHufstoryAPI;
 
-    String userSession = "";
-
     public MainController(){
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://hufstory.co.kr:5000")
@@ -48,9 +46,10 @@ public class MainController {
 
     public void loadUserInfo(String cookie){
         final String session = CookieParser.parse(cookie, "PHPSESSID");
-        if(session == null || session.equals(userSession))
+        if(session == null)
             return;
 
+        Log.i("session", session);
         JsonObject sessionJson = new JsonObject();
         sessionJson.addProperty("session_key", session);
 
@@ -58,7 +57,6 @@ public class MainController {
             @Override
             public void success(UserInfo userInfo, Response response) {
                 if (userInfo != null) {
-                    userSession = session;
                     userInfo.setLogin(true);
                     mView.showUserInfo(userInfo);
                 } else

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import co.kr.hufstory.R;
 import co.kr.hufstory.Util.WebChromeFileLoadClient;
@@ -156,12 +157,6 @@ public class MainActivity extends AppCompatActivity {
         mNickName = (TextView)findViewById(R.id.nick_name);
         mID = (TextView)findViewById(R.id.id);
         mLoginText = (TextView)findViewById(R.id.login_text);
-
-        if(CookieManager.getInstance().getCookie(getResources().getString(R.string.main_url)) == null)
-            CookieManager.getInstance().setCookie(getResources().getString(R.string.main_url), "PHPSESSID=00");
-
-        mController.loadUserInfo(CookieManager.getInstance().getCookie(
-                getResources().getString(R.string.hufstory_login)));
 
         // buttons initial
         initialManagingButton(R.id.home);

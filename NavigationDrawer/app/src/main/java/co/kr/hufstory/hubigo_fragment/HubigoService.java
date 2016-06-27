@@ -31,6 +31,11 @@ public interface HubigoService {
     @GET("/topActiveMajor")
     void getCategoryRank(Callback<List<JsonObject>> callback);
 
+    @GET("/topActiveWriter")
+    void getTopActiveWriter(@Query("start_year") int startYear, @Query("start_month") int startMonth, @Query("start_day") int startDay,
+                            @Query("end_year") int endYear, @Query("end_month") int endMonth, @Query("end_day") int endDay,
+                            @Query("user_range") int range, Callback<List<JsonObject>> callback);
+
     @GET("/incUserCount")
     void increaseUserCount(Callback<String> callback);
 
