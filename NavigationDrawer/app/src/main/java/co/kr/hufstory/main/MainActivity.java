@@ -44,6 +44,7 @@ import co.kr.hufstory.version_update.MarketVersionChecker;
 public class MainActivity extends AppCompatActivity {
     public static final int S_RC_FILE_CHOOSE = 2833;
     public static final int FRAGMENT_LAYOUT = R.id.content_frame;
+    public static final String COOKIE_SESSION = "PHPSESSID";
 
     private DrawerLayout mDrawerLayout;
     private View mView;

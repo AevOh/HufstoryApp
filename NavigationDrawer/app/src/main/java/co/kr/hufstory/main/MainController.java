@@ -45,7 +45,7 @@ public class MainController {
     }
 
     public void loadUserInfo(String cookie){
-        final String session = CookieParser.parse(cookie, "PHPSESSID");
+        final String session = CookieParser.parse(cookie, MainActivity.COOKIE_SESSION);
         if(session == null)
             return;
 

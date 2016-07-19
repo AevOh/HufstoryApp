@@ -9,7 +9,7 @@ import android.widget.EditText;
 /**
  * Created by Hyeong Wook on 2016-06-19.
  */
-public class FocusOutInterrupt {
+abstract public class FocusOutInterrupt {
     static public void editText(EditText v, Activity activity){
         v.clearFocus();
 

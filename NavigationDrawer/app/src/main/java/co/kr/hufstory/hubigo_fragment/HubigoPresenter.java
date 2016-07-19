@@ -176,7 +176,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     }
 
     public void userInfoChange(String cookies){
-        String sessionID = CookieParser.parse(cookies, "PHPSESSID");
+        String sessionID = CookieParser.parse(cookies, MainActivity.COOKIE_SESSION);
 
         if(sessionID != null){
             mHubigoModel.setUserSession(sessionID);

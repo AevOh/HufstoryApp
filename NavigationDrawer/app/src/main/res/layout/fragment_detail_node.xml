@@ -220,13 +220,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
                         android:id="@+id/grade_satis"
                         android:src="@drawable/hubigo_satisfaction_selector"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginRight="2dp"
                         android:textSize="@dimen/hubigo_detail_text_size"
                         android:text="성적"/>
 
@@ -241,13 +241,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
                         android:id="@+id/content_satis"
                         android:src="@drawable/hubigo_satisfaction_selector"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="2dp"
                         android:textSize="@dimen/hubigo_detail_text_size"
                         android:text="수업"
                         android:layout_gravity="center"/>
