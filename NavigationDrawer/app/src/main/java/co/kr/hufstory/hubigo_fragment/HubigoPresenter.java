@@ -230,7 +230,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
     private HubigoSimpleNode jsonToHubigoSimpleNode(JsonObject simpleNodeJson){
         JsonObject lectureJson = simpleNodeJson.getAsJsonObject("lecture");
         JsonObject professorJson = lectureJson.getAsJsonObject("professor");
-        JsonObject majorJson = professorJson.getAsJsonObject("major");
+        JsonObject majorJson = lectureJson.getAsJsonObject("lectureMajor");
 
         int lectureID = simpleNodeJson.get("lecture_id").getAsInt();
         float evaluation_count = lectureJson.get("evaluation_count").getAsFloat();
@@ -254,7 +254,7 @@ public class HubigoPresenter implements Presenter<HubigoView> {
         JsonElement evaluationElement = nodeJson.get("lectureEvaluation");
 
         JsonObject professorJson = nodeJson.getAsJsonObject("professor");
-        JsonObject majorJson = professorJson.getAsJsonObject("major");
+        JsonObject majorJson = nodeJson.getAsJsonObject("lectureMajor");
 
         int lectureID = nodeJson.get("lecture_id").getAsInt();
         float evaluation_count = nodeJson.get("evaluation_count").getAsFloat();

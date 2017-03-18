@@ -103,6 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textIsSelectable="true"
                 android:id="@+id/comment"
                 android:textSize="@dimen/hubigo_detail_text_size"
                 android:text="가장 기억에 남는가장 기억에 남는가장 기억에 남는가장 기억에 남는가장 기억에 남는가장 기억에 남는가장 기억에 남는"/>

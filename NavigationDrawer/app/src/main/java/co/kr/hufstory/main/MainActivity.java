@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
-                    mWebViewManager.startWebView(getResources().getString(R.string.bbang_url));
+                    Toast.makeText(getApplicationContext(), "서버 점검중입니다.", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.momo:
                     //contentFragmentTransaction(R.id.content_frame, mMomoFragment);

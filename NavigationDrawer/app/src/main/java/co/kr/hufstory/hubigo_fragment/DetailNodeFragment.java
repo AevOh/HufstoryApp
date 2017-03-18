@@ -190,6 +190,7 @@ public class DetailNodeFragment extends HufstoryFragment implements IDetailNodeV
             holder.mGradeSatis.setSelected(nodeInfo.isSatisGrade());
             holder.mContentSatis.setSelected(nodeInfo.isSatisContent());
             holder.mComment.setText(nodeInfo.getComment());
+            holder.mComment.setTextIsSelectable(true);
             holder.mDeleteButton.setVisibility(nodeInfo.isWritten() ? View.VISIBLE : View.INVISIBLE);
 
             holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {

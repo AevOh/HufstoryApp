@@ -9,9 +9,9 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
 
-        //2016.06.27, Wook, versionCode 29
-        versionCode 29
-        versionName "2.0.03"
+        //2017.03.18, Wook, versionCode 30
+        versionCode 31
+        versionName "2.0.05"
     }
     buildTypes {
         release {

@@ -142,7 +142,7 @@ public class DetailNodePresenter implements Presenter<IDetailNodeView> {
         List<EvaluationInfo> evaluationInfos = new ArrayList<>();
 
         JsonObject professor = lecture.getAsJsonObject("professor");
-        JsonObject major = professor.getAsJsonObject("major");
+        JsonObject major = lecture.getAsJsonObject("lectureMajor");
 
         if(!evaluation.isJsonNull()) {
             for (JsonObject node : jsonObjects)

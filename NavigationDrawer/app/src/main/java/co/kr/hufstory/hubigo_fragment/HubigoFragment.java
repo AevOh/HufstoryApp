@@ -110,11 +110,6 @@ public class HubigoFragment extends HufstoryFragment implements  HubigoView {
     }
 
     @Override
-    public Context getContext(){
-        return this.getContext();
-    }
-
-    @Override
     public void showSimpleNodeList(List<HubigoSimpleNode> nodeList) {
         mRHAdapter.dataSetChange(nodeList);
         FocusOutInterrupt.editText(mSearchBar, getActivity());
