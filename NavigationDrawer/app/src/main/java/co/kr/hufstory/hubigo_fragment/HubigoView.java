@@ -2,8 +2,6 @@ package co.kr.hufstory.hubigo_fragment;
 
 import java.util.List;
 
-import co.kr.hufstory.main.MainActivity;
-
 /**
  * Created by Hyeong Wook on 2016-05-02.
  */

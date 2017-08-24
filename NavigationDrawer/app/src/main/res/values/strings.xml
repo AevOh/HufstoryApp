@@ -15,4 +15,7 @@
     <string name="logout_text">로그아웃</string>
 
     <string name="hubigo_no_comment">강의평가가 없습니다.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

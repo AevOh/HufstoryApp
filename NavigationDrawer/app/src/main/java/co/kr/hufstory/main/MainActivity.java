@@ -2,43 +2,38 @@ package co.kr.hufstory.main;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import co.kr.hufstory.R;
 import co.kr.hufstory.Util.WebChromeFileLoadClient;
 import co.kr.hufstory.hubigo_fragment.HubigoFragment;
 import co.kr.hufstory.menu_fragment.MenuFragment;
+import co.kr.hufstory.momo_fragment.MomoMainFragment;
 import co.kr.hufstory.version_update.MarketVersionChecker;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuFragment mMenuFragment;
     // private bbangFragment mBBangFragment;
     private HubigoFragment mHubigoFragment;
-    // private momoFragment mMOMOFragment;
+    private MomoMainFragment mMomoFragment;
 
     private HufstoryFragment mCurrentFragment;
 
@@ -152,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         mMenuFragment = new MenuFragment();
         mHubigoFragment = new HubigoFragment();
         mHubigoFragment.attachActivity(this);
+        mMomoFragment = new MomoMainFragment();
 
         mMainButtonList = new ArrayList<>();
 
@@ -301,10 +297,12 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.bbang:
                     //contentFragmentTransaction(R.id.content_frame, mBbangFragment);
                     Toast.makeText(getApplicationContext(), "서버 점검중입니다.", Toast.LENGTH_SHORT).show();
+                    mWebViewManager.goBackWebViewToHome();
                     break;
                 case R.id.momo:
-                    //contentFragmentTransaction(R.id.content_frame, mMomoFragment);
-                    mWebViewManager.startWebView(getResources().getString(R.string.momo_url));
+                    contentFragmentTransaction(FRAGMENT_LAYOUT, mMomoFragment);
+                    mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.momo_color));
+                    //mWebViewManager.startWebView(getResources().getString(R.string.momo_url));
                     break;
 
                 case R.id.login:
@@ -318,9 +316,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.event:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                    mWebViewManager.goBackWebViewToHome();
                     break;
                 case R.id.setting:
                     Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                    mWebViewManager.goBackWebViewToHome();
                     break;
             }
 
@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
             mFrameLayout.removeView(mWebViewManager.getWebView());
             mToolbarLayout.removeAllViews();
+            mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.hufstory_color));
             getSupportActionBar().show();
 
             v.setSelected(true);
@@ -355,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
             mWebViewManager.startWebView(mExpListUrlHash.get(childName));
 
             mToolbarLayout.removeAllViews();
+            mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.hufstory_color));
             mDrawerLayout.closeDrawers();
             getSupportActionBar().show();
 

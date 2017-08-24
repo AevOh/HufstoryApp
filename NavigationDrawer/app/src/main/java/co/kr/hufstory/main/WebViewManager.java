@@ -54,6 +54,7 @@ public class WebViewManager {
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
+        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         return webView;
     }
