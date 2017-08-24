@@ -61,6 +61,10 @@ public class MomoStoreListFragment extends HufstoryFragment {
         }
     }
 
+    /**
+     * storeInfoFragment를 보여준다.
+     * @param storeId 원하는 store의 id, 서버로부터 가져온다.
+     */
     public void showStoreInfo(int storeId) {
         MomoStoreInfoFragment storeInfoFragment = new MomoStoreInfoFragment()
                 .setStoreListFragment(this)

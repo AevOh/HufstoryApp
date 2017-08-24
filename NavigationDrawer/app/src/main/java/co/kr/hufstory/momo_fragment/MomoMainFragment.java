@@ -46,6 +46,10 @@ public class MomoMainFragment extends HufstoryFragment {
         }
     }
 
+    /**
+     * storeListFragment를 보여준다.
+     * @param store 원하는 store의 종류. MomoStoreListFragment.RESTAURANT 와 같이 사용.
+     */
     public void showStoreList(int store) {
         MomoStoreListFragment momoStoreListFragment = new MomoStoreListFragment()
                 .setMainFragment(this)
